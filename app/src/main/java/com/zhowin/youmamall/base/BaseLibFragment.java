@@ -61,7 +61,7 @@ public abstract class BaseLibFragment extends SupportFragment implements View.On
     public void initImmersionBar() {
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
-                .statusBarColor(R.color.white)
+                .statusBarColor(R.color.color_FFDE00)
                 .statusBarDarkFont(true, 0f)
                 .init();
     }
