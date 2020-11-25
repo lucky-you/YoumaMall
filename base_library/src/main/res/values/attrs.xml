@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleView">
+        <attr name="mTitle" format="string" />
+        <attr name="mTitleSize" format="dimension" />
+        <attr name="mTitleColor" format="color" />
+        <attr name="mBackgroundColor" format="reference|color" />
+        <attr name="mLeftSrc" format="reference" />
+        <attr name="mLeftVisible" format="boolean" />
+        <attr name="mLeftText" format="string" />
+        <attr name="mLeftTextColor" format="color" />
+        <attr name="mLeftTextMarginLeft" format="dimension" />
+        <attr name="mRightText" format="string" />
+        <attr name="mRightTextColor" format="color" />
+        <attr name="mRightImage" format="reference" />
+    </declare-styleable>
+
+
+    <attr name="MiniLoadingStyle" format="reference" />
+    <declare-styleable name="MiniLoadingView">
+        <!--loading控件的大小，默认32dp-->
+        <attr name="mlv_loading_view_size" format="dimension" />
+        <!--loading控件的颜色，默认白色-->
+        <attr name="mlv_loading_view_color" format="color" />
+    </declare-styleable>
+</resources>

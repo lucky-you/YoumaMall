@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">baselibrary</string>
+    <string name="Loading">加载中...</string>
+    <string name="net_bad">网络错误...</string>
+    <string name="cancel">取消</string>
+    <string name="determine">确定</string>
+    <string name="not_have_data">暂无数据</string>
+    <string name="select_city">城市选择</string>
+
+
+    <string name="string_state_ready">READY</string>
+    <string name="string_state_preparing">PREPARING</string>
+    <string name="string_state_connecting">CONNECTING</string>
+    <string name="string_state_streaming">STREAMING</string>
+    <string name="string_state_netblocking">NETBLOCKING, STOPPING</string>
+    <string name="string_state_con_timeout">CONNECTION TIMEOUT</string>
+
+    <!--    权限相关-->
+    <string name="title_dialog">提示</string>
+    <string name="resume">重试</string>
+    <string name="setting">设置</string>
+    <string name="message_permission_rationale">为保证程序的正常使用,请打开以下权限:\n\n%1$s</string>
+    <string name="message_permission_always_failed">请在设置中打开以下权限:\n\n%1$s</string>
+    <string name="message_setting_comeback">从设置页面返回</string>
+    <string name="message_install_failed">系统拒绝了程序的安装</string>
+    <string name="message_overlay_failed">系统拒绝了其他程序的安装</string>
+    <string name="message_error_storage">请检查外部存储设备</string>
+
+
+</resources>

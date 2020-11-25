@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "30.0.1"
+
+    //开发环境
+    def API_DEVELOP_HOST = "\"http://47.110.139.24:8081\""
+
+    //正式环境
+    def API_RELEASE_HOST = "\"http://47.110.139.24:8081\""
+
+    defaultConfig {
+        applicationId "com.zhowin.youmamall"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            keyAlias 'app'
+            keyPassword '110120119'
+            storeFile file('../appKey.keystore')
+            storePassword '110120119'
+        }
+    }
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "IS_LOG", "false")
+            buildConfigField("String", "API_HOST", API_RELEASE_HOST)
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "IS_LOG", "true")
+            buildConfigField("String", "API_HOST", API_DEVELOP_HOST)
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def date = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+08"))
+            if (variant.buildType.name.equals('debug')) {
+                outputFileName = "YouMa${date}_${versionName}.apk"
+            }
+            if (variant.buildType.name.equals('release')) {
+                outputFileName = "YouMa${date}_${versionName}.apk"
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation project(path: ':base_library')
+}
