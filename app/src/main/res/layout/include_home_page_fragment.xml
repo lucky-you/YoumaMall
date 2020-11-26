@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
+    <com.zhowin.base_library.view.RefreshLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:id="@+id/refreshLayout"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </LinearLayout>
+        <com.zhowin.base_library.view.NoNestedScrollview
+            style="@style/RecycleViewStyle"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/homeBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:layout_margin="16dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ColumnRecyclerView"
+                    style="@style/RecycleViewStyle" />
+
+                <View style="@style/DivideLine8DPStyle" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/icon_latest_news"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View style="@style/DivideLine8DPStyle" />
+            </LinearLayout>
+
+        </com.zhowin.base_library.view.NoNestedScrollview>
+
+
+    </com.zhowin.base_library.view.RefreshLayout>
 
 </layout>
