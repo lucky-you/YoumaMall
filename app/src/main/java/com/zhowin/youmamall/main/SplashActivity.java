@@ -30,7 +30,7 @@ public class SplashActivity extends BaseBindActivity<ActivitySplashBinding> {
 //        } else {
 //            startActivity(LoginActivity.class);
 //        }
-        startActivity(MainActivity.class);
+        startActivity(LoginActivity.class);
         ActivityManager.getAppInstance().finishActivity();
     }
 
