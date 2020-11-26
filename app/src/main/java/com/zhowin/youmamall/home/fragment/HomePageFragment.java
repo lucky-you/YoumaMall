@@ -7,7 +7,10 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
+import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
+import com.zhowin.youmamall.home.model.HomePageList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
 public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBinding> {
 
     private ColumnListAdapter columnListAdapter;
+    private HomeFragmentAdapter homeFragmentAdapter;
 
     @Override
     public int getLayoutId() {
@@ -37,6 +41,13 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         mBinding.ColumnRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mBinding.ColumnRecyclerView.setAdapter(columnListAdapter);
 
+        List<HomePageList> homePageLists = new ArrayList<>();
+        homePageLists.add(new HomePageList(1, "热销榜", "最受欢迎的应用软件", true));
+        homePageLists.add(new HomePageList(2, "新品首发", "为您寻觅世间软件", true));
+        homePageLists.add(new HomePageList(3, "福利功能", "会员永久免费试用", false));
+        homeFragmentAdapter = new HomeFragmentAdapter(homePageLists);
+        mBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mBinding.homeRecyclerView.setAdapter(homeFragmentAdapter);
 
     }
 

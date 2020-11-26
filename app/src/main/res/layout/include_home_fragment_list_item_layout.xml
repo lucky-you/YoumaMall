@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <TextView
+            android:id="@+id/tvLeftTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableLeft="@drawable/icon_vertical_bar"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:text="热销榜"
+            android:textColor="@color/color_333"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLeftDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:gravity="center_vertical"
+            android:text="最受欢迎的应用软件"
+            android:textColor="@color/color_666"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvLeftTitle"
+            app:layout_constraintLeft_toRightOf="@id/tvLeftTitle" />
+
+        <TextView
+            android:id="@+id/tvRightSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
+            android:text="查看更多>"
+            android:textColor="@color/color_666"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvLeftTitle"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/FeaturesRecyclerView"
+        style="@style/RecycleViewStyle"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp" />
+</LinearLayout>

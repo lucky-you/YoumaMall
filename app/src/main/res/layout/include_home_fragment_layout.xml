@@ -11,7 +11,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="50dp"
             android:background="@color/color_FFDE00">
 
 
@@ -19,7 +19,7 @@
                 android:id="@+id/slidingTabLayout"
                 android:layout_width="260dp"
                 android:layout_height="44dp"
-                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -48,8 +48,7 @@
         <com.zhowin.base_library.view.NoScrollViewPager
             android:id="@+id/noScrollViewPager"
             style="@style/RecycleViewStyle"
-            android:layout_height="match_parent"
-            android:layout_marginTop="-80dp" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </layout>

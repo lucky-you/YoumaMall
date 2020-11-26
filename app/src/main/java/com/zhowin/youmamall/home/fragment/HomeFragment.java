@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.home.fragment;
 
 import android.util.TypedValue;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
@@ -10,6 +11,7 @@ import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
+import com.zhowin.youmamall.home.activity.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 
     @Override
     public void initView() {
-
+        setOnClick(R.id.ivSearch);
     }
 
     @Override
@@ -64,5 +66,14 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
     @Override
     public void onTabReselect(int position) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivSearch:
+                startActivity(SearchActivity.class);
+                break;
+        }
     }
 }

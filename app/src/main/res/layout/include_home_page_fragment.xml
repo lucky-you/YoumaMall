@@ -4,8 +4,8 @@
 
 
     <com.zhowin.base_library.view.RefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -19,11 +19,26 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/color_FFDE00">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <com.youth.banner.Banner
                     android:id="@+id/homeBanner"
                     android:layout_width="match_parent"
                     android:layout_height="175dp"
-                    android:layout_margin="16dp" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="-80dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@mipmap/ic_def_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ColumnRecyclerView"
@@ -49,6 +64,65 @@
 
 
                 <View style="@style/DivideLine8DPStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_margin="12dp"
+                    android:orientation="horizontal">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_def_image"
+                        app:riv_corner_radius="6dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_def_image"
+                            app:riv_corner_radius="6dp" />
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_def_image"
+                            app:riv_corner_radius="6dp" />
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_def_image"
+                            app:riv_corner_radius="6dp" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeRecyclerView"
+                    style="@style/RecycleViewStyle" />
+
             </LinearLayout>
 
         </com.zhowin.base_library.view.NoNestedScrollview>
