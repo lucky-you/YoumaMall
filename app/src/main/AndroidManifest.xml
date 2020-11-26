@@ -28,15 +28,15 @@
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".main.SplashActivity">
+        <activity android:name=".main.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.GuidePageActivity" />
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".main.activity.GuidePageActivity" />
+        <activity android:name=".main.activity.MainActivity" />
     </application>
 
 </manifest>

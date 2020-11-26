@@ -1,4 +1,4 @@
-package com.zhowin.youmamall.main;
+package com.zhowin.youmamall.main.activity;
 
 
 import com.zhowin.youmamall.R;
