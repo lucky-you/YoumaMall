@@ -1,8 +1,5 @@
 package com.zhowin.youmamall.home.model;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
-import java.util.List;
 
 /**
  * author : zho

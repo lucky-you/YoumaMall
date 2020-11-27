@@ -2,6 +2,7 @@ package com.zhowin.youmamall.home.fragment;
 
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -14,6 +15,7 @@ import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
 import com.zhowin.youmamall.home.callback.OnHomeFragmentClickListener;
+import com.zhowin.youmamall.home.model.ColumnList;
 import com.zhowin.youmamall.home.model.HomePageList;
 
 import java.util.ArrayList;
@@ -42,11 +44,15 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void initData() {
-        List<String> columnList = Arrays.asList("安卓软件", "苹果软件", "电脑软件", "云端软件", "会员福利");
-        columnListAdapter = new ColumnListAdapter(columnList);
-        mBinding.ColumnRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        List<ColumnList> columnList = new ArrayList<>();
+        columnList.add(new ColumnList(1, "安卓软件"));
+        columnList.add(new ColumnList(2, "苹果软件"));
+        columnList.add(new ColumnList(3, "电脑软件"));
+        columnList.add(new ColumnList(4, "云端软件"));
+        columnList.add(new ColumnList(5, "会员福利"));
+        columnListAdapter = new ColumnListAdapter(columnList,1);
+        mBinding.ColumnRecyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
         mBinding.ColumnRecyclerView.setAdapter(columnListAdapter);
-
 
         List<HomePageList> homePageLists = new ArrayList<>();
         homePageLists.add(new HomePageList(1, "热销榜", "最受欢迎的应用软件", true));

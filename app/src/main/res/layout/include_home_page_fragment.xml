@@ -42,14 +42,15 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ColumnRecyclerView"
-                    style="@style/RecycleViewStyle" />
+                    style="@style/RecycleViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
 
                 <View style="@style/DivideLine6DPStyle" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp">
-
 
                     <ImageView
                         android:layout_width="wrap_content"

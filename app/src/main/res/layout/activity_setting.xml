@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mTitle="设置" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:divider="@drawable/shape_divide_line_bg"
+            app:showDividers="middle">
+
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </LinearLayout>
+
+
+</layout>

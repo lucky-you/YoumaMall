@@ -26,7 +26,7 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
             R.drawable.icon_tab_home_y, R.drawable.icon_tab_mall_y, R.drawable.icon_tab_circle_y, R.drawable.icon_tab_dynamic_y, R.drawable.icon_tab_mine_y};
 
     private int[] mIconUnSelectIds = {
-            R.drawable.icon_tab_home_y, R.drawable.icon_tab_mall_n, R.drawable.icon_tab_circle_n, R.drawable.icon_tab_dynamic_n, R.drawable.icon_tab_mine_n};
+            R.drawable.icon_tab_home_n, R.drawable.icon_tab_mall_n, R.drawable.icon_tab_circle_n, R.drawable.icon_tab_dynamic_n, R.drawable.icon_tab_mine_n};
 
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
