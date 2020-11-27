@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.home.callback.OnHomeFragmentClickListener;
 import com.zhowin.youmamall.home.model.HomePageList;
 
 import java.util.ArrayList;
@@ -27,6 +28,12 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
         super(R.layout.include_home_fragment_list_item_layout, data);
     }
 
+    private OnHomeFragmentClickListener onHomeFragmentClickListener;
+
+
+    public void setOnHomeFragmentClickListener(OnHomeFragmentClickListener onHomeFragmentClickListener) {
+        this.onHomeFragmentClickListener = onHomeFragmentClickListener;
+    }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, HomePageList item) {
@@ -42,6 +49,7 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
                 HomeRXBAdapter homeRXBAdapter = new HomeRXBAdapter(stringListOne);
                 FeaturesRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 FeaturesRecyclerView.setAdapter(homeRXBAdapter);
+                homeRXBAdapter.setOnHomeFragmentClickListener(onHomeFragmentClickListener);
                 break;
             case 2:
                 List<String> stringListTwo = Arrays.asList("20.50", "45.00");

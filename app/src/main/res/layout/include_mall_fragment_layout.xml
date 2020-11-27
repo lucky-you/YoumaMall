@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mLeftVisible="false"
+            app:mRightImage="@drawable/icon_search"
+            app:mTitle="商城" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/leftRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+            <com.zhowin.base_library.view.RefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rightRecyclerView"
+                    style="@style/RecycleViewStyle"
+                    android:background="@color/color_f6f6f6" />
+            </com.zhowin.base_library.view.RefreshLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

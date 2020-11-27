@@ -68,9 +68,9 @@
         <item name="android:background">@color/color_F0F0F0</item>
     </style>
 
-    <style name="DivideLine8DPStyle">
+    <style name="DivideLine6DPStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">8dp</item>
+        <item name="android:layout_height">6dp</item>
         <item name="android:background">@color/color_F0F0F0</item>
     </style>
 

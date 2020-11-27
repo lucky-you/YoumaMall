@@ -10,6 +10,8 @@ import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
  * desc ：
  */
 public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> {
+
+
     @Override
     public int getLayoutId() {
         return R.layout.include_mine_fragment_layout;

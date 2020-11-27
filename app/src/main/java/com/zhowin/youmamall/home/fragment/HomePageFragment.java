@@ -1,13 +1,19 @@
 package com.zhowin.youmamall.home.fragment;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
+import com.zhowin.youmamall.home.activity.ColumnListActivity;
+import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
+import com.zhowin.youmamall.home.callback.OnHomeFragmentClickListener;
 import com.zhowin.youmamall.home.model.HomePageList;
 
 import java.util.ArrayList;
@@ -19,7 +25,7 @@ import java.util.List;
  * date  ：2020/11/26
  * desc ：首页
  */
-public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBinding> {
+public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBinding> implements OnHomeFragmentClickListener {
 
     private ColumnListAdapter columnListAdapter;
     private HomeFragmentAdapter homeFragmentAdapter;
@@ -41,6 +47,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         mBinding.ColumnRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mBinding.ColumnRecyclerView.setAdapter(columnListAdapter);
 
+
         List<HomePageList> homePageLists = new ArrayList<>();
         homePageLists.add(new HomePageList(1, "热销榜", "最受欢迎的应用软件", true));
         homePageLists.add(new HomePageList(2, "新品首发", "为您寻觅世间软件", true));
@@ -48,7 +55,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         homeFragmentAdapter = new HomeFragmentAdapter(homePageLists);
         mBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.homeRecyclerView.setAdapter(homeFragmentAdapter);
-
+        homeFragmentAdapter.setOnHomeFragmentClickListener(this::onClickBuyCard);
     }
 
     @Override
@@ -59,5 +66,16 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
+        columnListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(ColumnListActivity.class);
+            }
+        });
+    }
+
+    @Override
+    public void onClickBuyCard() {
+        startActivity(ConfirmOrderActivity.class);
     }
 }

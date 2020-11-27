@@ -44,7 +44,7 @@
                     android:id="@+id/ColumnRecyclerView"
                     style="@style/RecycleViewStyle" />
 
-                <View style="@style/DivideLine8DPStyle" />
+                <View style="@style/DivideLine6DPStyle" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <View style="@style/DivideLine8DPStyle" />
+                <View style="@style/DivideLine6DPStyle" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.SearchActivity"></activity>
+        <activity android:name=".home.activity.ColumnListActivity"></activity>
+        <activity android:name=".home.activity.ConfirmOrderActivity" />
+        <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".login.activity.LoginActivity" />
 
         <meta-data
