@@ -17,6 +17,7 @@ import com.zhowin.youmamall.mine.activity.FeedbackActivity;
 import com.zhowin.youmamall.mine.activity.MallOrderListActivity;
 import com.zhowin.youmamall.mine.activity.MyCouponActivity;
 import com.zhowin.youmamall.mine.activity.MyTeamActivity;
+import com.zhowin.youmamall.mine.activity.ProductListActivity;
 import com.zhowin.youmamall.mine.activity.SettingActivity;
 import com.zhowin.youmamall.mine.activity.WithdrawActivity;
 
@@ -39,7 +40,9 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     @Override
     public void initView() {
-        setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout);
+        setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout,
+                R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout
+        );
 
     }
 
@@ -81,6 +84,19 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 break;
             case R.id.llYWCLayout:
                 MallOrderListActivity.start(mContext, 4);
+                break;
+            case R.id.tvReleaseGood:
+                break;
+            case R.id.llSPLBLayout:
+                ProductListActivity.start(mContext,1);
+                break;
+            case R.id.llYSSPLayout:
+                ProductListActivity.start(mContext,2);
+                break;
+            case R.id.llXSLSLayout:
+                ProductListActivity.start(mContext,3);
+                break;
+            case R.id.llZXDPLayout:
                 break;
         }
     }

@@ -130,11 +130,12 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvKTYJValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="20.00"
+                            android:text="00.00"
                             android:textColor="@color/color_333"
                             android:textSize="16sp" />
 
@@ -160,11 +161,12 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvLJTXValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="20.00"
+                            android:text="00.00"
                             android:textColor="@color/color_333"
                             android:textSize="16sp" />
 
@@ -190,11 +192,12 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvJRSYValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="20.00"
+                            android:text="00.00"
                             android:textColor="@color/color_333"
                             android:textSize="16sp" />
 
@@ -220,11 +223,12 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvLJSYValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="20.00"
+                            android:text="00.00"
                             android:textColor="@color/color_333"
                             android:textSize="16sp" />
 
@@ -460,6 +464,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/llSPLBLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -484,6 +489,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/llYSSPLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -510,6 +516,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/llXSLSLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -540,6 +547,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/llZXDPLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"

@@ -50,4 +50,6 @@ public class MallOrderListActivity extends BaseBindActivity<ActivityMallOrderLis
         mBinding.slidingTabLayout.setViewPager(mBinding.noScrollViewPager);
         mBinding.slidingTabLayout.setCurrentTab(jumpPosition);
     }
+
+
 }
