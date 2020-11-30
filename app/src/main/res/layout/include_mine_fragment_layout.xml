@@ -256,7 +256,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/shape_whith_10dp_bg"
+                        android:background="@drawable/shape_white_10dp_bg"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -299,6 +299,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/llDFKLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -323,6 +324,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/llDFHLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -349,6 +351,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/llDSHLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -379,6 +382,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/llYWCLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -413,7 +417,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/shape_whith_10dp_bg"
+                        android:background="@drawable/shape_white_10dp_bg"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -574,7 +578,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/shape_whith_10dp_bg"
+                    android:background="@drawable/shape_white_10dp_bg"
                     android:orientation="vertical">
 
                     <TextView

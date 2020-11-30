@@ -82,7 +82,7 @@
             android:layout_width="64dp"
             android:layout_height="24dp"
             android:layout_marginEnd="4dp"
-            android:background="@drawable/shape_theme_color_3dp_bg"
+            android:background="@drawable/shape_theme_color_4dp_bg"
             android:gravity="center"
             android:text="购买"
             android:textColor="@color/color_333"

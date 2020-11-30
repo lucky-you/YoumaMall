@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civHeadImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:src="@mipmap/ic_default_hp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserMobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="187****7890"
+        android:textColor="@color/color_FF560B"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@id/civHeadImage"
+        app:layout_constraintTop_toTopOf="@id/civHeadImage" />
+
+    <TextView
+        android:id="@+id/tvCreateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2020-11-1 20:23:34"
+        android:textColor="@color/color_999"
+        android:textSize="11sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvUserMobile"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvZXNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="直营销售 0 张"
+        android:textColor="@color/color_333"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/tvUserMobile"
+        app:layout_constraintTop_toBottomOf="@id/tvUserMobile" />
+
+    <TextView
+        android:id="@+id/tvQDXHNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="直营销售 0 张"
+        android:textColor="@color/color_333"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/tvZXNumber"
+        app:layout_constraintTop_toBottomOf="@id/tvZXNumber" />
+</androidx.constraintlayout.widget.ConstraintLayout>

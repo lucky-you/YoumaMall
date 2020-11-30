@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mTitle="我的优惠券" />
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/slidingTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            app:tl_indicator_color="@color/color_FFDE00"
+            app:tl_indicator_corner_radius="2dp"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_margin_bottom="4dp"
+            app:tl_indicator_width="20dp"
+            app:tl_tab_space_equal="true"
+            app:tl_textSelectColor="@color/color_333"
+            app:tl_textUnselectColor="@color/color_333"
+            app:tl_textsize="15sp" />
+
+        <View style="@style/DivideLineStyle" />
+
+        <com.zhowin.base_library.view.NoScrollViewPager
+            android:id="@+id/noScrollViewPager"
+            style="@style/RecycleViewStyle" />
+    </LinearLayout>
+
+</layout>

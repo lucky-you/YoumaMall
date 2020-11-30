@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mRightImage="@drawable/icon_search"
+            app:mTitle="我的团队" />
+
+        <com.zhowin.base_library.view.RefreshLayout
+
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.zhowin.base_library.view.NoNestedScrollview style="@style/RecycleViewStyle">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="76dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/ivLeftImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/icon_scdl"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.flyco.tablayout.widget.MsgView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    app:layout_constraintLeft_toRightOf="@id/ivLeftImage"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mv_backgroundColor="@color/color_FF560B"
+                                    app:mv_isRadiusHalfHeight="true" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                android:text="我的直推"
+                                android:textColor="@color/color_333"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/ivLeftTwoImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/icon_sc"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.flyco.tablayout.widget.MsgView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    app:layout_constraintLeft_toRightOf="@id/ivLeftTwoImage"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mv_backgroundColor="@color/color_FF560B"
+                                    app:mv_isRadiusHalfHeight="true" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                android:text="小市场"
+                                android:textColor="@color/color_333"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/ivLeftThreeImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/icon_td"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.flyco.tablayout.widget.MsgView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    app:layout_constraintLeft_toRightOf="@id/ivLeftThreeImage"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mv_backgroundColor="@color/color_FF560B"
+                                    app:mv_isRadiusHalfHeight="true" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                android:text="团队总数"
+                                android:textColor="@color/color_333"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View style="@style/DivideLineStyle" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        style="@style/RecycleViewStyle" />
+
+                </LinearLayout>
+
+            </com.zhowin.base_library.view.NoNestedScrollview>
+
+
+        </com.zhowin.base_library.view.RefreshLayout>
+    </LinearLayout>
+
+
+</layout>

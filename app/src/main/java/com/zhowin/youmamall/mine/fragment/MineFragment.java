@@ -1,16 +1,24 @@
 package com.zhowin.youmamall.mine.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.model.ColumnList;
+import com.zhowin.youmamall.mine.activity.ContactServiceActivity;
+import com.zhowin.youmamall.mine.activity.FeedbackActivity;
+import com.zhowin.youmamall.mine.activity.MallOrderListActivity;
+import com.zhowin.youmamall.mine.activity.MyCouponActivity;
+import com.zhowin.youmamall.mine.activity.MyTeamActivity;
 import com.zhowin.youmamall.mine.activity.SettingActivity;
+import com.zhowin.youmamall.mine.activity.WithdrawActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +28,7 @@ import java.util.List;
  * date  ：2020/11/26
  * desc ：
  */
-public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> {
+public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     private ColumnListAdapter columnListAdapter;
 
@@ -31,6 +39,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     @Override
     public void initView() {
+        setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout);
 
     }
 
@@ -52,15 +61,74 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         columnListAdapter = new ColumnListAdapter(columnList, 2);
         mBinding.moreRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         mBinding.moreRecyclerView.setAdapter(columnListAdapter);
+        columnListAdapter.setOnItemClickListener(this::onItemClick);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvShopMallAllOrder:
+                MallOrderListActivity.start(mContext, 0);
+                break;
+            case R.id.llDFKLayout:
+                MallOrderListActivity.start(mContext, 1);
+                break;
+            case R.id.llDFHLayout:
+                MallOrderListActivity.start(mContext, 2);
+                break;
+            case R.id.llDSHLayout:
+                MallOrderListActivity.start(mContext, 3);
+                break;
+            case R.id.llYWCLayout:
+                MallOrderListActivity.start(mContext, 4);
+                break;
+        }
     }
 
     @Override
     public void initListener() {
-        mBinding.tvTitleView.getRightTextView().setOnClickListener(new View.OnClickListener() {
+        mBinding.tvTitleView.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(SettingActivity.class);
             }
         });
     }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                startActivity(MyTeamActivity.class);
+                break;
+            case 4:
+                startActivity(WithdrawActivity.class);
+                break;
+            case 5:
+                MyCouponActivity.start(mContext, 1);
+                break;
+            case 6:
+                MyCouponActivity.start(mContext, 2);
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                startActivity(FeedbackActivity.class);
+                break;
+            case 10:
+                startActivity(ContactServiceActivity.class);
+                break;
+            case 11:
+                break;
+        }
+    }
+
 }

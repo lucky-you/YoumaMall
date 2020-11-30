@@ -34,7 +34,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 
     @Override
     public void initData() {
-        String[] mTitles = {"任务", "首页", "注册"};
+        String[] mTitles = {"任务", "首页", "圈子"};
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new HomeTaskFragment());
         fragments.add(new HomePageFragment());

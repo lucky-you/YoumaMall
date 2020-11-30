@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mTitle="佣金提现" />
+
+        <com.zhowin.base_library.view.NoNestedScrollview style="@style/RecycleViewStyle">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="22dp"
+                        android:gravity="center"
+                        android:text="990.05"
+                        android:textColor="@color/color_333"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="账户余额"
+                        android:textColor="@color/color_666"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <View style="@style/DivideLine6DPStyle" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:divider="@drawable/shape_divide_line_bg"
+                    app:showDividers="middle">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:gravity="center_vertical"
+                            android:text="提现金额"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="7"
+                            android:background="@null"
+                            android:hint="请输入提现金额"
+                            android:textColor="@color/color_333"
+                            android:textColorHint="@color/color_999"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:text="元"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:gravity="center_vertical"
+                            android:text="提现账号"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="7.5"
+                            android:background="@null"
+                            android:hint="请输入提现账号"
+                            android:textColor="@color/color_333"
+                            android:textColorHint="@color/color_999"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:gravity="center_vertical"
+                            android:text="账号类型"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="5" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:drawableRight="@mipmap/ic_arrow_right"
+                            android:drawablePadding="6dp"
+                            android:gravity="right|center"
+                            android:text="支付宝"
+                            android:textColor="@color/color_333"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:gravity="center_vertical"
+                            android:text="真实姓名"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="7.5"
+                            android:background="@null"
+                            android:hint="请输入真实姓名"
+                            android:textColor="@color/color_333"
+                            android:textColorHint="@color/color_999"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="2.5"
+                            android:gravity="center_vertical"
+                            android:text="支付密码"
+                            android:textColor="@color/color_333"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/editPayPassword"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="7.5"
+                            android:background="@null"
+                            android:hint="请输入支付密码"
+                            android:textColor="@color/color_333"
+                            android:textColorHint="@color/color_999"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:id="@+id/tvConfirmSubmission"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/shape_theme_color_22dp_bg"
+                    android:gravity="center"
+                    android:text="确认提交"
+                    android:textColor="@color/color_333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tvHitMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="温馨提示:"
+                    android:textColor="@color/color_666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+        </com.zhowin.base_library.view.NoNestedScrollview>
+
+
+    </LinearLayout>
+
+
+</layout>

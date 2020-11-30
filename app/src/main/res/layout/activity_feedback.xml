@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mBackgroundColor="@color/color_FFDE00"
+            app:mTitle="意见反馈" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="反馈内容"
+            android:textColor="@color/color_333"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:gravity="left"
+            android:hint="请输入您的反馈内容"
+            android:padding="16dp"
+            android:textColor="@color/color_333"
+            android:textColorHint="@color/color_999"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="联系方式"
+            android:textColor="@color/color_333"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="请优先填写微信号或QQ号，方便在线沟通"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="@color/color_333"
+            android:textColorHint="@color/color_999"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvConfirmSubmission"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_theme_color_22dp_bg"
+            android:gravity="center"
+            android:text="确认提交"
+            android:textColor="@color/color_333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</layout>
