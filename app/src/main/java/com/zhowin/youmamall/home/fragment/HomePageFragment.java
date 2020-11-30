@@ -12,6 +12,7 @@ import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
 import com.zhowin.youmamall.home.activity.ColumnListActivity;
 import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
+import com.zhowin.youmamall.home.activity.ProductDetailsActivity;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
 import com.zhowin.youmamall.home.callback.OnHomeFragmentClickListener;
@@ -61,7 +62,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         homeFragmentAdapter = new HomeFragmentAdapter(homePageLists);
         mBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.homeRecyclerView.setAdapter(homeFragmentAdapter);
-        homeFragmentAdapter.setOnHomeFragmentClickListener(this::onClickBuyCard);
+        homeFragmentAdapter.setOnHomeFragmentClickListener(this);
     }
 
     @Override
@@ -83,5 +84,11 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     @Override
     public void onClickBuyCard() {
         startActivity(ConfirmOrderActivity.class);
+    }
+
+    @Override
+    public void onClickRootLayout() {
+        startActivity(ProductDetailsActivity.class);
+
     }
 }

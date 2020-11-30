@@ -33,12 +33,20 @@ public class HomeRXBAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
-
         helper.getView(R.id.tvBuy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onHomeFragmentClickListener != null) {
                     onHomeFragmentClickListener.onClickBuyCard();
+                }
+            }
+        });
+
+        helper.getView(R.id.clRXBRootLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onHomeFragmentClickListener != null) {
+                    onHomeFragmentClickListener.onClickRootLayout();
                 }
             }
         });

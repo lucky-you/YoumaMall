@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.activity.CardPasswordActivity"></activity>
+        <activity android:name=".home.activity.MessageListActivity"></activity>
+        <activity android:name=".home.activity.ProductDetailsActivity" />
+        <activity android:name=".mine.activity.CardPasswordActivity" />
         <activity android:name=".mine.activity.MallOrderListActivity" />
         <activity android:name=".mine.activity.DepositActivity" />
         <activity android:name=".mine.activity.WithdrawActivity" />

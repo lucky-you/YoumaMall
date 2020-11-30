@@ -9,4 +9,6 @@ public interface OnHomeFragmentClickListener {
 
 
     void onClickBuyCard();
+
+    void  onClickRootLayout();
 }

@@ -11,6 +11,7 @@ import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
+import com.zhowin.youmamall.home.activity.MessageListActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 
     @Override
     public void initView() {
-        setOnClick(R.id.ivSearch);
+        setOnClick(R.id.ivSearch, R.id.clMessageLayout);
     }
 
     @Override
@@ -73,6 +74,9 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
         switch (v.getId()) {
             case R.id.ivSearch:
                 startActivity(SearchActivity.class);
+                break;
+            case R.id.clMessageLayout:
+                startActivity(MessageListActivity.class);
                 break;
         }
     }
