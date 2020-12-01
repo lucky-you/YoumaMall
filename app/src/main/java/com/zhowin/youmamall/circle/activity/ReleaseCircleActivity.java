@@ -1,8 +1,5 @@
-package com.zhowin.youmamall.mine.activity;
+package com.zhowin.youmamall.circle.activity;
 
-/**
- * 发布商品
- */
 
 import android.content.Intent;
 import android.view.View;
@@ -22,20 +19,20 @@ import com.zhowin.base_library.permission.AndPermissionUtils;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
 import com.zhowin.base_library.qiniu.QinIuUpLoadListener;
 import com.zhowin.base_library.qiniu.QinIuUtils;
+import com.zhowin.base_library.utils.SpanUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.FullyGridLayoutManager;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
-import com.zhowin.youmamall.databinding.ActivityReleaseGoodBinding;
+import com.zhowin.youmamall.databinding.ActivityReleaseCircleBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 发布商品
+ * 发布圈子
  */
-public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBinding> {
-
+public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircleBinding> {
     private NineGridItemListAdapter postGridImageAdapter;
     public static final int MAX_NUM = 9; //选择图片最大数目
     private ArrayList<LocalMedia> selectList = new ArrayList<>();//选中图片的集合
@@ -44,11 +41,18 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_release_good;
+        return R.layout.activity_release_circle;
     }
 
     @Override
     public void initView() {
+        SpanUtils.with(mBinding.tvHitMessage)
+                .appendLine("必看:").setBold()
+                .appendLine()
+                .appendLine("1.禁止发布色情内容、酷咔相关产品内容，以上内容直接永久冻结账号，永不解封；")
+                .appendLine()
+                .appendLine("2.发布的文案内容不能存在特殊表情符号，否则会发送失败。")
+                .create();
 
     }
 
@@ -57,7 +61,7 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
         FullyGridLayoutManager fullyGridLayoutManager = new FullyGridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false);
         postGridImageAdapter = new NineGridItemListAdapter(mContext);
         postGridImageAdapter.setSelectMax(MAX_NUM);
-        mBinding.goodRecyclerView.setLayoutManager(fullyGridLayoutManager);
+        mBinding.circleRecyclerView.setLayoutManager(fullyGridLayoutManager);
         postGridImageAdapter.setOnNineGridItemClickListener(new OnNineGridItemClickListener() {
             @Override
             public void onAddPictureClick() {
@@ -78,8 +82,10 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
 
             }
         });
-        mBinding.goodRecyclerView.setAdapter(postGridImageAdapter);
+        mBinding.circleRecyclerView.setAdapter(postGridImageAdapter);
     }
+
+
     private void requestPermission(int type, @PermissionDef String... permissions) {
         AndPermissionUtils.requestPermission(mContext, new AndPermissionListener() {
             @Override
@@ -93,7 +99,6 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
             }
         }, permissions);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

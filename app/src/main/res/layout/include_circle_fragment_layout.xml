@@ -9,10 +9,13 @@
         android:orientation="vertical">
 
         <com.zhowin.base_library.view.TitleView
+            android:id="@+id/tvTitleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mBackgroundColor="@color/color_FFDE00"
             app:mLeftVisible="false"
+            app:mRightText="发布"
+            app:mRightTextColor="@color/color_333"
             app:mTitle="圈子" />
 
         <com.zhowin.base_library.view.RefreshLayout

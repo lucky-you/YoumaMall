@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.activity.ReleaseGoodActivity"></activity>
+        <activity android:name=".circle.activity.ReleaseCircleActivity"></activity>
+        <activity android:name=".mine.activity.ReleaseGoodActivity" />
         <activity android:name=".mine.activity.ShareMaterialActivity" />
         <activity android:name=".mine.activity.ProductListActivity" />
         <activity android:name=".home.activity.MessageListActivity" />

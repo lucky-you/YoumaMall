@@ -11,7 +11,7 @@
         android:layout_height="80dp"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/data_update_pic"
+        android:src="@mipmap/icon_add_pic"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

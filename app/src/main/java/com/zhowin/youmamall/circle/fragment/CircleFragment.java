@@ -1,10 +1,13 @@
 package com.zhowin.youmamall.circle.fragment;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
+import com.zhowin.youmamall.circle.activity.ReleaseCircleActivity;
 import com.zhowin.youmamall.circle.adapter.CircleFragmentAdapter;
 import com.zhowin.youmamall.databinding.IncludeCircleFragmentLayoutBinding;
 
@@ -47,6 +50,12 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
             @Override
             public void onRefresh() {
                 mBinding.refreshLayout.setRefreshing(false);
+            }
+        });
+        mBinding.tvTitleView.getRightTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ReleaseCircleActivity.class);
             }
         });
     }
