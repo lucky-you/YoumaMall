@@ -11,7 +11,9 @@ import com.zhowin.base_library.widget.DivideLineItemDecoration;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityProductListBinding;
+import com.zhowin.youmamall.mine.adapter.GoodSoldListAdapter;
 import com.zhowin.youmamall.mine.adapter.ProductListAdapter;
+import com.zhowin.youmamall.mine.adapter.SalesTurnoverAdapter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,8 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
     private int jumpPosition;
 
     private ProductListAdapter productListAdapter;
+    private GoodSoldListAdapter goodSoldListAdapter;
+    private SalesTurnoverAdapter salesTurnoverAdapter;
 
 
     public static void start(Context context, int type) {
@@ -65,8 +69,12 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                 mBinding.recyclerView.setAdapter(productListAdapter);
                 break;
             case 2:
+                goodSoldListAdapter=new GoodSoldListAdapter(stringList);
+                mBinding.recyclerView.setAdapter(goodSoldListAdapter);
                 break;
             case 3:
+                salesTurnoverAdapter=new SalesTurnoverAdapter(stringList);
+                mBinding.recyclerView.setAdapter(salesTurnoverAdapter);
                 break;
         }
     }
