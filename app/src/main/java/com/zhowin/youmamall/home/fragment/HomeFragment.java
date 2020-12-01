@@ -13,6 +13,7 @@ import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
 import com.zhowin.youmamall.home.activity.MessageListActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
+import com.zhowin.youmamall.home.dialog.LatestNewDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,5 +80,10 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
                 startActivity(MessageListActivity.class);
                 break;
         }
+    }
+
+    private void showLatestNewDialog() {
+        LatestNewDialog latestNewDialog = new LatestNewDialog(mContext);
+        latestNewDialog.show();
     }
 }
