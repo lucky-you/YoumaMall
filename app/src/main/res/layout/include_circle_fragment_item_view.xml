@@ -35,6 +35,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvDescContent"
             app:layout_constraintTop_toTopOf="@id/civUserHead" />
 
+        <ImageView
+            android:id="@+id/ivUserLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/icon_vip"
+            app:layout_constraintBottom_toBottomOf="@id/tvUserNickName"
+            app:layout_constraintLeft_toRightOf="@id/tvUserNickName"
+            app:layout_constraintTop_toTopOf="@id/tvUserNickName" />
+
         <TextView
             android:id="@+id/tvDescContent"
             android:layout_width="wrap_content"

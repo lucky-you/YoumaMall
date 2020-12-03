@@ -23,4 +23,12 @@
         <!--loading控件的颜色，默认白色-->
         <attr name="mlv_loading_view_color" format="color" />
     </declare-styleable>
+
+
+
+    <declare-styleable name="ArcView">
+        <attr name="arcBgColor" format="color" />
+        <attr name="arcHeight" format="dimension" />
+    </declare-styleable>
+
 </resources>

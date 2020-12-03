@@ -1,10 +1,8 @@
 package com.zhowin.youmamall.mine.fragment;
 
-import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.youmamall.R;

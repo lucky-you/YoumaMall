@@ -19,13 +19,11 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.zhowin.base_library.view.ArcView
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@color/color_FFDE00">
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="100dp"
+                    app:arcBgColor="@color/color_FFDE00"
+                    app:arcHeight="20dp" />
 
                 <com.youth.banner.Banner
                     android:id="@+id/homeBanner"
