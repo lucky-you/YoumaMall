@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.banner.BannerImageAdapter;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
@@ -45,14 +46,23 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void initData() {
+        List<String> bannerList = new ArrayList<>();
+        bannerList.add("https://img.zcool.cn/community/013de756fb63036ac7257948747896.jpg");
+        bannerList.add("https://img.zcool.cn/community/01270156fb62fd6ac72579485aa893.jpg");
+        bannerList.add("https://img.zcool.cn/community/016a2256fb63006ac7257948f83349.jpg");
+
+        BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(bannerList, 2);
+        mBinding.homeBanner.setAdapter(bannerImageAdapter).start();
+
+
         List<ColumnList> columnList = new ArrayList<>();
         columnList.add(new ColumnList(1, "安卓软件"));
         columnList.add(new ColumnList(2, "苹果软件"));
         columnList.add(new ColumnList(3, "电脑软件"));
         columnList.add(new ColumnList(4, "云端软件"));
         columnList.add(new ColumnList(5, "会员福利"));
-        columnListAdapter = new ColumnListAdapter(columnList,1);
-        mBinding.ColumnRecyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
+        columnListAdapter = new ColumnListAdapter(columnList, 1);
+        mBinding.ColumnRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
         mBinding.ColumnRecyclerView.setAdapter(columnListAdapter);
 
         List<HomePageList> homePageLists = new ArrayList<>();

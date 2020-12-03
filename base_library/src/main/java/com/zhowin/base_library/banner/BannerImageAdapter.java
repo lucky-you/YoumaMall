@@ -58,7 +58,6 @@ public class BannerImageAdapter extends BannerAdapter<String, BannerImageAdapter
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             return new ViewHolder(imageView);
         }
-
     }
 
     @Override
