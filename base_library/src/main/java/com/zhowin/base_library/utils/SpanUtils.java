@@ -65,10 +65,7 @@ import java.util.regex.Pattern;
 
 import static android.graphics.BlurMaskFilter.Blur;
 
-/**
- * blog  : http://blankj.com
- * desc  : utils about span
- */
+
 public final class SpanUtils {
 
     private static final int COLOR_DEFAULT = 0xFEFFFFFF;

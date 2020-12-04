@@ -14,10 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-/**
- * blog  : http://blankj.com
- * desc  : utils about gson
- */
+
 public final class GsonUtils {
 
     public static void LogTag(String param) {

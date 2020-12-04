@@ -25,9 +25,7 @@ import com.zhowin.base_library.base.BaseApplication;
 
 import java.lang.reflect.Field;
 
-/**
- * blog  : http://blankj.com
- */
+
 public final class KeyboardUtils {
 
     private static final int TAG_ON_GLOBAL_LAYOUT_LISTENER = -8;

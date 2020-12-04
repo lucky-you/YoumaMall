@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import com.zhowin.base_library.base.BaseApplication;
 
 
-/**
- * desc  : utils about size
- */
+
 public final class SizeUtils {
 
     private SizeUtils() {

@@ -25,14 +25,7 @@ import com.zhowin.base_library.base.BaseApplication;
 
 import static android.Manifest.permission.WRITE_SETTINGS;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2016/08/02
- *     desc  : utils about screen
- * </pre>
- */
+
 public final class ScreenUtils {
 
     private ScreenUtils() {

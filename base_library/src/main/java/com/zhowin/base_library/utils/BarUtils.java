@@ -29,9 +29,7 @@ import java.lang.reflect.Method;
 
 import static android.Manifest.permission.EXPAND_STATUS_BAR;
 
-/**
- * desc  : utils about bar
- */
+
 public final class BarUtils {
 
     ///////////////////////////////////////////////////////////////////////////
