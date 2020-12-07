@@ -4,9 +4,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.GsonUtils;
 import com.zhowin.base_library.utils.SPUtils;
-
-import java.util.List;
 
 /**
  * author Z_B
@@ -17,60 +16,45 @@ public class UserInfo {
 
 
     /**
-     * age : 19
-     * avatar : 周小川
-     * backgroundPictureKeys : ["http://qfah2px93.hn-bkt.clouddn.com//image.backgroundPicture.default.default.jpg"]
-     * birthday : 2000-09-18
-     * cars : [{"carId":"1","carName":"兰博基尼","number":0,"pictureKey":"image.backgroundPicture.default.default.jpg"}]
-     * completed : true
-     * constellation : 处女座
-     * decorations : [{"id":"2","name":"兔耳朵","number":0,"pictureKey":"image.backgroundPicture.default.default.jpg"}]
-     * fansNum : 0
-     * followNum : 0
-     * gender : 女
-     * gifts : [{"giftId":"0","giftName":"高跟鞋","number":"0"}]
-     * newFans : 0
-     * newVisitor : 0
-     * profilePictureKey : http://qfah2px93.hn-bkt.clouddn.com/image.profilePicture.default.1.jpg
-     * status : 好好学习，天天向上
-     * token : eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJlZTc1OGU0YS0zZGJiLTQ3ZjUtYWE5NS1lNGQxMzJmMTFlZjUiLCJzdWIiOiIxMjcwOTU2NCIsImV4cCI6MTU5OTU2NDIwNSwidXNlcmlkIjoxMSwiY3JlYXRlZCI6MTU5OTUyODIwNTU2MywiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IkNPTU1PTiJ9LHsiYXV0aG9yaXR5IjoiVU5ERUZJTkVEIn1dfQ.d5asAtF59hgrfQwLbn2WWkN6BxHu9gTQ34S_PK5rEaRWArbrArhEe8AnU1CvaZD1Ozzb5OiQYyzesdgoYwAl0w
-     * undefinedPwd : 1
-     * userId : 11
-     * username : 12709564
-     * visitNum : 0
+     * id : 4
+     * nickname : 136****7786
+     * mobile : 13677197786
+     * avatar : data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgaGVpZ2h0PSIxMDAiIHdpZHRoPSIxMDAiPjxyZWN0IGZpbGw9InJnYigyMjksMTc0LDE2MCkiIHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48L3JlY3Q+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LXNpemU9IjUwIiB0ZXh0LWNvcHk9ImZhc3QiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHRleHQtcmlnaHRzPSJhZG1pbiIgYWxpZ25tZW50LWJhc2VsaW5lPSJjZW50cmFsIj4xPC90ZXh0Pjwvc3ZnPg==
+     * money : 0.00
+     * wechat_qrcode :
+     * token : 060e941c-fd86-4285-8630-e16ddce06c0d
+     * user_id : 4
+     * createtime : 1607334395
+     * expiretime : 1609926395
+     * expires_in : 2592000
+     * is_pay_pwd : 0
+     * level : 0
+     * invitation_code :
      */
 
-    private int age;
+    private int id;
+    private String nickname;
+    private String mobile;
     private String avatar;
-    private long birthday;
-    private boolean completed;
-    private String constellation;
-    private int fansNum;
-    private int followNum;
-    private String gender;
-    private int newFans;
-    private int newVisitor;
-    private String profilePictureKey;
-    private String status;
+    private String money;
+    private String wechat_qrcode;
     private String token;
-    private String rongToken;
-    private int undefinedPwd;
-    private int userId;
-    private String username;
-    private String mobileNum;
-    private int visitNum;
+    private int user_id;
+    private int createtime;
+    private int expiretime;
+    private int expires_in;
+    private int is_pay_pwd;
+    private int level;
+    private String invitation_code;
 
     public static void setUserInfo(UserInfo data) {
-        Gson gson = new Gson();
-        String userInfo = gson.toJson(data);
+        String userInfo = GsonUtils.toJson(data);
         SPUtils.set(ConstantValue.USER_INFO, userInfo);
         setUserToken(data.getToken());
-        setIMToken(data.getRongToken());
     }
 
     public static UserInfo getUserInfo() {
-        Gson gson = new Gson();
-        UserInfo userInfoBean = gson.fromJson(SPUtils.getString(ConstantValue.USER_INFO), UserInfo.class);
+        UserInfo userInfoBean = GsonUtils.fromJson(SPUtils.getString(ConstantValue.USER_INFO), UserInfo.class);
         if (userInfoBean != null) {
             return userInfoBean;
         } else {
@@ -89,15 +73,16 @@ public class UserInfo {
         }
     }
 
-    /**
-     * 设置融云token
-     */
-    public static void setIMToken(String token) {
-        if (!TextUtils.isEmpty(token)) {
-            SPUtils.set(ConstantValue.IM_TOKEN, token);
+    public static void setUserPassword(String password) {
+        if (!TextUtils.isEmpty(password)) {
+            SPUtils.set(ConstantValue.PASSWORD, password);
         } else {
-            SPUtils.set(ConstantValue.IM_TOKEN, "");
+            SPUtils.set(ConstantValue.PASSWORD, "");
         }
+    }
+
+    public static String getUserPassword() {
+        return (String) SPUtils.get(ConstantValue.PASSWORD, "");
     }
 
     /**
@@ -107,22 +92,28 @@ public class UserInfo {
         return (String) SPUtils.get(ConstantValue.SP_TOKEN, "");
     }
 
-    /**
-     * 获取融云token
-     *
-     * @return
-     */
-    public static String getIMToken() {
-        return (String) SPUtils.get(ConstantValue.IM_TOKEN, "");
+    public int getId() {
+        return id;
     }
 
-
-    public int getAge() {
-        return age;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getAvatar() {
@@ -133,84 +124,20 @@ public class UserInfo {
         this.avatar = avatar;
     }
 
-    public long getBirthday() {
-        return birthday;
+    public String getMoney() {
+        return money;
     }
 
-    public void setBirthday(long birthday) {
-        this.birthday = birthday;
+    public void setMoney(String money) {
+        this.money = money;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public String getWechat_qrcode() {
+        return wechat_qrcode;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public String getConstellation() {
-        return constellation;
-    }
-
-    public void setConstellation(String constellation) {
-        this.constellation = constellation;
-    }
-
-    public int getFansNum() {
-        return fansNum;
-    }
-
-    public void setFansNum(int fansNum) {
-        this.fansNum = fansNum;
-    }
-
-    public int getFollowNum() {
-        return followNum;
-    }
-
-    public void setFollowNum(int followNum) {
-        this.followNum = followNum;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public int getNewFans() {
-        return newFans;
-    }
-
-    public void setNewFans(int newFans) {
-        this.newFans = newFans;
-    }
-
-    public int getNewVisitor() {
-        return newVisitor;
-    }
-
-    public void setNewVisitor(int newVisitor) {
-        this.newVisitor = newVisitor;
-    }
-
-    public String getProfilePictureKey() {
-        return profilePictureKey;
-    }
-
-    public void setProfilePictureKey(String profilePictureKey) {
-        this.profilePictureKey = profilePictureKey;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setWechat_qrcode(String wechat_qrcode) {
+        this.wechat_qrcode = wechat_qrcode;
     }
 
     public String getToken() {
@@ -221,37 +148,59 @@ public class UserInfo {
         this.token = token;
     }
 
-    public String getRongToken() {
-        return rongToken;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setRongToken(String rongToken) {
-        this.rongToken = rongToken;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public int getUndefinedPwd() {
-        return undefinedPwd;
+    public int getCreatetime() {
+        return createtime;
     }
 
-    public void setUndefinedPwd(int undefinedPwd) {
-        this.undefinedPwd = undefinedPwd;
+    public void setCreatetime(int createtime) {
+        this.createtime = createtime;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getExpiretime() {
+        return expiretime;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setExpiretime(int expiretime) {
+        this.expiretime = expiretime;
     }
 
-    public String getUsername() {
-        return username;
+    public int getExpires_in() {
+        return expires_in;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setExpires_in(int expires_in) {
+        this.expires_in = expires_in;
     }
 
+    public int getIs_pay_pwd() {
+        return is_pay_pwd;
+    }
 
+    public void setIs_pay_pwd(int is_pay_pwd) {
+        this.is_pay_pwd = is_pay_pwd;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getInvitation_code() {
+        return invitation_code;
+    }
+
+    public void setInvitation_code(String invitation_code) {
+        this.invitation_code = invitation_code;
+    }
 }

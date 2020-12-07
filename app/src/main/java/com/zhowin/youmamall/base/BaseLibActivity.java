@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.zhowin.base_library.R;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.KeyboardUtils;
 import com.zhowin.base_library.view.LoadProgressDialog;
+import com.zhowin.youmamall.login.activity.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -92,11 +94,20 @@ public abstract class BaseLibActivity extends SupportActivity implements View.On
                 .init();
     }
 
+    public boolean isLogin() {
+        String userToken = UserInfo.getUserToken();
+        if (TextUtils.isEmpty(userToken)) {
+            startActivity(LoginActivity.class);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mContext = null;
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);

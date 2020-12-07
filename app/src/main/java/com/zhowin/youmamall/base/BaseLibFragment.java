@@ -13,7 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.zhowin.base_library.R;
+import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.SPUtils;
 import com.zhowin.base_library.view.LoadProgressDialog;
+import com.zhowin.youmamall.login.activity.LoginActivity;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -31,7 +35,7 @@ public abstract class BaseLibFragment extends SupportFragment implements View.On
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = (BaseLibActivity) getActivity();
-        mActivity=mContext;
+        mActivity = mContext;
     }
 
     @Override
@@ -120,6 +124,15 @@ public abstract class BaseLibFragment extends SupportFragment implements View.On
         startActivity(intent);
     }
 
+    public boolean isLogin() {
+        String userToken = UserInfo.getUserToken();
+        if (TextUtils.isEmpty(userToken)) {
+            startActivity(LoginActivity.class);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * 显示对话框

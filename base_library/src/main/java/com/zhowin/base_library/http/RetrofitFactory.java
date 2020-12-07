@@ -87,7 +87,7 @@ public class RetrofitFactory {
                         charset = contentType.charset(charset);
                     }
                     String params = buffer.readString(charset);
-                    System.out.println("request参数: " + params + "\n Authorization:" + request.header("Authorization"));
+                    System.out.println("request参数: " + params + "\n token:" + request.header("token"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

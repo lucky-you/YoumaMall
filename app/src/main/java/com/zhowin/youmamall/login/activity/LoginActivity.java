@@ -20,6 +20,8 @@ import java.util.List;
 public class LoginActivity extends BaseBindActivity<ActivityLoginBinding> {
 
 
+    public static LoginActivity getInstance;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -27,6 +29,7 @@ public class LoginActivity extends BaseBindActivity<ActivityLoginBinding> {
 
     @Override
     public void initView() {
+        getInstance = this;
         ActivityManager.getAppInstance().finishAllButCurrentActivity(LoginActivity.class);
     }
 
@@ -40,5 +43,15 @@ public class LoginActivity extends BaseBindActivity<ActivityLoginBinding> {
         mBinding.noScrollViewPager.setAdapter(homePageAdapter);
         mBinding.noScrollViewPager.setOffscreenPageLimit(2);
         mBinding.slidingTabLayout.setViewPager(mBinding.noScrollViewPager);
+    }
+
+    public void showFragment(int position) {
+        mBinding.slidingTabLayout.setCurrentTab(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        getInstance = null;
+        super.onDestroy();
     }
 }

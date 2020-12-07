@@ -12,6 +12,8 @@ import com.zhowin.base_library.qiniu.QiNiuYunBean;
 import com.zhowin.base_library.utils.RxSchedulers;
 import com.zhowin.youmamall.BuildConfig;
 
+import java.util.HashMap;
+
 
 /**
  * description:
@@ -70,8 +72,8 @@ public class HttpRequest {
     /**
      * 获取验证码
      */
-    public static void getVerificationCode(LifecycleOwner activity, int event, String mobile, final HttpCallBack<Object> callBack) {
-        apiRequest.getVerificationCode(ApiRequest.SEND_EMS_CODE, event, mobile)
+    public static void getVerificationCode(LifecycleOwner activity, String event, String mobile, final HttpCallBack<Object> callBack) {
+        apiRequest.getVerificationCode(event, mobile)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -89,10 +91,10 @@ public class HttpRequest {
     }
 
     /**
-     * 手机号 +验证码 登录
+     * 用户注册
      */
-    public static void mobileVerificationCodeLogin(LifecycleOwner activity, String mobile, String semCode, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.mobileVerificationCodeLogin(mobile, semCode)
+    public static void registerFromPhoneNumber(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<UserInfo> callBack) {
+        apiRequest.registerFromPhoneNumber(map)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<UserInfo>() {
@@ -108,6 +110,8 @@ public class HttpRequest {
                     }
                 });
     }
+
+
 
     /**
      * 手机号 + 密码登录
@@ -130,25 +134,6 @@ public class HttpRequest {
                 });
     }
 
-    /**
-     * 账号 + 密码 登录
-     */
-    public static void nameAndPasswordLogin(LifecycleOwner activity, String username, String password, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.nameAndPasswordLogin(username, password)
-                .compose(RxSchedulers.io_main())
-                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<UserInfo>() {
 
-                    @Override
-                    public void onSuccess(UserInfo demo) {
-                        callBack.onSuccess(demo);
-                    }
-
-                    @Override
-                    public void onFail(int errorCode, String errorMsg) {
-                        callBack.onFail(errorCode, errorMsg);
-                    }
-                });
-    }
 
 }

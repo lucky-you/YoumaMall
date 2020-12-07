@@ -5,10 +5,10 @@ android {
     buildToolsVersion "30.0.1"
 
     //开发环境
-    def API_DEVELOP_HOST = "\"http://47.110.139.24:8081\""
+    def API_DEVELOP_HOST = "\"http://yz.longtai360.com\""
 
     //正式环境
-    def API_RELEASE_HOST = "\"http://47.110.139.24:8081\""
+    def API_RELEASE_HOST = "\"http://yz.longtai360.com\""
 
     defaultConfig {
         applicationId "com.zhowin.youmamall"
