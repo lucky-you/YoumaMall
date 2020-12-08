@@ -1,15 +1,25 @@
 package com.zhowin.youmamall.mine.fragment;
 
+import android.app.Dialog;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
+import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.utils.ActivityManager;
+import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.SPUtils;
+import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.model.ColumnList;
+import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.activity.ContactServiceActivity;
 import com.zhowin.youmamall.mine.activity.FeedbackActivity;
 import com.zhowin.youmamall.mine.activity.MallOrderListActivity;
@@ -89,13 +99,13 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 startActivity(ReleaseGoodActivity.class);
                 break;
             case R.id.llSPLBLayout:
-                ProductListActivity.start(mContext,1);
+                ProductListActivity.start(mContext, 1);
                 break;
             case R.id.llYSSPLayout:
-                ProductListActivity.start(mContext,2);
+                ProductListActivity.start(mContext, 2);
                 break;
             case R.id.llXSLSLayout:
-                ProductListActivity.start(mContext,3);
+                ProductListActivity.start(mContext, 3);
                 break;
             case R.id.llZXDPLayout:
                 break;
@@ -145,8 +155,40 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 startActivity(ContactServiceActivity.class);
                 break;
             case 11:
+                showOutLoginDialog();
                 break;
         }
     }
 
+    private void showOutLoginDialog() {
+        new CenterHitMessageDialog(mContext, "确定要退出吗?", new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                outLoginApp();
+            }
+        }).show();
+    }
+
+    private void outLoginApp() {
+        HttpRequest.outLoginApp(this, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+                UserInfo.setUserInfo(new UserInfo());
+                SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
+                ActivityManager.getAppInstance().AppExit(mContext);
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
 }

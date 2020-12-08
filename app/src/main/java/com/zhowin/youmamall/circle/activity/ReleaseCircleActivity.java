@@ -2,6 +2,7 @@ package com.zhowin.youmamall.circle.activity;
 
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -14,17 +15,21 @@ import com.yanzhenjie.permission.runtime.Permission;
 import com.yanzhenjie.permission.runtime.PermissionDef;
 import com.zhowin.base_library.adapter.NineGridItemListAdapter;
 import com.zhowin.base_library.callback.OnNineGridItemClickListener;
+import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.permission.AndPermissionListener;
 import com.zhowin.base_library.permission.AndPermissionUtils;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
 import com.zhowin.base_library.qiniu.QinIuUpLoadListener;
 import com.zhowin.base_library.qiniu.QinIuUtils;
+import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.SpanUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.FullyGridLayoutManager;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityReleaseCircleBinding;
+import com.zhowin.youmamall.http.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +58,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                 .appendLine()
                 .appendLine("2.发布的文案内容不能存在特殊表情符号，否则会发送失败。")
                 .create();
+        setOnClick(R.id.tvRelease);
 
     }
 
@@ -83,6 +89,55 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
             }
         });
         mBinding.circleRecyclerView.setAdapter(postGridImageAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvRelease:
+                submitDataMessage();
+
+                break;
+        }
+    }
+
+    private void submitDataMessage() {
+        String circleTitle = mBinding.editTitle.getText().toString().trim();
+        if (TextUtils.isEmpty(circleTitle)) {
+            ToastUtils.showToast("请输入项目标题");
+            return;
+        }
+
+        String circleContent = mBinding.editContent.getText().toString().trim();
+        if (TextUtils.isEmpty(circleContent)) {
+            ToastUtils.showToast("请输入项目介绍");
+            return;
+        }
+        if (selectList.isEmpty()) {
+            releaseCircleData(circleTitle, circleContent, "");
+        } else {
+            for (int i = 0; i < selectList.size(); i++) {
+                qinIuUpLoad(selectList.get(i).getPath(), circleTitle, circleContent);
+            }
+        }
+    }
+
+    private void releaseCircleData(String title, String content, String images) {
+        showLoadDialog();
+        HttpRequest.releaseCircleData(this, title, content, images, new HttpCallBack<BaseResponse<Object>>() {
+            @Override
+            public void onSuccess(BaseResponse<Object> objectBaseResponse) {
+                dismissLoadDialog();
+
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+                ActivityManager.getAppInstance().finishActivity();
+            }
+        });
     }
 
 
@@ -121,7 +176,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
         }
     }
 
-    private void qinIuUpLoad(String imagePath, String content) {
+    private void qinIuUpLoad(String imagePath, String title, String content) {
         QinIuUtils.qinIuUpLoad(imagePath, qinIuToken, new QinIuUpLoadListener() {
             @Override
             public void upLoadSuccess(String path) {
@@ -136,6 +191,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                     if (stringBuffer != null && stringBuffer.length() > 0) {
                         imagePaths = stringBuffer.substring(0, stringBuffer.length() - 1);
                     }
+                    releaseCircleData(title, content, imagePaths);
                 }
             }
 

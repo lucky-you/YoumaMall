@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
+import com.zhowin.base_library.http.ApiResponse;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.BaseResponse;
@@ -12,9 +13,12 @@ import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.qiniu.QiNiuYunBean;
 import com.zhowin.base_library.utils.RxSchedulers;
 import com.zhowin.youmamall.BuildConfig;
+import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
+import com.zhowin.youmamall.mall.model.MallLeftList;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -135,6 +139,29 @@ public class HttpRequest {
                 });
     }
 
+
+    /**
+     * 退出登录
+     */
+    public static void outLoginApp(LifecycleOwner activity, final HttpCallBack<Object> callBack) {
+        apiRequest.outLoginApp(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+
     /**
      * 修改用户信息
      */
@@ -188,6 +215,69 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(BaseResponse<DynamicList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 圈子列表
+     */
+    public static void getCircleList(LifecycleOwner activity, int pageNum, int pageSize, final HttpCallBack<BaseResponse<CircleList>> callBack) {
+        apiRequest.getCircleList(UserInfo.getUserToken(), pageNum, pageSize)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<CircleList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<CircleList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 发布圈子
+     */
+    public static void releaseCircleData(LifecycleOwner activity, String name, String content, String images, final HttpCallBack<BaseResponse<Object>> callBack) {
+        apiRequest.releaseCircleData(UserInfo.getUserToken(), name, content, images)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<Object>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<Object> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 商城左侧分类
+     */
+    public static void getMallLeftList(LifecycleOwner activity, final HttpCallBack<List<MallLeftList>> callBack) {
+        apiRequest.getMallLeftList(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<MallLeftList>>() {
+
+                    @Override
+                    public void onSuccess(List<MallLeftList> demo) {
                         callBack.onSuccess(demo);
                     }
 

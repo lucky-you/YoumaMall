@@ -15,6 +15,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeLoginFragmentLayoutBinding;
 import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.login.activity.ForgetPasswordActivity;
 import com.zhowin.youmamall.main.activity.MainActivity;
 
 /**
@@ -58,6 +59,7 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
                 setRememberPasswordStatus();
                 break;
             case R.id.tvForgetPassword:
+                startActivity(ForgetPasswordActivity.class);
                 break;
             case R.id.tvLogin:
                 loginMobileAndPassword();

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zhowin.youmamall">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
-
     <application
         android:name=".base.YouMaApplication"
         android:allowBackup="true"
@@ -21,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".circle.activity.ReleaseCircleActivity"/>
+        <activity android:name=".login.activity.ForgetPasswordActivity"></activity>
+        <activity android:name=".circle.activity.ReleaseCircleActivity" />
         <activity android:name=".mine.activity.ReleaseGoodActivity" />
         <activity android:name=".mine.activity.ShareMaterialActivity" />
         <activity android:name=".mine.activity.ProductListActivity" />

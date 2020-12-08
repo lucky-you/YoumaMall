@@ -5,12 +5,21 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.BaseResponse;
+import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
+import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.activity.ReleaseCircleActivity;
 import com.zhowin.youmamall.circle.adapter.CircleFragmentAdapter;
+import com.zhowin.youmamall.circle.callback.OnCircleItemClickListener;
+import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.databinding.IncludeCircleFragmentLayoutBinding;
+import com.zhowin.youmamall.http.HttpRequest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +28,7 @@ import java.util.List;
  * date  ：2020/11/26
  * desc ：
  */
-public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayoutBinding> {
+public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayoutBinding> implements OnCircleItemClickListener {
 
     private CircleFragmentAdapter circleFragmentAdapter;
 
@@ -31,16 +40,47 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
 
     @Override
     public void initView() {
-
+        getCircleList(true);
     }
 
     @Override
     public void initData() {
-        List<String> imageList = Arrays.asList("", "", "", "", "", "", "");
-        circleFragmentAdapter = new CircleFragmentAdapter(imageList);
+        circleFragmentAdapter = new CircleFragmentAdapter(new ArrayList<>());
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.recyclerView.setAdapter(circleFragmentAdapter);
+        circleFragmentAdapter.setOnCircleItemClickListener(this::onImageItemClick);
+    }
 
+
+    private void getCircleList(boolean isRefresh) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
+        HttpRequest.getCircleList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<CircleList>>() {
+            @Override
+            public void onSuccess(BaseResponse<CircleList> baseResponse) {
+                if (baseResponse != null) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (isRefresh) {
+                        circleFragmentAdapter.setNewData(baseResponse.getData());
+                    } else {
+                        circleFragmentAdapter.addData(baseResponse.getData());
+                    }
+
+                    if (baseResponse.getData().size() < pageNumber) {
+                        circleFragmentAdapter.loadMoreEnd(true);
+                    } else {
+                        circleFragmentAdapter.loadMoreComplete();
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 
 
@@ -49,14 +89,27 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                getCircleList(true);
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
+        circleFragmentAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getCircleList(false);
+            }
+        }, mBinding.recyclerView);
+
         mBinding.tvTitleView.getRightTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(ReleaseCircleActivity.class);
             }
         });
+    }
+
+    @Override
+    public void onImageItemClick(List<String> imageList, int position) {
+        PictureSelectorUtils.previewPicture(mContext, position, imageList);
     }
 }

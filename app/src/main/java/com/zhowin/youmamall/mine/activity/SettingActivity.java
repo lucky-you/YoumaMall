@@ -53,7 +53,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
     @Override
     public void initData() {
-        getQiNiuYunBean();
+//        getQiNiuYunBean();
     }
 
     @Override
