@@ -96,7 +96,7 @@
                         android:id="@+id/tvRememberPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/icon_remember_password"
+                        android:drawableLeft="@drawable/icon_not_remember_password"
                         android:drawablePadding="4dp"
                         android:gravity="center"
                         android:text="记住密码"

@@ -6,7 +6,10 @@ import com.zhowin.base_library.base.BaseApplication;
 import com.zhowin.base_library.callback.OnNoNetWorkClickListener;
 import com.zhowin.base_library.http.ApiResponse;
 import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.view.NoNetWorkDialogView;
+import com.zhowin.youmamall.login.activity.LoginActivity;
+import com.zhowin.youmamall.main.activity.MainActivity;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -33,11 +36,11 @@ public abstract class ApiObserver<T> implements Observer<ApiResponse<T>> {
     @Override
     public void onNext(ApiResponse<T> response) {
         //在这边对 基础数据 进行统一处理  初步解析：
-        if (response.getCode() == 200) {
+        if (response.getCode() == 1) {
             onSuccess(response.getData());
         } else if (response.getCode() == 401) {
             onFail(response.getCode(), response.getMsg());
-//            showNoNetWorkDialog();
+            showNoNetWorkDialog();
         } else {
             onFail(response.getCode(), response.getMsg());
         }
@@ -51,8 +54,8 @@ public abstract class ApiObserver<T> implements Observer<ApiResponse<T>> {
             @Override
             public void onDurationClick() {
                 UserInfo.setUserInfo(new UserInfo());
-//                LoginActivity.start(BaseApplication.getInstance());
-//                ActivityManager.getAppInstance().finishActivity(MainActivity.class);
+                LoginActivity.start(LoginActivity.getInstance);
+                ActivityManager.getAppInstance().finishActivity(MainActivity.class);
             }
         });
     }

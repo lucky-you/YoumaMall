@@ -35,6 +35,4 @@ public class SplashActivity extends BaseBindActivity<ActivitySplashBinding> {
     public void initData() {
 
     }
-
-
 }

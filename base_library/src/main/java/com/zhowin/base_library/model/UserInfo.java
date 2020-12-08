@@ -73,6 +73,13 @@ public class UserInfo {
         }
     }
 
+    /**
+     * 获取token
+     */
+    public static String getUserToken() {
+        return (String) SPUtils.get(ConstantValue.SP_TOKEN, "");
+    }
+
     public static void setUserPassword(String password) {
         if (!TextUtils.isEmpty(password)) {
             SPUtils.set(ConstantValue.PASSWORD, password);
@@ -85,12 +92,7 @@ public class UserInfo {
         return (String) SPUtils.get(ConstantValue.PASSWORD, "");
     }
 
-    /**
-     * 获取token
-     */
-    public static String getUserToken() {
-        return (String) SPUtils.get(ConstantValue.SP_TOKEN, "");
-    }
+
 
     public int getId() {
         return id;

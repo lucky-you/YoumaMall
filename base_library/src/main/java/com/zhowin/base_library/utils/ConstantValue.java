@@ -29,6 +29,7 @@ public interface ConstantValue {
     String BALANCE = "balance";
     String PRICE = "price";
     String SPREAD = "spread";
+    String REMEMBER_PASSWORD = "remember_password";
     String PASSWORD = "password";
     String SP_TOKEN = "token";
     String IM_TOKEN = "rong_token";

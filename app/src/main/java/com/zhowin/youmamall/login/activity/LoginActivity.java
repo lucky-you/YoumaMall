@@ -1,6 +1,9 @@
 package com.zhowin.youmamall.login.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.fragment.app.Fragment;
 
 import com.zhowin.base_library.adapter.HomePageAdapter;
@@ -19,6 +22,12 @@ import java.util.List;
  */
 public class LoginActivity extends BaseBindActivity<ActivityLoginBinding> {
 
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+
+    }
 
     public static LoginActivity getInstance;
 

@@ -84,7 +84,7 @@ public class PictureSelectorUtils {
                 .forResult(requestCode);//结果回调onActivityResult code
     }
 
-    public static void selectOneImage(Activity activity, int requestCode, boolean isCamera,boolean isCut) {
+    public static void selectOneImage(Activity activity, int requestCode, boolean isCamera, boolean isCut) {
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
