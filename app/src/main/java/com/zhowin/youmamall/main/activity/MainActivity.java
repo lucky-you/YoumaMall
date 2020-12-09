@@ -30,6 +30,8 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
 
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
+    public static MainActivity Instance;
+
 
     @Override
     public int getLayoutId() {
@@ -38,7 +40,7 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
 
     @Override
     public void initView() {
-
+        Instance = this;
     }
 
     @Override
@@ -52,5 +54,15 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
         mFragments.add(new DynamicFragment());
         mFragments.add(new MineFragment());
         mBinding.commonTabLayout.setTabData(mTabEntities, mContext, R.id.container, mFragments);
+    }
+
+    public void showJumpFragment(int position){
+        mBinding.commonTabLayout.setCurrentTab(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Instance = null;
     }
 }

@@ -174,10 +174,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/ivWxQrCodeImage"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="6dp"
+                        android:scaleType="centerCrop"
                         android:src="@color/color_FFDE00" />
 
                     <ImageView

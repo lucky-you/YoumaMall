@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.GridSpacesItemDecoration;
@@ -15,11 +16,16 @@ import com.zhowin.base_library.widget.GridSpacingItemDecoration;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeMallFragmentLayoutBinding;
+import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
+import com.zhowin.youmamall.home.activity.ProductDetailsActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
+import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.adapter.MallLeftListAdapter;
 import com.zhowin.youmamall.mall.adapter.MallRightListAdapter;
+import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mall.model.MallLeftList;
+import com.zhowin.youmamall.mall.model.MallRightList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,10 +36,11 @@ import java.util.List;
  * date  ：2020/11/26
  * desc ：
  */
-public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBinding> {
+public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBinding> implements OnGoodCardItemClickListener {
 
     private MallLeftListAdapter mallLeftListAdapter;
     private MallRightListAdapter mallRightListAdapter;
+    private int rightCategoryId;
 
     @Override
     public int getLayoutId() {
@@ -48,16 +55,15 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
     @Override
     public void initData() {
-        List<String> leftItemList = Arrays.asList("安卓软件", "电脑软件", "云端软件", "云端秒抢", "快手抖音", "会员福利", "图视工具", "直播影视", "云端秒抢", "快手抖音", "云端秒抢", "会员福利", "图视工具", "直播影视");
 
         mallLeftListAdapter = new MallLeftListAdapter(new ArrayList<>(), 0);
         mBinding.leftRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.leftRecyclerView.setAdapter(mallLeftListAdapter);
 
-        mallRightListAdapter = new MallRightListAdapter(leftItemList);
+        mallRightListAdapter = new MallRightListAdapter(new ArrayList<>());
         mBinding.rightRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         mBinding.rightRecyclerView.setAdapter(mallRightListAdapter);
-
+        mallRightListAdapter.setOnGoodCardItemClickListener(this);
 
     }
 
@@ -65,7 +71,28 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
         HttpRequest.getMallLeftList(this, new HttpCallBack<List<MallLeftList>>() {
             @Override
             public void onSuccess(List<MallLeftList> mallLeftLists) {
-                mallLeftListAdapter.setNewData(mallLeftLists);
+                if (mallLeftLists != null && !mallLeftLists.isEmpty()) {
+                    mallLeftListAdapter.setNewData(mallLeftLists);
+                    rightCategoryId = mallLeftLists.get(0).getId();
+                    getMallRightList(rightCategoryId);
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
+
+    private void getMallRightList(int categoryId) {
+        HttpRequest.getMallRightList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+            @Override
+            public void onSuccess(BaseResponse<MallRightList> baseResponse) {
+                if (baseResponse != null) {
+                    mallRightListAdapter.setNewData(baseResponse.getData());
+                }
             }
 
             @Override
@@ -77,17 +104,16 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
     @Override
     public void initListener() {
-
         mBinding.tvTitleView.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(SearchActivity.class);
             }
         });
-
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                getMallRightList(rightCategoryId);
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
@@ -95,7 +121,19 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 mallLeftListAdapter.setCurrentPosition(position);
+                rightCategoryId = mallLeftListAdapter.getItem(position).getId();
+                getMallRightList(rightCategoryId);
             }
         });
+    }
+
+    @Override
+    public void onClickBuyCard(GoodItem goodItem) {
+        ConfirmOrderActivity.start(mContext, goodItem);
+    }
+
+    @Override
+    public void onClickRootLayout(int itemId) {
+        ProductDetailsActivity.start(mContext, itemId);
     }
 }

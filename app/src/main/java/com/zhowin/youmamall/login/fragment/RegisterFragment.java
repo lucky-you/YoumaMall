@@ -81,7 +81,7 @@ public class RegisterFragment extends BaseBindFragment<IncludeRegisterFragmentLa
             return;
         }
         String editPasswordAgain = mBinding.editPasswordAgain.getText().toString().trim();
-        if (TextUtils.isEmpty(editPassword)) {
+        if (TextUtils.isEmpty(editPasswordAgain)) {
             ToastUtils.showToast("请确认您的密码");
             return;
         }

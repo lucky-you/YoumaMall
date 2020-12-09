@@ -15,7 +15,11 @@ import com.zhowin.base_library.utils.RxSchedulers;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
+import com.zhowin.youmamall.home.model.GoodDetailsInfo;
+import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
+import com.zhowin.youmamall.mall.model.MallRightList;
+import com.zhowin.youmamall.mine.model.ContactServiceList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -165,14 +169,14 @@ public class HttpRequest {
     /**
      * 修改用户信息
      */
-    public static void changeUserMessageInfo(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.changeUserMessageInfo(UserInfo.getUserToken(), map)
+    public static void changeUserMessageInfo(LifecycleOwner activity, String avatar, String nickname, String qrCode, final HttpCallBack<Object> callBack) {
+        apiRequest.changeUserMessageInfo(UserInfo.getUserToken(), avatar, nickname, qrCode)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<UserInfo>() {
+                .subscribe(new ApiObserver<Object>() {
 
                     @Override
-                    public void onSuccess(UserInfo demo) {
+                    public void onSuccess(Object demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -187,7 +191,7 @@ public class HttpRequest {
      * 更换手机号码
      */
     public static void changUserMobile(LifecycleOwner activity, String password, String mobile, String captcha, final HttpCallBack<Object> callBack) {
-        apiRequest.changUserMobile(password, mobile, captcha)
+        apiRequest.changUserMobile(UserInfo.getUserToken(), password, mobile, captcha)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -249,14 +253,14 @@ public class HttpRequest {
     /**
      * 发布圈子
      */
-    public static void releaseCircleData(LifecycleOwner activity, String name, String content, String images, final HttpCallBack<BaseResponse<Object>> callBack) {
+    public static void releaseCircleData(LifecycleOwner activity, String name, String content, String images, final HttpCallBack<Object> callBack) {
         apiRequest.releaseCircleData(UserInfo.getUserToken(), name, content, images)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<BaseResponse<Object>>() {
+                .subscribe(new ApiObserver<Object>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<Object> demo) {
+                    public void onSuccess(Object demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -288,5 +292,130 @@ public class HttpRequest {
                 });
     }
 
+    /**
+     * 商城右侧分类
+     */
+    public static void getMallRightList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
+        apiRequest.getMallRightList(UserInfo.getUserToken(), category_id, page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<MallRightList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 商品详情
+     */
+    public static void getGoodDetails(LifecycleOwner activity, int itemId, final HttpCallBack<GoodDetailsInfo> callBack) {
+        apiRequest.getGoodDetails(UserInfo.getUserToken(), itemId)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<GoodDetailsInfo>() {
+
+                    @Override
+                    public void onSuccess(GoodDetailsInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 联系客服
+     */
+    public static void getContactServiceList(LifecycleOwner activity, final HttpCallBack<List<ContactServiceList>> callBack) {
+        apiRequest.getContactServiceList(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<ContactServiceList>>() {
+
+                    @Override
+                    public void onSuccess(List<ContactServiceList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 设置支付密码
+     */
+    public static void setPayPassword(LifecycleOwner activity, String password, String pay_password, String pay_password_again, final HttpCallBack<Object> callBack) {
+        apiRequest.setPayPassword(UserInfo.getUserToken(), password, pay_password, pay_password_again)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 忘记密码/重置密码
+     */
+    public static void setResetPassword(LifecycleOwner activity, String mobile, String newpassword, String captcha, final HttpCallBack<Object> callBack) {
+        apiRequest.setResetPassword(UserInfo.getUserToken(), mobile, newpassword, captcha)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 获取首页信息
+     */
+    public static void getHomePageDataInfo(LifecycleOwner activity, final HttpCallBack<HomePageData> callBack) {
+        apiRequest.getHomePageDataInfo(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<HomePageData>() {
+
+                    @Override
+                    public void onSuccess(HomePageData demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
 
 }

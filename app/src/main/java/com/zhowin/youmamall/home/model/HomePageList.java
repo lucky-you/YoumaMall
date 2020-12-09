@@ -1,12 +1,16 @@
 package com.zhowin.youmamall.home.model;
 
 
+import com.zhowin.youmamall.mall.model.MallRightList;
+
+import java.util.List;
+
 /**
  * author : zho
  * date  ：2020/11/26
  * desc ：首页多布局
  */
-public class HomePageList   {
+public class HomePageList {
 
 
     public static final int RXB_TYPE = 1;//热销榜
@@ -16,13 +20,24 @@ public class HomePageList   {
     private int itemType;
     private String leftTitle;
     private String leftDesc;
-    private boolean  isShowRight;
+    private boolean isShowRight;
+    private List<MallRightList> goodDataList;
+
 
     public HomePageList(int itemType, String leftTitle, String leftDesc, boolean isShowRight) {
         this.itemType = itemType;
         this.leftTitle = leftTitle;
         this.leftDesc = leftDesc;
         this.isShowRight = isShowRight;
+    }
+
+
+    public HomePageList(int itemType, String leftTitle, String leftDesc, boolean isShowRight, List<MallRightList> goodDataList) {
+        this.itemType = itemType;
+        this.leftTitle = leftTitle;
+        this.leftDesc = leftDesc;
+        this.isShowRight = isShowRight;
+        this.goodDataList = goodDataList;
     }
 
     public int getItemType() {
@@ -55,5 +70,13 @@ public class HomePageList   {
 
     public void setShowRight(boolean showRight) {
         isShowRight = showRight;
+    }
+
+    public List<MallRightList> getGoodDataList() {
+        return goodDataList;
+    }
+
+    public void setGoodDataList(List<MallRightList> goodDataList) {
+        this.goodDataList = goodDataList;
     }
 }

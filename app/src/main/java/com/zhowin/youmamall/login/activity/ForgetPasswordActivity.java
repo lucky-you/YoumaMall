@@ -6,7 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.utils.ActivityManager;
+import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.PhoneUtils;
+import com.zhowin.base_library.utils.SPUtils;
 import com.zhowin.base_library.utils.SplitUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
@@ -38,7 +41,6 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
 
     @Override
     public void initView() {
-
         setOnClick(R.id.tvGetVerificationCode, R.id.tvConfirmSubmission);
 
     }
@@ -61,6 +63,7 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
                 countdownTime();
                 break;
             case R.id.tvConfirmSubmission:
+                submitPasswordData();
                 break;
         }
     }
@@ -76,7 +79,7 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
             return;
         }
         String editPasswordAgain = mBinding.editPasswordAgain.getText().toString().trim();
-        if (TextUtils.isEmpty(editPassword)) {
+        if (TextUtils.isEmpty(editPasswordAgain)) {
             ToastUtils.showToast("请确认您的密码");
             return;
         }
@@ -89,6 +92,22 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
             ToastUtils.showToast("请输入短信验证码");
             return;
         }
+        showLoadDialog();
+        HttpRequest.setResetPassword(this, mobile, editPassword, captchaCode, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+                SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
+                startActivity(LoginActivity.class);
+                ActivityManager.getAppInstance().finishActivity();
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 
 

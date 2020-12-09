@@ -16,6 +16,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.circle.callback.OnCircleItemClickListener;
 import com.zhowin.youmamall.circle.callback.OnGridImageClickListener;
 import com.zhowin.youmamall.circle.model.CircleList;
+import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,10 @@ public class CircleFragmentAdapter extends BaseQuickAdapter<CircleList, BaseView
 
         GlideUtils.loadUserPhotoForLogin(mContext, item.getAvatar(), helper.getView(R.id.civUserHead));
         helper.setText(R.id.tvUserNickName, item.getNickname())
-                .setText(R.id.tvDescContent, item.getContent())
+                .setText(R.id.tvDesc, item.getTitle())
+                .setText(R.id.tvContent, item.getContent())
+                .setGone(R.id.ivUserLevel, 0 != item.getLevel())
+                .setImageResource(R.id.ivUserLevel, UserLevelHelper.getUserLevel(item.getLevel()))
                 .setText(R.id.tvCreateTime, DateHelpUtils.getPostDetailTime(item.getCreatetime()));
 
         RecyclerView imageRecyclerView = helper.getView(R.id.imageRecyclerView);

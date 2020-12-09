@@ -74,6 +74,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvCouponText"
                 style="@style/TextViewStyleOf14Sp"
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:drawablePadding="6dp"

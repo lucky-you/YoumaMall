@@ -1,10 +1,8 @@
 package com.zhowin.youmamall.home.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Bundle;
 
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.base_library.widget.GridSpacingItemDecoration;
@@ -12,6 +10,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityColumnListBinding;
 import com.zhowin.youmamall.home.adapter.HomeXPSFAdapter;
+import com.zhowin.youmamall.mall.model.MallRightList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +30,9 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
 
     @Override
     public void initData() {
-        List<String> stringListTwo = new ArrayList<>();
+        List<MallRightList> stringListTwo = new ArrayList<>();
         for (int i = 0; i < 22; i++) {
-            stringListTwo.add("20");
+            stringListTwo.add(new MallRightList());
         }
 
         HomeXPSFAdapter homeXPSFAdapter = new HomeXPSFAdapter(stringListTwo);

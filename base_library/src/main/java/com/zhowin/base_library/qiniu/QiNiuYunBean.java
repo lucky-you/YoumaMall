@@ -6,30 +6,31 @@ package com.zhowin.base_library.qiniu;
  */
 public class QiNiuYunBean {
 
+
     /**
-     * uploadurl : https://upload-z0.qiniup.com
-     * cdnurl : https://qiniu.mwc.mowan.cn/
-     * token : be_BUN1Aq8y_MFDQby-sbnx2LwLTiXPBbkXmiej6:mI343NEM2ug0B_OrXIU2d_A9bhk=:eyJzY29wZSI6Im10YmlrZSIsImRlYWRsaW5lIjoxNTk2Njg3MzAyfQ==
+     * cdn : https://png.lxxxin.com
+     * upload : z0
+     * token : 20lS9OkmR4ToWp6YvKaHiBSe4HbkwezoVcZ0NeCf:TiKlcRCX9ozHEwrJypHJ7pIzQW0=:eyJzY29wZSI6InlvdW1hc2hhbmdjaGFuZy1oZCIsImRlYWRsaW5lIjoxNjA3NDg3NTgxfQ==
      */
 
-    private String uploadurl;
-    private String cdnurl;
+    private String cdn;
+    private String upload;
     private String token;
 
-    public String getUploadurl() {
-        return uploadurl;
+    public String getCdn() {
+        return cdn;
     }
 
-    public void setUploadurl(String uploadurl) {
-        this.uploadurl = uploadurl;
+    public void setCdn(String cdn) {
+        this.cdn = cdn;
     }
 
-    public String getCdnurl() {
-        return cdnurl;
+    public String getUpload() {
+        return upload;
     }
 
-    public void setCdnurl(String cdnurl) {
-        this.cdnurl = cdnurl;
+    public void setUpload(String upload) {
+        this.upload = upload;
     }
 
     public String getToken() {

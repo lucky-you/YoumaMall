@@ -32,7 +32,7 @@
             android:textColor="@color/color_FF560B"
             android:textSize="14sp"
             app:layout_constraintLeft_toRightOf="@id/civUserHead"
-            app:layout_constraintTop_toBottomOf="@id/tvDescContent"
+            app:layout_constraintTop_toBottomOf="@id/tvDesc"
             app:layout_constraintTop_toTopOf="@id/civUserHead" />
 
         <ImageView
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="@id/tvUserNickName" />
 
         <TextView
-            android:id="@+id/tvDescContent"
+            android:id="@+id/tvDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="招商代理啊"

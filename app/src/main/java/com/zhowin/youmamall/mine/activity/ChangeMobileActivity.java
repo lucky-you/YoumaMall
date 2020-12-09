@@ -99,7 +99,7 @@ public class ChangeMobileActivity extends BaseBindActivity<ActivityChangeMobileB
 
     private void getVerificationCode(String mobile) {
         showLoadDialog();
-        HttpRequest.getVerificationCode(this, "changepwd", mobile, new HttpCallBack<Object>() {
+        HttpRequest.getVerificationCode(this, "changemobile", mobile, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();

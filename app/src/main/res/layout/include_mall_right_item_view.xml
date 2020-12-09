@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llRootItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
@@ -24,7 +25,7 @@
             android:layout_height="20dp"
             android:background="@color/color_FFAE35"
             android:gravity="center"
-            android:text="2540人付款"
+            android:text="0000人付款"
             android:textColor="@color/white"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -77,7 +78,7 @@
             android:id="@+id/tvBuy"
             android:layout_width="46dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="6dp"
             android:background="@drawable/shape_theme_color_4dp_bg"
             android:gravity="center"
             android:text="购买"

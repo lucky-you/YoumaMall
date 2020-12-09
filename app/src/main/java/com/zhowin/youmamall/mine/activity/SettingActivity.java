@@ -3,6 +3,7 @@ package com.zhowin.youmamall.mine.activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
+import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.ActivitySettingBinding;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.callback.OnHitMessageClickListener;
@@ -38,7 +40,8 @@ import java.util.List;
 public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
 
-    private String qiNiuYunToken, qiNiuYunBaseUrl, userAvatar;
+    private String qiNiuYunToken, qiNiuYunBaseUrl, userAvatar, userNickName, userQRCode;
+    private int isSetPayPassword;
 
     @Override
     public int getLayoutId() {
@@ -53,13 +56,46 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
     @Override
     public void initData() {
-//        getQiNiuYunBean();
+        getQiNiuYunBean();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserInfoMessage();
+    }
+
+    private void getUserInfoMessage() {
+        HttpRequest.getUserInfoMessage(this, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo userInfo) {
+                if (userInfo != null) {
+                    UserInfo.setUserInfo(userInfo);
+                    userAvatar = userInfo.getAvatar();
+                    userNickName = userInfo.getNickname();
+                    userQRCode = userInfo.getWechat_qrcode();
+                    isSetPayPassword = userInfo.getIs_pay_pwd();
+                    GlideUtils.loadUserPhotoForLogin(mContext, userAvatar, mBinding.civUserHead);
+                    mBinding.tvUserNickName.setText(userNickName);
+                    mBinding.tvUserMobile.setText(userInfo.getMobile());
+                    mBinding.tvSetPayPassword.setText(1 == userInfo.getIs_pay_pwd() ? "已设置" : "未设置");
+                    GlideUtils.loadObjectImage(mContext, userQRCode, mBinding.ivWxQrCodeImage);
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.civUserHead:
+                showSelectUserHeadPhotoDialog();
                 break;
             case R.id.tvUserNickName:
                 showChangeNIckName();
@@ -68,11 +104,10 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
                 showChangeMobile();
                 break;
             case R.id.tvSetPayPassword:
-                startActivity(SetPasswordActivity.class);
+                SetPasswordActivity.start(mContext, isSetPayPassword);
                 break;
             case R.id.llQRCodeLayout:
                 break;
-
         }
     }
 
@@ -90,11 +125,12 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     private void showChangeNIckName() {
         ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog(mContext);
         changeNickNameDialog.show();
-        changeNickNameDialog.setEditNickName("周小川");
+        changeNickNameDialog.setEditNickName(userNickName);
         changeNickNameDialog.setOnHitMessageClickListener(new OnHitMessageClickListener() {
             @Override
             public void onDetermineClick(String text) {
-
+                userNickName = text;
+                changeUserMessageInfo();
             }
         });
     }
@@ -102,7 +138,6 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
     private void showSelectUserHeadPhotoDialog() {
         SelectUserImageDialog selectUserImageDialog = new SelectUserImageDialog();
-
         selectUserImageDialog.setOnSelectUserHeadDialogListener(new OnSelectUserHeadDialogListener() {
             @Override
             public void onTakePicture() {
@@ -140,6 +175,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
                         break;
                 }
             }
+
             @Override
             public void PermissionFailure(List<String> permissions) {
                 ToastUtils.showToast("权限未开启");
@@ -152,7 +188,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
             @Override
             public void onSuccess(QiNiuYunBean qiNiuYunBean) {
                 if (qiNiuYunBean != null) {
-                    qiNiuYunBaseUrl = qiNiuYunBean.getCdnurl();
+                    qiNiuYunBaseUrl = qiNiuYunBean.getCdn();
                     qiNiuYunToken = qiNiuYunBean.getToken();
                 }
             }
@@ -183,7 +219,10 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
             @Override
             public void upLoadSuccess(String path) {
                 userAvatar = "/" + path;
+                String url = qiNiuYunBaseUrl + userAvatar;
+                System.out.print("url:" + url);
                 GlideUtils.loadObjectImage(mContext, qiNiuYunBaseUrl + userAvatar, mBinding.civUserHead);
+                changeUserMessageInfo();
             }
 
             @Override
@@ -195,27 +234,19 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
 
     private void changeUserMessageInfo() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("avatar", "");
-        map.put("nickname", "");
-        map.put("", "");
-        map.put("wechat_qrcode", "");
-
-        HttpRequest.changeUserMessageInfo(this, null, new HttpCallBack<UserInfo>() {
+        showLoadDialog();
+        HttpRequest.changeUserMessageInfo(this, userAvatar, userNickName, userQRCode, new HttpCallBack<Object>() {
             @Override
-            public void onSuccess(UserInfo userInfo) {
-                if (userInfo != null) {
-                    UserInfo.setUserInfo(userInfo);
-                }
+            public void onSuccess(Object userInfo) {
+                dismissLoadDialog();
+                getUserInfoMessage();
             }
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
-
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
             }
         });
-
-
     }
-
 }

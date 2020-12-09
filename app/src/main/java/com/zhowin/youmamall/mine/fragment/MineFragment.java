@@ -11,11 +11,13 @@ import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SPUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
+import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
 import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.home.model.ColumnList;
@@ -75,6 +77,35 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         mBinding.moreRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         mBinding.moreRecyclerView.setAdapter(columnListAdapter);
         columnListAdapter.setOnItemClickListener(this::onItemClick);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfoMessage();
+    }
+
+    private void getUserInfoMessage() {
+        HttpRequest.getUserInfoMessage(this, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo userInfo) {
+                if (userInfo != null) {
+                    UserInfo.setUserInfo(userInfo);
+                    GlideUtils.loadUserPhotoForLogin(mContext, userInfo.getAvatar(), mBinding.civUserHead);
+                    mBinding.tvUserNickName.setText(userInfo.getNickname());
+                    mBinding.ivUserLevel.setVisibility(0 != userInfo.getLevel() ? View.VISIBLE : View.GONE);
+                    mBinding.ivUserLevel.setImageResource(UserLevelHelper.getUserLevel(userInfo.getLevel()));
+                    mBinding.tvYQMCode.setText("邀请码：" + userInfo.getInvitation_code());
+                    mBinding.tvTJRText.setText("推荐人：");
+                }
+
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+
+            }
+        });
     }
 
     @Override

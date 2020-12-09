@@ -1,16 +1,18 @@
 package com.zhowin.youmamall.home.adapter;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhowin.youmamall.R;
-import com.zhowin.youmamall.home.callback.OnHomeFragmentClickListener;
+import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
+import com.zhowin.youmamall.home.callback.OnHomeSeeMoreListener;
 import com.zhowin.youmamall.home.model.HomePageList;
 
 import java.util.ArrayList;
@@ -28,46 +30,54 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
         super(R.layout.include_home_fragment_list_item_layout, data);
     }
 
-    private OnHomeFragmentClickListener onHomeFragmentClickListener;
+    private OnGoodCardItemClickListener onGoodCardItemClickListener;
 
+    public void setOnGoodCardItemClickListener(OnGoodCardItemClickListener onGoodCardItemClickListener) {
+        this.onGoodCardItemClickListener = onGoodCardItemClickListener;
+    }
 
-    public void setOnHomeFragmentClickListener(OnHomeFragmentClickListener onHomeFragmentClickListener) {
-        this.onHomeFragmentClickListener = onHomeFragmentClickListener;
+    private OnHomeSeeMoreListener onHomeSeeMoreListener;
+
+    public void setOnHomeSeeMoreListener(OnHomeSeeMoreListener onHomeSeeMoreListener) {
+        this.onHomeSeeMoreListener = onHomeSeeMoreListener;
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, HomePageList item) {
-
         RecyclerView FeaturesRecyclerView = helper.getView(R.id.FeaturesRecyclerView);
         helper.setText(R.id.tvLeftTitle, item.getLeftTitle())
                 .setText(R.id.tvLeftDesc, item.getLeftDesc())
-                .setGone(R.id.tvRightSeeMore, item.isShowRight());
-
+                .setGone(R.id.tvRightSeeMore, item.isShowRight())
+                .getView(R.id.tvRightSeeMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onHomeSeeMoreListener != null) {
+                    onHomeSeeMoreListener.onRightSeeMore();
+                }
+            }
+        });
         switch (item.getItemType()) {
-            case 1:
-                List<String> stringListOne = Arrays.asList("20.50", "45.00", "30.00");
-                HomeRXBAdapter homeRXBAdapter = new HomeRXBAdapter(stringListOne);
+            case 1: //热销榜
+                HomeRXBAdapter homeRXBAdapter = new HomeRXBAdapter(item.getGoodDataList());
                 FeaturesRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 FeaturesRecyclerView.setAdapter(homeRXBAdapter);
-                homeRXBAdapter.setOnHomeFragmentClickListener(onHomeFragmentClickListener);
+                homeRXBAdapter.setOnGoodCardItemClickListener(onGoodCardItemClickListener);
                 break;
-            case 2:
-                List<String> stringListTwo = Arrays.asList("20.50", "45.00");
-                HomeXPSFAdapter homeXPSFAdapter = new HomeXPSFAdapter(stringListTwo);
+            case 2: //新品首发
+                HomeXPSFAdapter homeXPSFAdapter = new HomeXPSFAdapter(item.getGoodDataList());
                 FeaturesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
                 FeaturesRecyclerView.setAdapter(homeXPSFAdapter);
+                homeXPSFAdapter.setOnGoodCardItemClickListener(onGoodCardItemClickListener);
                 break;
-            case 3:
+            case 3: //福利功能
                 List<String> stringListThree = new ArrayList<>();
                 for (int i = 0; i < 12; i++) {
-                    stringListThree.add("20");
+                    stringListThree.add("0");
                 }
                 HomeFLGNAdapter homeFLGNAdapter = new HomeFLGNAdapter(stringListThree);
                 FeaturesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
                 FeaturesRecyclerView.setAdapter(homeFLGNAdapter);
                 break;
         }
-
-
     }
 }

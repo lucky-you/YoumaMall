@@ -20,6 +20,7 @@ import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.permission.AndPermissionListener;
 import com.zhowin.base_library.permission.AndPermissionUtils;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
+import com.zhowin.base_library.qiniu.QiNiuYunBean;
 import com.zhowin.base_library.qiniu.QinIuUpLoadListener;
 import com.zhowin.base_library.qiniu.QinIuUtils;
 import com.zhowin.base_library.utils.ActivityManager;
@@ -42,7 +43,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
     public static final int MAX_NUM = 9; //选择图片最大数目
     private ArrayList<LocalMedia> selectList = new ArrayList<>();//选中图片的集合
     private List<String> qinIuImages = new ArrayList<>(); //保存从七牛云返回的图片路径的集合
-    private String imagePaths, qinIuToken;
+    private String qiNiuYunToken, qiNiuYunBaseUrl, imagePaths;
 
     @Override
     public int getLayoutId() {
@@ -59,7 +60,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                 .appendLine("2.发布的文案内容不能存在特殊表情符号，否则会发送失败。")
                 .create();
         setOnClick(R.id.tvRelease);
-
+        getQiNiuYunBean();
     }
 
     @Override
@@ -96,7 +97,6 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
         switch (v.getId()) {
             case R.id.tvRelease:
                 submitDataMessage();
-
                 break;
         }
     }
@@ -116,6 +116,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
         if (selectList.isEmpty()) {
             releaseCircleData(circleTitle, circleContent, "");
         } else {
+            showLoadDialog();
             for (int i = 0; i < selectList.size(); i++) {
                 qinIuUpLoad(selectList.get(i).getPath(), circleTitle, circleContent);
             }
@@ -124,18 +125,18 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
 
     private void releaseCircleData(String title, String content, String images) {
         showLoadDialog();
-        HttpRequest.releaseCircleData(this, title, content, images, new HttpCallBack<BaseResponse<Object>>() {
+        HttpRequest.releaseCircleData(this, title, content, images, new HttpCallBack<Object>() {
             @Override
-            public void onSuccess(BaseResponse<Object> objectBaseResponse) {
+            public void onSuccess(Object objectBaseResponse) {
                 dismissLoadDialog();
-
+                ToastUtils.showToast("发布成功");
+                ActivityManager.getAppInstance().finishActivity();
             }
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
                 dismissLoadDialog();
                 ToastUtils.showToast(errorMsg);
-                ActivityManager.getAppInstance().finishActivity();
             }
         });
     }
@@ -153,6 +154,23 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                 ToastUtils.showToast("权限未开启");
             }
         }, permissions);
+    }
+
+    private void getQiNiuYunBean() {
+        HttpRequest.getQiNiuYunBean(this, new HttpCallBack<QiNiuYunBean>() {
+            @Override
+            public void onSuccess(QiNiuYunBean qiNiuYunBean) {
+                if (qiNiuYunBean != null) {
+                    qiNiuYunBaseUrl = qiNiuYunBean.getCdn();
+                    qiNiuYunToken = qiNiuYunBean.getToken();
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 
     @Override
@@ -177,13 +195,14 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
     }
 
     private void qinIuUpLoad(String imagePath, String title, String content) {
-        QinIuUtils.qinIuUpLoad(imagePath, qinIuToken, new QinIuUpLoadListener() {
+        QinIuUtils.qinIuUpLoad(imagePath, qiNiuYunToken, new QinIuUpLoadListener() {
             @Override
             public void upLoadSuccess(String path) {
                 String imageUrl = "/" + path;
                 qinIuImages.add(imageUrl);
                 //先要把图片上传到七牛云,然后在提交
                 if (qinIuImages.size() == selectList.size()) { //集合数量相等，说明，选择的图片全部上传了
+                    dismissLoadDialog();
                     StringBuffer stringBuffer = new StringBuffer();
                     for (int i = 0; i < qinIuImages.size(); i++) {
                         stringBuffer.append(qinIuImages.get(i) + ",");
