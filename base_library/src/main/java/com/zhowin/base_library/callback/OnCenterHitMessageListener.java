@@ -10,15 +10,11 @@ import android.app.Dialog;
 public interface OnCenterHitMessageListener {
     /**
      * 取消
-     *
-     * @param dialog dialog对象
      */
     void onNegativeClick(Dialog dialog);
 
     /**
      * 确定
-     *
-     * @param dialog dialog对象
      */
     void onPositiveClick(Dialog dialog);
 }

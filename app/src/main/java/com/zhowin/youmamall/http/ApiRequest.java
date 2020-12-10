@@ -97,6 +97,12 @@ public interface ApiRequest {
     //下架商品
     String GOOD_OFF_SHELF_URL = "api/merchant/shelf";
 
+    //注销店铺
+    String REMOVE_MERCHANT_LIST_URL = "api/merchant/remove";
+
+    // 录入卡密
+    String ENTER_CARD_SECRET_URL = "api/merchant/enter";
+
 
     /**
      * 返回的是自己的用户信息
@@ -134,8 +140,8 @@ public interface ApiRequest {
     /**
      * 退出登录
      */
-    @POST(LOGIN_OUT_URL)
-    Observable<ApiResponse<Object>> outLoginApp(@Header(TOKEN) String token);
+    @POST
+    Observable<ApiResponse<Object>> outLoginAppOrRemoveMerchant(@Header(TOKEN) String token, @Url String url);
 
     /**
      * 修改手机号码
@@ -243,5 +249,12 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(GOOD_OFF_SHELF_URL)
     Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Field("id") int id);
+
+    /**
+     * 录入卡密
+     */
+    @FormUrlEncoded
+    @POST(ENTER_CARD_SECRET_URL)
+    Observable<ApiResponse<Object>> onEnterCardSecret(@Header(TOKEN) String token, @Field("id") int id, @Field("content") String content);
 
 }

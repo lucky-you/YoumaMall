@@ -147,8 +147,9 @@ public class HttpRequest {
     /**
      * 退出登录
      */
-    public static void outLoginApp(LifecycleOwner activity, final HttpCallBack<Object> callBack) {
-        apiRequest.outLoginApp(UserInfo.getUserToken())
+    public static void outLoginApp(LifecycleOwner activity, boolean isLogout, final HttpCallBack<Object> callBack) {
+        String url = isLogout ? ApiRequest.LOGIN_OUT_URL : ApiRequest.REMOVE_MERCHANT_LIST_URL;
+        apiRequest.outLoginAppOrRemoveMerchant(UserInfo.getUserToken(), url)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -465,6 +466,27 @@ public class HttpRequest {
      */
     public static void goodOffShelf(LifecycleOwner activity, int id, final HttpCallBack<Object> callBack) {
         apiRequest.goodOffShelf(UserInfo.getUserToken(), id)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 录入卡密
+     */
+    public static void onEnterCardSecret(LifecycleOwner activity, int id, String content, final HttpCallBack<Object> callBack) {
+        apiRequest.onEnterCardSecret(UserInfo.getUserToken(), id, content)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {

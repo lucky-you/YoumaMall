@@ -114,13 +114,14 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
         startActivity(CardPasswordActivity.class);
     }
 
+
+
     private void goodOffShelf(int itemId) {
         showLoadDialog();
         HttpRequest.goodOffShelf(this, itemId, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
-
             }
 
             @Override

@@ -57,13 +57,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View style="@style/DivideLine6DPStyle" />
+        <View
+            style="@style/DivideLine6DPStyle"
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:visibility="gone">
 
             <TextView
                 style="@style/TextViewStyleOf14Sp"

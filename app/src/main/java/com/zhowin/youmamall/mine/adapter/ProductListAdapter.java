@@ -32,7 +32,6 @@ public class ProductListAdapter extends BaseQuickAdapter<String, BaseViewHolder>
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
 
-
         helper.getView(R.id.clItemRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -139,6 +139,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 ProductListActivity.start(mContext, 3);
                 break;
             case R.id.llZXDPLayout:
+                showOutLoginDialog(2, "确定要注销吗?");
                 break;
         }
     }
@@ -186,13 +187,13 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 startActivity(ContactServiceActivity.class);
                 break;
             case 11:
-                showOutLoginDialog();
+                showOutLoginDialog(1, "确定要退出吗?");
                 break;
         }
     }
 
-    private void showOutLoginDialog() {
-        new CenterHitMessageDialog(mContext, "确定要退出吗?", new OnCenterHitMessageListener() {
+    private void showOutLoginDialog(int type, String title) {
+        new CenterHitMessageDialog(mContext, title, new OnCenterHitMessageListener() {
             @Override
             public void onNegativeClick(Dialog dialog) {
 
@@ -200,19 +201,27 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
             @Override
             public void onPositiveClick(Dialog dialog) {
-                outLoginApp();
+                if (1 == type) {
+                    outLoginAppOrRemoveMerchant(true);
+                } else {
+                    outLoginAppOrRemoveMerchant(false);
+                }
             }
         }).show();
     }
 
-    private void outLoginApp() {
-        HttpRequest.outLoginApp(this, new HttpCallBack<Object>() {
+    private void outLoginAppOrRemoveMerchant(boolean outLoginApp) {
+        HttpRequest.outLoginApp(this, outLoginApp, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
                 UserInfo.setUserInfo(new UserInfo());
-                SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
-                ActivityManager.getAppInstance().AppExit(mContext);
+                if (outLoginApp) {
+                    SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
+                    ActivityManager.getAppInstance().AppExit(mContext);
+                } else {
+                    ToastUtils.showToast("注销成功");
+                }
             }
 
             @Override
