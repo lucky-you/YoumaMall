@@ -8,27 +8,37 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.banner.BannerImageAdapter;
-import com.zhowin.base_library.http.HttpCallBack;
-import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.banner.BannerList;
+import com.zhowin.base_library.http.ApiResponse;
+import com.zhowin.base_library.http.RetrofitFactory;
+import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
 import com.zhowin.youmamall.home.activity.ColumnListActivity;
 import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
 import com.zhowin.youmamall.home.activity.ProductDetailsActivity;
-import com.zhowin.youmamall.home.adapter.ColumnListAdapter;
+import com.zhowin.youmamall.home.adapter.HomeCategoryListAdapter;
 import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
 import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
 import com.zhowin.youmamall.home.callback.OnHomeSeeMoreListener;
-import com.zhowin.youmamall.home.model.ColumnList;
+import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.home.model.HomePageList;
-import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.http.ApiRequest;
 import com.zhowin.youmamall.main.activity.MainActivity;
 import com.zhowin.youmamall.mall.model.GoodItem;
+import com.zhowin.youmamall.mall.model.MallLeftList;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * author : zho
@@ -38,7 +48,7 @@ import java.util.List;
 public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBinding> implements
         OnGoodCardItemClickListener, OnHomeSeeMoreListener {
 
-    private ColumnListAdapter columnListAdapter;
+    private HomeCategoryListAdapter homeCategoryListAdapter;
     private HomeFragmentAdapter homeFragmentAdapter;
     private List<HomePageList> homePageLists = new ArrayList<>();
 
@@ -54,26 +64,12 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void initData() {
-        List<String> bannerList = new ArrayList<>();
-        bannerList.add("https://img.zcool.cn/community/013de756fb63036ac7257948747896.jpg");
-        bannerList.add("https://img.zcool.cn/community/01270156fb62fd6ac72579485aa893.jpg");
-        bannerList.add("https://img.zcool.cn/community/016a2256fb63006ac7257948f83349.jpg");
 
-        BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(bannerList, 2);
-        mBinding.homeBanner.setAdapter(bannerImageAdapter).start();
+        getHomeDynamic();
 
-
-        getHomePageDataInfo();
-
-        List<ColumnList> columnList = new ArrayList<>();
-        columnList.add(new ColumnList(1, "安卓软件"));
-        columnList.add(new ColumnList(2, "苹果软件"));
-        columnList.add(new ColumnList(3, "电脑软件"));
-        columnList.add(new ColumnList(4, "云端软件"));
-        columnList.add(new ColumnList(5, "会员福利"));
-        columnListAdapter = new ColumnListAdapter(columnList, 1);
+        homeCategoryListAdapter = new HomeCategoryListAdapter(new ArrayList<>());
         mBinding.ColumnRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
-        mBinding.ColumnRecyclerView.setAdapter(columnListAdapter);
+        mBinding.ColumnRecyclerView.setAdapter(homeCategoryListAdapter);
 
         homeFragmentAdapter = new HomeFragmentAdapter(homePageLists);
         mBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -82,24 +78,63 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         homeFragmentAdapter.setOnHomeSeeMoreListener(this::onRightSeeMore);
     }
 
-    private void getHomePageDataInfo() {
-        HttpRequest.getHomePageDataInfo(this, new HttpCallBack<HomePageData>() {
-            @Override
-            public void onSuccess(HomePageData homePageData) {
-                if (homePageData != null) {
-                    if (homePageLists.isEmpty()) homePageLists.clear();
-                    homePageLists.add(new HomePageList(1, "热销榜", "最受欢迎的应用软件", true, homePageData.getHome_sale_item()));
-                    homePageLists.add(new HomePageList(2, "新品首发", "为您寻觅世间软件", true, homePageData.getNew_item_list()));
-                    homePageLists.add(new HomePageList(3, "福利功能", "会员永久免费试用", false, homePageData.getHome_sale_item()));
-                    homeFragmentAdapter.setNewData(homePageLists);
-                }
-            }
 
-            @Override
-            public void onFail(int errorCode, String errorMsg) {
-                ToastUtils.showToast(errorMsg);
-            }
-        });
+    private void getHomeDynamic() {
+        Observable<ApiResponse<HomePageData>> homePageData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomePageDataInfo(UserInfo.getUserToken());
+        Observable<ApiResponse<HomeDynamicInfo>> homeDynamicData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomeDynamicDataInfo(UserInfo.getUserToken());
+        if (homePageLists.isEmpty()) homePageLists.clear();
+        Observable.merge(homePageData, homeDynamicData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ApiResponse<? extends Object>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse<?> apiResponse) {
+                        if (apiResponse.getData() instanceof HomePageData) {
+                            HomePageData homePageData = (HomePageData) apiResponse.getData();
+                            if (homePageData != null) {
+                                homePageLists.add(new HomePageList(1, "热销榜", "最受欢迎的应用软件", true, homePageData.getHome_sale_item()));
+                                homePageLists.add(new HomePageList(2, "新品首发", "为您寻觅世间软件", true, homePageData.getNew_item_list()));
+                            }
+                        } else if (apiResponse.getData() instanceof HomeDynamicInfo) {
+                            HomeDynamicInfo homeDynamicInfo = (HomeDynamicInfo) apiResponse.getData();
+                            if (homeDynamicInfo != null) {
+                                homePageLists.add(new HomePageList(3, "福利功能", "会员永久免费试用", false, new ArrayList<>(), homeDynamicInfo.getVip_rule_list()));
+
+                                List<MallLeftList> categoryList = homeDynamicInfo.getCategory_list();
+                                if (categoryList != null && !categoryList.isEmpty()) {
+                                    homeCategoryListAdapter.setNewData(categoryList);
+                                }
+                                List<BannerList> bannerList = homeDynamicInfo.getHome_list();
+                                if (bannerList != null && !bannerList.isEmpty()) {
+                                    BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(bannerList, 2);
+                                    mBinding.homeBanner.setAdapter(bannerImageAdapter).start();
+                                }
+                                List<BannerList> slideshowList = homeDynamicInfo.getSlide_list();
+                                if (slideshowList != null && !slideshowList.isEmpty()) {
+                                    BannerImageAdapter bannerAdapter = new BannerImageAdapter(bannerList, 2);
+                                    mBinding.leftSlideshow.setAdapter(bannerAdapter).start();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (homePageLists != null && !homePageLists.isEmpty()) {
+                            homeFragmentAdapter.setNewData(homePageLists);
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -110,7 +145,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
-        columnListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        homeCategoryListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(ColumnListActivity.class);

@@ -1,20 +1,30 @@
 package com.zhowin.youmamall.home.activity;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
+import com.zhowin.base_library.callback.OnPasswordEditListener;
+import com.zhowin.base_library.dialog.PasswordDialog;
+import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SplitUtils;
+import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
+import com.zhowin.base_library.view.PasswordEditText;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityConfirmOrderBinding;
+import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mine.activity.MyCouponActivity;
+import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
 
 /**
  * 确认订单
@@ -23,6 +33,8 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
 
 
     private GoodItem goodItem;
+    private int payType = 1;
+
 
     public static void start(Context context, GoodItem goodItem) {
         Intent intent = new Intent(context, ConfirmOrderActivity.class);
@@ -64,19 +76,76 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
                 MyCouponActivity.start(mContext, 2);
                 break;
             case R.id.tvSubmitOrder:
+                if (1 == payType) {
+                    setCommissionPaymentPassword();
+                } else {
+//                    confirmOrder();
+                }
                 break;
         }
+    }
+
+    private void setCommissionPaymentPassword() {
+        new CenterHitMessageDialog(mContext, "您尚未设置支付密码", new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+                showPayPasswordDialog();
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                SetPasswordActivity.start(mContext, 0);
+            }
+        }).setNegativeButton("再想想")
+                .setPositiveButton("去设置")
+                .show();
+    }
+
+    private void showPayPasswordDialog() {
+        PasswordDialog dialog = new PasswordDialog(mContext);
+        dialog.setOnPasswordEditListener(new OnPasswordEditListener() {
+            @Override
+            public void onCancelPayment() {
+
+            }
+
+            @Override
+            public void onDeterminePayment(String password) {
+                ToastUtils.showToast(password);
+                confirmOrder(password);
+            }
+        });
+        dialog.show();
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rbBalancePay:
+                payType = 1;
                 break;
             case R.id.rbWxPay:
+                payType = 3;
                 break;
             case R.id.rbZFBPay:
+                payType = 2;
                 break;
         }
+    }
+
+    private void confirmOrder(String password) {
+        showLoadDialog();
+        HttpRequest.confirmOrder(this, goodItem.getId(), payType, password, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 }

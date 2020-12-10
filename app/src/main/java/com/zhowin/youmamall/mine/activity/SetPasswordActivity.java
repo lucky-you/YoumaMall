@@ -17,6 +17,9 @@ import com.zhowin.youmamall.http.HttpRequest;
 
 import org.apache.http.params.HttpParams;
 
+/**
+ * 设置/修改 支付密码
+ */
 public class SetPasswordActivity extends BaseBindActivity<ActivitySetPasswordBinding> {
 
 

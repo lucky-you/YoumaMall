@@ -3,7 +3,7 @@ package com.zhowin.youmamall.mall.model;
 /**
  * author : zho
  * date  ：2020/12/8
- * desc ：
+ * desc ：分类
  */
 public class MallLeftList {
 

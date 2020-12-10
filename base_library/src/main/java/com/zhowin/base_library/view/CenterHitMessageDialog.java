@@ -22,7 +22,7 @@ import com.zhowin.base_library.utils.SizeUtils;
 public class CenterHitMessageDialog extends Dialog implements View.OnClickListener {
 
     private Context mContext;
-    private TextView tvContentTitle, tvPositiveTxt, tvNegativeTxt;
+    private TextView tvContentTitle,tvNegativeTxt,tvPositiveTxt;
     private String contentTitle;
     private String positiveText;
     private String negativeText;
@@ -104,18 +104,18 @@ public class CenterHitMessageDialog extends Dialog implements View.OnClickListen
 
     private void initViews() {
         tvContentTitle = findViewById(R.id.tvContentTitle);
-        tvPositiveTxt = findViewById(R.id.tvCancel);
-        tvNegativeTxt = findViewById(R.id.tvDetermine);
-        tvPositiveTxt.setOnClickListener(this);
+        tvNegativeTxt = findViewById(R.id.tvNegative);
+        tvPositiveTxt = findViewById(R.id.tvPositive);
         tvNegativeTxt.setOnClickListener(this);
+        tvPositiveTxt.setOnClickListener(this);
         if (!TextUtils.isEmpty(contentTitle)) {
             tvContentTitle.setText(contentTitle);
         }
-        if (!TextUtils.isEmpty(positiveText)) {
-            tvPositiveTxt.setText(positiveText);
-        }
         if (!TextUtils.isEmpty(negativeText)) {
             tvNegativeTxt.setText(negativeText);
+        }
+        if (!TextUtils.isEmpty(positiveText)) {
+            tvPositiveTxt.setText(positiveText);
         }
         if (contentTextColor != 0) {
             tvContentTitle.setTextColor(contentTextColor);
@@ -133,12 +133,12 @@ public class CenterHitMessageDialog extends Dialog implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.tvCancel) {
+        if (id == R.id.tvNegative) {
             if (onCenterHitMessageListener != null) {
                 onCenterHitMessageListener.onNegativeClick(this);
             }
             dismiss();
-        } else if (id == R.id.tvDetermine) {
+        } else if (id == R.id.tvPositive) {
             if (onCenterHitMessageListener != null) {
                 onCenterHitMessageListener.onPositiveClick(this);
             }

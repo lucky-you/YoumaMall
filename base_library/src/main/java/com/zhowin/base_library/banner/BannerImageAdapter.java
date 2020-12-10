@@ -21,11 +21,11 @@ import java.util.List;
  * date :2020/5/18 12:08
  * description: 加载图片的banner
  */
-public class BannerImageAdapter extends BannerAdapter<String, BannerImageAdapter.ViewHolder> {
+public class BannerImageAdapter extends BannerAdapter<BannerList, BannerImageAdapter.ViewHolder> {
 
     protected int imageType;
 
-    public BannerImageAdapter(List<String> dates, int type) {
+    public BannerImageAdapter(List<BannerList> dates, int type) {
         super(dates);
         this.imageType = type;
     }
@@ -61,9 +61,9 @@ public class BannerImageAdapter extends BannerAdapter<String, BannerImageAdapter
     }
 
     @Override
-    public void onBindView(ViewHolder holder, String data, int position, int size) {
-        if (!TextUtils.isEmpty(data))
-            GlideUtils.loadObjectImage(holder.imageView.getContext(), data, holder.imageView);
+    public void onBindView(ViewHolder holder, BannerList data, int position, int size) {
+        if (!TextUtils.isEmpty(data.getImage()))
+            GlideUtils.loadObjectImage(holder.imageView.getContext(), data.getImage(), holder.imageView);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

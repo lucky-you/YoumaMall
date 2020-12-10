@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-import com.zhowin.base_library.http.ApiResponse;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.BaseResponse;
@@ -16,6 +15,7 @@ import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
+import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
@@ -408,6 +408,69 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(HomePageData demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 首页banner 和 福利功能
+     */
+    public static void getHomeDynamicDataInfo(LifecycleOwner activity, final HttpCallBack<HomeDynamicInfo> callBack) {
+        apiRequest.getHomeDynamicDataInfo(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<HomeDynamicInfo>() {
+
+                    @Override
+                    public void onSuccess(HomeDynamicInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 提交订单
+     */
+    public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, final HttpCallBack<Object> callBack) {
+        apiRequest.confirmOrder(UserInfo.getUserToken(), id, type, password)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 商品下架
+     */
+    public static void goodOffShelf(LifecycleOwner activity, int id, final HttpCallBack<Object> callBack) {
+        apiRequest.goodOffShelf(UserInfo.getUserToken(), id)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
                         callBack.onSuccess(demo);
                     }
 

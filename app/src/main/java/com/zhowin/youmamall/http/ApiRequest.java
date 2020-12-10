@@ -5,9 +5,11 @@ import com.zhowin.base_library.http.ApiResponse;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.qiniu.QiNiuYunBean;
+import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
+import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
@@ -30,8 +32,8 @@ import retrofit2.http.Url;
  */
 public interface ApiRequest {
 
-    String TOKEN = "token";
 
+    String TOKEN = "token";
     //注册
     String REGISTER = "api/user/register";
 
@@ -87,7 +89,13 @@ public interface ApiRequest {
     String GET_HOME_PAGE_DATA_LIST_URL = "api/item/home_list";
 
     //首页banner/vip数据
-    String GET_HOME_BANNER_AND_VIP_DATA_URL = "";
+    String GET_HOME_BANNER_AND_VIP_DATA_URL = "api/banner/home_list";
+
+    //提交订单
+    String CONFIRM_ORDER_URL = "api/trade_order/confirm";
+
+    //下架商品
+    String GOOD_OFF_SHELF_URL = "api/merchant/shelf";
 
 
     /**
@@ -195,6 +203,7 @@ public interface ApiRequest {
     /**
      * 设置支付密码
      */
+    @FormUrlEncoded
     @POST(SET_PAY_PASSWORD_URL)
     Observable<ApiResponse<Object>> setPayPassword(@Header(TOKEN) String token, @Field("password") String password, @Field("pay_password") String pay_password, @Field("pay_password_again") String pay_password_again);
 
@@ -202,6 +211,7 @@ public interface ApiRequest {
     /**
      * 重置密码
      */
+    @FormUrlEncoded
     @POST(FOR_GET_PASSWORD_URL)
     Observable<ApiResponse<Object>> setResetPassword(@Header(TOKEN) String token, @Field("mobile") String mobile, @Field("newpassword") String newpassword, @Field("captcha") String captcha);
 
@@ -211,4 +221,27 @@ public interface ApiRequest {
 
     @POST(GET_HOME_PAGE_DATA_LIST_URL)
     Observable<ApiResponse<HomePageData>> getHomePageDataInfo(@Header(TOKEN) String token);
+
+
+    /**
+     * 首页banner、动态，福利数据
+     */
+    @POST(GET_HOME_BANNER_AND_VIP_DATA_URL)
+    Observable<ApiResponse<HomeDynamicInfo>> getHomeDynamicDataInfo(@Header(TOKEN) String token);
+
+    /**
+     * 提交订单
+     */
+    @FormUrlEncoded
+    @POST(CONFIRM_ORDER_URL)
+    Observable<ApiResponse<Object>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password);
+
+
+    /**
+     * 商品的下架
+     */
+    @FormUrlEncoded
+    @POST(GOOD_OFF_SHELF_URL)
+    Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Field("id") int id);
+
 }

@@ -6,6 +6,7 @@
     android:layout_margin="4dp">
 
     <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/rivBackground"
         android:layout_width="match_parent"
         android:layout_height="76dp"
         android:scaleType="centerCrop"
@@ -18,9 +19,10 @@
 
     <ImageView
         android:id="@+id/ivIconImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/icon_wx_circle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -22,14 +22,9 @@ public class HomePageList {
     private String leftDesc;
     private boolean isShowRight;
     private List<MallRightList> goodDataList;
+    private List<VipWelfareList> vipWelfareList;
 
 
-    public HomePageList(int itemType, String leftTitle, String leftDesc, boolean isShowRight) {
-        this.itemType = itemType;
-        this.leftTitle = leftTitle;
-        this.leftDesc = leftDesc;
-        this.isShowRight = isShowRight;
-    }
 
 
     public HomePageList(int itemType, String leftTitle, String leftDesc, boolean isShowRight, List<MallRightList> goodDataList) {
@@ -38,6 +33,15 @@ public class HomePageList {
         this.leftDesc = leftDesc;
         this.isShowRight = isShowRight;
         this.goodDataList = goodDataList;
+    }
+
+    public HomePageList(int itemType, String leftTitle, String leftDesc, boolean isShowRight, List<MallRightList> goodDataList, List<VipWelfareList> vipWelfareList) {
+        this.itemType = itemType;
+        this.leftTitle = leftTitle;
+        this.leftDesc = leftDesc;
+        this.isShowRight = isShowRight;
+        this.goodDataList = goodDataList;
+        this.vipWelfareList = vipWelfareList;
     }
 
     public int getItemType() {
@@ -78,5 +82,14 @@ public class HomePageList {
 
     public void setGoodDataList(List<MallRightList> goodDataList) {
         this.goodDataList = goodDataList;
+    }
+
+
+    public List<VipWelfareList> getVipWelfareList() {
+        return vipWelfareList;
+    }
+
+    public void setVipWelfareList(List<VipWelfareList> vipWelfareList) {
+        this.vipWelfareList = vipWelfareList;
     }
 }

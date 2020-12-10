@@ -6,14 +6,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.content.Intent;
 
+import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.DivideLineItemDecoration;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityProductListBinding;
+import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.adapter.GoodSoldListAdapter;
 import com.zhowin.youmamall.mine.adapter.ProductListAdapter;
 import com.zhowin.youmamall.mine.adapter.SalesTurnoverAdapter;
+import com.zhowin.youmamall.mine.callback.OnProductItemClickListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +25,7 @@ import java.util.List;
 /**
  * 商品列表 已售商品 销售流水 共用
  */
-public class ProductListActivity extends BaseBindActivity<ActivityProductListBinding> {
+public class ProductListActivity extends BaseBindActivity<ActivityProductListBinding> implements OnProductItemClickListener {
 
     private int jumpPosition;
 
@@ -67,13 +71,14 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
             case 1:
                 productListAdapter = new ProductListAdapter(stringList);
                 mBinding.recyclerView.setAdapter(productListAdapter);
+                productListAdapter.setOnProductItemClickListener(this);
                 break;
             case 2:
-                goodSoldListAdapter=new GoodSoldListAdapter(stringList);
+                goodSoldListAdapter = new GoodSoldListAdapter(stringList);
                 mBinding.recyclerView.setAdapter(goodSoldListAdapter);
                 break;
             case 3:
-                salesTurnoverAdapter=new SalesTurnoverAdapter(stringList);
+                salesTurnoverAdapter = new SalesTurnoverAdapter(stringList);
                 mBinding.recyclerView.setAdapter(salesTurnoverAdapter);
                 break;
         }
@@ -85,6 +90,43 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
             @Override
             public void onRefresh() {
                 mBinding.refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    public void onItemRootLayoutClick() {
+
+    }
+
+    @Override
+    public void onChangeContentClick() {
+
+    }
+
+    @Override
+    public void onItemOffShelf(int itemId) {
+        goodOffShelf(itemId);
+    }
+
+    @Override
+    public void onEnterCardSecret() {
+        startActivity(CardPasswordActivity.class);
+    }
+
+    private void goodOffShelf(int itemId) {
+        showLoadDialog();
+        HttpRequest.goodOffShelf(this, itemId, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
             }
         });
     }

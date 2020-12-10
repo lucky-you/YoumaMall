@@ -1,4 +1,4 @@
-package com.zhowin.youmamall.home.model;
+package com.zhowin.youmamall.mine.model;
 
 /**
  * author : zho

@@ -70,11 +70,7 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
                 homeXPSFAdapter.setOnGoodCardItemClickListener(onGoodCardItemClickListener);
                 break;
             case 3: //福利功能
-                List<String> stringListThree = new ArrayList<>();
-                for (int i = 0; i < 12; i++) {
-                    stringListThree.add("0");
-                }
-                HomeFLGNAdapter homeFLGNAdapter = new HomeFLGNAdapter(stringListThree);
+                HomeFLGNAdapter homeFLGNAdapter = new HomeFLGNAdapter(item.getVipWelfareList());
                 FeaturesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
                 FeaturesRecyclerView.setAdapter(homeFLGNAdapter);
                 break;
