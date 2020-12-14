@@ -25,6 +25,7 @@ import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mine.activity.MyCouponActivity;
 import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
+import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 /**
  * 确认订单
@@ -34,7 +35,6 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
 
     private GoodItem goodItem;
     private int payType = 1;
-
 
     public static void start(Context context, GoodItem goodItem) {
         Intent intent = new Intent(context, ConfirmOrderActivity.class);
@@ -135,9 +135,9 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
 
     private void confirmOrder(String password) {
         showLoadDialog();
-        HttpRequest.confirmOrder(this, goodItem.getId(), payType, password, new HttpCallBack<Object>() {
+        HttpRequest.confirmOrder(this, goodItem.getId(), payType, password, new HttpCallBack<PaymentReqInfo>() {
             @Override
-            public void onSuccess(Object o) {
+            public void onSuccess(PaymentReqInfo o) {
                 dismissLoadDialog();
             }
 

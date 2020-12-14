@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_top_radius_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"
+        android:text="支付方式"
+        android:textColor="@color/color_333"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <View style="@style/DivideLineStyle" />
+
+    <RadioGroup
+        android:id="@+id/rgPaymentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbBalancePay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/transparent"
+            android:button="@null"
+            android:drawableLeft="@drawable/icon_balance_pay"
+            android:drawableRight="@drawable/select_pay_choose_bg"
+            android:drawablePadding="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="余额支付"
+            android:textColor="@color/color_333"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/rbWxPay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/transparent"
+            android:button="@null"
+            android:drawableLeft="@drawable/icon_wx_pay"
+            android:drawableRight="@drawable/select_pay_choose_bg"
+            android:drawablePadding="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="微信支付"
+            android:textColor="@color/color_333"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/rbZFBPay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/transparent"
+            android:button="@null"
+            android:drawableLeft="@drawable/icon_zfb_pay"
+            android:drawableRight="@drawable/select_pay_choose_bg"
+            android:drawablePadding="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="支付宝支付"
+            android:textColor="@color/color_333"
+            android:textSize="15sp" />
+
+    </RadioGroup>
+
+    <View style="@style/DivideLineStyle" />
+
+    <TextView
+        android:id="@+id/tvPayment"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="16dp"
+        android:background="@drawable/shape_theme_color_22dp_bg"
+        android:gravity="center"
+        android:text="立即支付"
+        android:textColor="@color/color_333"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</LinearLayout>

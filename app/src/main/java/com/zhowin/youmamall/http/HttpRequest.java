@@ -20,6 +20,8 @@ import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
+import com.zhowin.youmamall.mine.model.DepositMessage;
+import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -443,14 +445,14 @@ public class HttpRequest {
     /**
      * 提交订单
      */
-    public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, final HttpCallBack<Object> callBack) {
+    public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, final HttpCallBack<PaymentReqInfo> callBack) {
         apiRequest.confirmOrder(UserInfo.getUserToken(), id, type, password)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<Object>() {
+                .subscribe(new ApiObserver<PaymentReqInfo>() {
 
                     @Override
-                    public void onSuccess(Object demo) {
+                    public void onSuccess(PaymentReqInfo demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -493,6 +495,48 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 保证金信息
+     */
+    public static void getDepositMessage(LifecycleOwner activity, final HttpCallBack<DepositMessage> callBack) {
+        apiRequest.getDepositMessage(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<DepositMessage>() {
+
+                    @Override
+                    public void onSuccess(DepositMessage demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 立即支付
+     */
+    public static void startDepositPayment(LifecycleOwner activity, int type, String password, final HttpCallBack<PaymentReqInfo> callBack) {
+        apiRequest.startDepositPayment(UserInfo.getUserToken(), type, password)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<PaymentReqInfo>() {
+
+                    @Override
+                    public void onSuccess(PaymentReqInfo demo) {
                         callBack.onSuccess(demo);
                     }
 

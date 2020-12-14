@@ -20,7 +20,12 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
+        flatDir {
+            dirs 'libs'
+        }
     }
+
+
 }
 
 task clean(type: Delete) {

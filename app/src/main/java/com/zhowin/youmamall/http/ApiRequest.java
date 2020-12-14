@@ -14,6 +14,8 @@ import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
+import com.zhowin.youmamall.mine.model.DepositMessage;
+import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +104,12 @@ public interface ApiRequest {
 
     // 录入卡密
     String ENTER_CARD_SECRET_URL = "api/merchant/enter";
+
+    //获取保证金信息
+    String GET_DEPOSIT_MESSAGE_URL = "api/merchant/is_open_merchant";
+
+    //立即支付
+    String START_PAYMENT_DEPOSIT_URL = "api/merchant/apply";
 
 
     /**
@@ -240,7 +248,7 @@ public interface ApiRequest {
      */
     @FormUrlEncoded
     @POST(CONFIRM_ORDER_URL)
-    Observable<ApiResponse<Object>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password);
+    Observable<ApiResponse<PaymentReqInfo>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password);
 
 
     /**
@@ -256,5 +264,22 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(ENTER_CARD_SECRET_URL)
     Observable<ApiResponse<Object>> onEnterCardSecret(@Header(TOKEN) String token, @Field("id") int id, @Field("content") String content);
+
+
+    /**
+     * 获取保证金
+     */
+    @POST(GET_DEPOSIT_MESSAGE_URL)
+    Observable<ApiResponse<DepositMessage>> getDepositMessage(@Header(TOKEN) String token);
+
+
+    /**
+     * 立即入住
+     */
+
+    @FormUrlEncoded
+    @POST(START_PAYMENT_DEPOSIT_URL)
+    Observable<ApiResponse<PaymentReqInfo>> startDepositPayment(@Header(TOKEN) String token, @Field("type") int type, @Field("pay_password") String pay_password);
+
 
 }

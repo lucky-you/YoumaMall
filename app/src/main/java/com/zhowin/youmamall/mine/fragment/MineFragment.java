@@ -19,6 +19,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
+import com.zhowin.youmamall.mine.activity.DepositActivity;
 import com.zhowin.youmamall.mine.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.mine.model.ColumnList;
 import com.zhowin.youmamall.http.HttpRequest;
@@ -53,7 +54,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     @Override
     public void initView() {
         setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout,
-                R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout
+                R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout,R.id.tvOpenStore
         );
 
     }
@@ -140,6 +141,10 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 break;
             case R.id.llZXDPLayout:
                 showOutLoginDialog(2, "确定要注销吗?");
+                break;
+
+            case R.id.tvOpenStore:
+                startActivity(DepositActivity.class);
                 break;
         }
     }

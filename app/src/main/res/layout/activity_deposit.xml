@@ -34,15 +34,16 @@
                 android:textColor="@color/color_333"
                 android:textSize="14sp" />
 
-            <EditText
+            <TextView
+                android:id="@+id/tvDepositMoney"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="7"
                 android:background="@null"
-                android:hint="请输入保证金"
+                android:gravity="center_vertical"
+                android:text=""
                 android:textColor="@color/color_333"
-                android:textColorHint="@color/color_999"
                 android:textSize="15sp" />
 
             <TextView
@@ -79,13 +80,14 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:layout_weight="5" />
+                android:layout_weight="4.5" />
 
             <TextView
+                android:id="@+id/tvPaymentType"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="2.5"
+                android:layout_weight="3"
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:drawablePadding="6dp"
                 android:gravity="right|center"
@@ -111,6 +113,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvHitDepositMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
