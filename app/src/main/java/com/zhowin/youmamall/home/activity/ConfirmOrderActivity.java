@@ -12,6 +12,7 @@ import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.callback.OnPasswordEditListener;
 import com.zhowin.base_library.dialog.PasswordDialog;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SplitUtils;
@@ -77,7 +78,12 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
                 break;
             case R.id.tvSubmitOrder:
                 if (1 == payType) {
-                    setCommissionPaymentPassword();
+                    int isSetPassword=  UserInfo.getUserInfo().getIs_pay_pwd();
+                    if (1==isSetPassword){
+                        showPayPasswordDialog();
+                    }else {
+                        setCommissionPaymentPassword();
+                    }
                 } else {
 //                    confirmOrder();
                 }

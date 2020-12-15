@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.mine.dialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -42,14 +43,25 @@ public class SelectPaymentTypeDialog extends BaseDialogFragment implements Radio
 
     @Override
     public void initView() {
+        payType = getArguments().getInt(ConstantValue.TYPE);
+        Log.e("xy", "payType:" + payType);
         get(R.id.tvPayment).setOnClickListener(this::onViewClick);
         RadioGroup radioGroup = get(R.id.rgPaymentButton);
         rbBalancePay = get(R.id.rbBalancePay);
         rbZFBPay = get(R.id.rbZFBPay);
         rbWxPay = get(R.id.rbWxPay);
+        switch (payType) {
+            case 1:
+                radioGroup.check(R.id.rbBalancePay);
+                break;
+            case 2:
+                radioGroup.check(R.id.rbZFBPay);
+                break;
+            case 3:
+                radioGroup.check(R.id.rbWxPay);
+                break;
+        }
         radioGroup.setOnCheckedChangeListener(this::onCheckedChanged);
-        payType = getArguments().getInt(ConstantValue.TYPE);
-
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.ToastUtils;
@@ -83,6 +84,7 @@ public class SetPasswordActivity extends BaseBindActivity<ActivitySetPasswordBin
             public void onSuccess(Object o) {
                 dismissLoadDialog();
                 ToastUtils.showToast("操作成功");
+                UserInfo.getUserInfo().setIs_pay_pwd(1);
                 ActivityManager.getAppInstance().finishActivity();
             }
 
