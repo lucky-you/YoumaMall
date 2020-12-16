@@ -54,7 +54,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     @Override
     public void initView() {
         setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout,
-                R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout,R.id.tvOpenStore
+                R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout, R.id.tvOpenStore
         );
 
     }
@@ -104,7 +104,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
-
+                ToastUtils.showToast(errorMsg);
             }
         });
     }
@@ -142,7 +142,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             case R.id.llZXDPLayout:
                 showOutLoginDialog(2, "确定要注销吗?");
                 break;
-
             case R.id.tvOpenStore:
                 startActivity(DepositActivity.class);
                 break;
