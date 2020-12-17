@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 优惠券 和 账号流水
+ * 账号流水  和 优惠券
  */
 public class MyCouponActivity extends BaseBindActivity<ActivityMyCouponBinding> {
 

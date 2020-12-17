@@ -19,6 +19,7 @@ import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
+import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
@@ -537,6 +538,28 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(PaymentReqInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 账号流水
+     */
+    public static void getAccountTurnoverList(LifecycleOwner activity, boolean isWithdraw, int page, int size, final HttpCallBack<BaseResponse<AccountTurnoverList>> callBack) {
+        String url = isWithdraw ? ApiRequest.WITHDRAWALS_RECORD_LIST_URL : ApiRequest.ACCOUNT_TURNOVER_LIST_URL;
+        apiRequest.getAccountTurnoverList(UserInfo.getUserToken(), url,page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<AccountTurnoverList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<AccountTurnoverList> demo) {
                         callBack.onSuccess(demo);
                     }
 

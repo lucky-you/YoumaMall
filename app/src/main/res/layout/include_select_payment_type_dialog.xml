@@ -22,7 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <RadioButton
             android:id="@+id/rbBalancePay"
@@ -33,11 +35,10 @@
             android:drawableLeft="@drawable/icon_balance_pay"
             android:drawableRight="@drawable/select_pay_choose_bg"
             android:drawablePadding="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:text="余额支付"
             android:textColor="@color/color_333"
             android:textSize="15sp" />
+
 
         <RadioButton
             android:id="@+id/rbWxPay"
@@ -48,11 +49,10 @@
             android:drawableLeft="@drawable/icon_wx_pay"
             android:drawableRight="@drawable/select_pay_choose_bg"
             android:drawablePadding="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:text="微信支付"
             android:textColor="@color/color_333"
             android:textSize="15sp" />
+
 
         <RadioButton
             android:id="@+id/rbZFBPay"
@@ -63,8 +63,6 @@
             android:drawableLeft="@drawable/icon_zfb_pay"
             android:drawableRight="@drawable/select_pay_choose_bg"
             android:drawablePadding="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:text="支付宝支付"
             android:textColor="@color/color_333"
             android:textSize="15sp" />

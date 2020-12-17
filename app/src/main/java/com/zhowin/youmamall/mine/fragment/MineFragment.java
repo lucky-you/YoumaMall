@@ -20,6 +20,7 @@ import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
 import com.zhowin.youmamall.mine.activity.DepositActivity;
+import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 import com.zhowin.youmamall.mine.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.mine.model.ColumnList;
 import com.zhowin.youmamall.http.HttpRequest;
@@ -162,6 +163,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
             case 0:
+                OpenAgentActivity.start(mContext, 1);
                 break;
             case 1:
                 break;

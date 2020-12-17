@@ -1,5 +1,7 @@
 package com.zhowin.youmamall.mall.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * author : zho
  * date  ：2020/12/9
@@ -9,30 +11,30 @@ public class MallRightList {
 
 
     /**
-     * id : 1
-     * name : Camtasia
-     * shop_category_id : 2
-     * image : https://png.lxxxin.com/uploads/20201128/Fr1DHsZK1gnfHhAXsHE8CGN47s7Z.png
-     * price : 20.00
+     * id : 6
+     * name : 微微助手
+     * shop_category_id : 1
+     * image : https://png.lxxxin.com/uploads/20201207/FmjxCwReF6c_I9GXZudKvyQ-ZhLl.jpg
+     * price : 50.00
      * original_price : 0.00
-     * contact : 123466898
-     * content : 111
+     * contact : @
+     * content : dddd
      * status : 1
      * type : 1
      * user_id : 0
-     * sale : 6
+     * sale : 4
      * examine : 1
-     * weigh : 1
-     * createtime : 1606567300
-     * updatetime : 1607070311
-     * commission : null
+     * weigh : 6
+     * createtime : 1607354025
+     * updatetime : 1607425862
+     * commission : {"1":"1","2":"2","3":"4","4":"5","5":"7"}
      * sales_volume : 0
      * pay_num : 0
      * is_vip : 0
      * merchant_id : 0
      * is_del : 0
      * available_money : 0.00
-     * commission_money : 0
+     * commission_money : 1
      */
 
     private int id;
@@ -58,7 +60,7 @@ public class MallRightList {
     private int merchant_id;
     private int is_del;
     private String available_money;
-    private int commission_money;
+    private String commission_money;
 
     public int getId() {
         return id;
@@ -244,11 +246,13 @@ public class MallRightList {
         this.available_money = available_money;
     }
 
-    public int getCommission_money() {
+    public String getCommission_money() {
         return commission_money;
     }
 
-    public void setCommission_money(int commission_money) {
+    public void setCommission_money(String commission_money) {
         this.commission_money = commission_money;
     }
+
+
 }

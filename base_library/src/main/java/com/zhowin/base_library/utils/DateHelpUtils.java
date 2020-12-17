@@ -30,6 +30,12 @@ public class DateHelpUtils {
         return format.format(date);
     }
 
+    public static String getStringDate(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
+    }
+
     /**
      * 没有秒
      */
@@ -38,8 +44,6 @@ public class DateHelpUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(date);
     }
-
-
 
 
     public static String getCurrentDayNotYear(long timeStamp) {

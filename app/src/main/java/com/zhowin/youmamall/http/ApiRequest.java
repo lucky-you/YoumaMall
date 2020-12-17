@@ -13,6 +13,7 @@ import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
+import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
@@ -110,6 +111,12 @@ public interface ApiRequest {
 
     //立即支付
     String START_PAYMENT_DEPOSIT_URL = "api/merchant/apply";
+
+    //账号流水
+    String ACCOUNT_TURNOVER_LIST_URL = "api/money_log/list";
+
+    //提现记录
+    String WITHDRAWALS_RECORD_LIST_URL = "api/withdraw/list";
 
 
     /**
@@ -281,5 +288,12 @@ public interface ApiRequest {
     @POST(START_PAYMENT_DEPOSIT_URL)
     Observable<ApiResponse<PaymentReqInfo>> startDepositPayment(@Header(TOKEN) String token, @Field("type") int type, @Field("pay_password") String pay_password);
 
+
+    /**
+     * 账号流水
+     */
+    @FormUrlEncoded
+    @POST
+    Observable<ApiResponse<BaseResponse<AccountTurnoverList>>> getAccountTurnoverList(@Header(TOKEN) String token,@Url String url, @Field("page") int pageNum, @Field("size") int pageSize);
 
 }

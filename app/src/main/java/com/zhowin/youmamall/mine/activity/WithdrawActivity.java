@@ -1,6 +1,8 @@
 package com.zhowin.youmamall.mine.activity;
 
 
+import android.view.View;
+
 import com.zhowin.base_library.utils.SpanUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
@@ -19,6 +21,8 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
 
     @Override
     public void initView() {
+
+        setOnClick(R.id.tvConfirmSubmission);
         SpanUtils.with(mBinding.tvHitMessage)
                 .appendLine("温馨提示：").setBold()
                 .appendLine()
@@ -31,5 +35,14 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
     @Override
     public void initData() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvConfirmSubmission:
+
+                break;
+        }
     }
 }
