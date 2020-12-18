@@ -1,11 +1,14 @@
 package com.zhowin.youmamall.mine.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ActivityManager;
+import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
@@ -17,6 +20,15 @@ import com.zhowin.youmamall.http.HttpRequest;
  */
 public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordBinding> {
 
+    private int goodId;
+
+
+    public static void start(Context context, int goodId) {
+        Intent intent = new Intent(context, CardPasswordActivity.class);
+        intent.putExtra(ConstantValue.ID, goodId);
+        context.startActivity(intent);
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -25,6 +37,7 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
 
     @Override
     public void initView() {
+        goodId = getIntent().getIntExtra(ConstantValue.ID, -1);
         setOnClick(R.id.tvCardPasswordLogin);
     }
 
@@ -49,7 +62,7 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
 
     private void onEnterCardSecret(String content) {
         showLoadDialog();
-        HttpRequest.onEnterCardSecret(this, 1, content, new HttpCallBack<Object>() {
+        HttpRequest.onEnterCardSecret(this, goodId, content, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();

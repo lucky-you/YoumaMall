@@ -1,5 +1,7 @@
 package com.zhowin.youmamall.mine.callback;
 
+import com.zhowin.youmamall.mall.model.MallRightList;
+
 /**
  * author : zho
  * date  ：2020/12/10
@@ -8,12 +10,12 @@ package com.zhowin.youmamall.mine.callback;
 public interface OnProductItemClickListener {
 
 
-    void onItemRootLayoutClick();
+    void onItemRootLayoutClick(MallRightList mallRightList);
 
-    void onChangeContentClick();
+    void onChangeContentClick(MallRightList mallRightList);
 
-    void onItemOffShelf(int itemId);
+    void onItemOffShelf(int itemId,int goodStatus,int position);
 
-    void onEnterCardSecret();
+    void onEnterCardSecret(MallRightList mallRightList);
 
 }

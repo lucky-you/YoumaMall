@@ -76,7 +76,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                     selectList.clear();
                     qinIuImages.clear();
                 }
-                requestPermission(2, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
+                requestPermission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
             }
 
             @Override
@@ -142,7 +142,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
     }
 
 
-    private void requestPermission(int type, @PermissionDef String... permissions) {
+    private void requestPermission(@PermissionDef String... permissions) {
         AndPermissionUtils.requestPermission(mContext, new AndPermissionListener() {
             @Override
             public void PermissionSuccess(List<String> permissions) {

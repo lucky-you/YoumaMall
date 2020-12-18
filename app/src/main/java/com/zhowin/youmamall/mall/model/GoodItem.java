@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * author : zho
  * date  ：2020/12/9
- * desc ：
+ * desc ： 商品的基本信息
  */
 public class GoodItem implements Parcelable {
 

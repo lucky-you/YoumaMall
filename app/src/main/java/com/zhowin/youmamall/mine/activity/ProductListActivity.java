@@ -3,22 +3,32 @@ package com.zhowin.youmamall.mine.activity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.base_library.widget.DivideLineItemDecoration;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityProductListBinding;
 import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.mall.model.GoodItem;
+import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.adapter.GoodSoldListAdapter;
 import com.zhowin.youmamall.mine.adapter.ProductListAdapter;
 import com.zhowin.youmamall.mine.adapter.SalesTurnoverAdapter;
 import com.zhowin.youmamall.mine.callback.OnProductItemClickListener;
+import com.zhowin.youmamall.mine.model.GoodInfo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,18 +38,15 @@ import java.util.List;
 public class ProductListActivity extends BaseBindActivity<ActivityProductListBinding> implements OnProductItemClickListener {
 
     private int jumpPosition;
-
     private ProductListAdapter productListAdapter;
     private GoodSoldListAdapter goodSoldListAdapter;
     private SalesTurnoverAdapter salesTurnoverAdapter;
-
 
     public static void start(Context context, int type) {
         Intent intent = new Intent(context, ProductListActivity.class);
         intent.putExtra(ConstantValue.TYPE, type);
         context.startActivity(intent);
     }
-
 
     @Override
     public int getLayoutId() {
@@ -69,9 +76,16 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
         mBinding.recyclerView.addItemDecoration(new DivideLineItemDecoration(mContext, getBaseColor(R.color.color_f6f6f6), 1));
         switch (jumpPosition) {
             case 1:
-                productListAdapter = new ProductListAdapter(stringList);
+                getGoodList(true);
+                productListAdapter = new ProductListAdapter(new ArrayList<>());
                 mBinding.recyclerView.setAdapter(productListAdapter);
                 productListAdapter.setOnProductItemClickListener(this);
+                productListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                    @Override
+                    public void onLoadMoreRequested() {
+                        getGoodList(false);
+                    }
+                }, mBinding.recyclerView);
                 break;
             case 2:
                 goodSoldListAdapter = new GoodSoldListAdapter(stringList);
@@ -84,44 +98,117 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
         }
     }
 
+    private void getGoodList(boolean isRefresh) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
+        showLoadDialog();
+        HttpRequest.getGoodList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+            @Override
+            public void onSuccess(BaseResponse<MallRightList> baseResponse) {
+                dismissLoadDialog();
+                if (baseResponse != null) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (baseResponse.getData() != null && !baseResponse.getData().isEmpty()) {
+                        if (isRefresh) {
+                            productListAdapter.setNewData(baseResponse.getData());
+                        } else {
+                            productListAdapter.addData(baseResponse.getData());
+                        }
+                        if (baseResponse.getData().size() < pageNumber) {
+                            productListAdapter.loadMoreEnd(true);
+                        } else {
+                            productListAdapter.loadMoreComplete();
+                        }
+                    } else {
+                        EmptyViewUtils.bindEmptyView(mContext, productListAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
+
     @Override
     public void initListener() {
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                switch (jumpPosition) {
+                    case 1:
+                        getGoodList(true);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
     }
 
     @Override
-    public void onItemRootLayoutClick() {
+    public void onItemRootLayoutClick(MallRightList mallRightList) {
 
     }
 
     @Override
-    public void onChangeContentClick() {
+    public void onChangeContentClick(MallRightList mallRightList) {
+        GoodInfo goodInfo = new GoodInfo();
+        goodInfo.setGoodId(mallRightList.getId());
+        goodInfo.setCategoryName(mallRightList.getCategory_name());
+        goodInfo.setCategoryId(mallRightList.getShop_category_id());
+        goodInfo.setGoodName(mallRightList.getName());
+        goodInfo.setGoodPrice(mallRightList.getPrice());
+        goodInfo.setGoodStatusName(1 == mallRightList.getType() ? "热销" : "推荐");
+        goodInfo.setGoodStatusId(mallRightList.getType());
+        goodInfo.setGoodContact(mallRightList.getContact());
+        goodInfo.setGoodContent(mallRightList.getContent());
+        goodInfo.setGoodImage(mallRightList.getImage());
+        ReleaseGoodActivity.start(mContext, true, goodInfo);
+    }
+
+    @Override
+    public void onItemOffShelf(int itemId, int goodStatus, int position) {
+        String hitTitle = 1 == goodStatus ? "确定要下架吗?" : "确定要上架吗?";
+        new CenterHitMessageDialog(mContext, hitTitle, new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                goodOffShelf(itemId, goodStatus, position);
+            }
+        }).show();
 
     }
 
     @Override
-    public void onItemOffShelf(int itemId) {
-        goodOffShelf(itemId);
+    public void onEnterCardSecret(MallRightList mallRightList) {
+        CardPasswordActivity.start(mContext, mallRightList.getId());
     }
 
-    @Override
-    public void onEnterCardSecret() {
-        startActivity(CardPasswordActivity.class);
-    }
-
-
-
-    private void goodOffShelf(int itemId) {
+    /**
+     * 下架
+     */
+    private void goodOffShelf(int itemId, int goodStatus, int position) {
         showLoadDialog();
-        HttpRequest.goodOffShelf(this, itemId, new HttpCallBack<Object>() {
+        HttpRequest.goodOffOrPutOnShelf(this, 0 == goodStatus, itemId, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
+                productListAdapter.getItem(position).setStatus(1 == goodStatus ? 0 : 1);
+                productListAdapter.notifyItemChanged(position);
             }
 
             @Override

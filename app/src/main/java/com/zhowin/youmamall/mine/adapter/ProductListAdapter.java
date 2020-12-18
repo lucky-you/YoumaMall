@@ -7,7 +7,9 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.callback.OnProductItemClickListener;
 
 import java.util.List;
@@ -15,11 +17,11 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/30
- * desc ：
+ * desc ：商品列表
  */
-public class ProductListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class ProductListAdapter extends BaseQuickAdapter<MallRightList, BaseViewHolder> {
 
-    public ProductListAdapter(@Nullable List<String> data) {
+    public ProductListAdapter(@Nullable List<MallRightList> data) {
         super(R.layout.include_product_list_item_view, data);
     }
 
@@ -30,22 +32,24 @@ public class ProductListAdapter extends BaseQuickAdapter<String, BaseViewHolder>
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, String item) {
-
+    protected void convert(@NonNull BaseViewHolder helper, MallRightList item) {
+        GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivLeftImage));
+        helper.setText(R.id.tvRightValue, item.getName())
+                .setText(R.id.tvOffShelf, 1 == item.getStatus() ? "下架" : "上架")
+                .setTextColor(R.id.tvOffShelf, 1 == item.getStatus() ? getItemTextColor(R.color.color_E83219) : getItemTextColor(R.color.color_333));
         helper.getView(R.id.clItemRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onItemRootLayoutClick();
+                    onProductItemClickListener.onItemRootLayoutClick(item);
                 }
             }
         });
-
         helper.getView(R.id.tvOffShelf).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onItemOffShelf(1);
+                    onProductItemClickListener.onItemOffShelf(item.getId(),item.getStatus(),helper.getAdapterPosition());
                 }
             }
         });
@@ -53,7 +57,7 @@ public class ProductListAdapter extends BaseQuickAdapter<String, BaseViewHolder>
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onChangeContentClick();
+                    onProductItemClickListener.onChangeContentClick(item);
                 }
             }
         });
@@ -61,9 +65,13 @@ public class ProductListAdapter extends BaseQuickAdapter<String, BaseViewHolder>
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onEnterCardSecret();
+                    onProductItemClickListener.onEnterCardSecret(item);
                 }
             }
         });
+    }
+
+    private int getItemTextColor(int color) {
+        return mContext.getResources().getColor(color);
     }
 }

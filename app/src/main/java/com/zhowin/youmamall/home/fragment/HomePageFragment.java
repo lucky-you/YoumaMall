@@ -148,7 +148,9 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         homeCategoryListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(ColumnListActivity.class);
+                String categoryTitle = homeCategoryListAdapter.getItem(position).getName();
+                int categoryId = homeCategoryListAdapter.getItem(position).getId();
+                ColumnListActivity.start(mContext, categoryTitle, categoryId);
             }
         });
     }

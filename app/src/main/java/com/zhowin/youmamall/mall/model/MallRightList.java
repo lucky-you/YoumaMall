@@ -1,6 +1,5 @@
 package com.zhowin.youmamall.mall.model;
 
-import com.google.gson.annotations.SerializedName;
 
 /**
  * author : zho
@@ -45,6 +44,7 @@ public class MallRightList {
     private String original_price;
     private String contact;
     private String content;
+    private String category_name;
     private int status;
     private int type;
     private int user_id;
@@ -254,5 +254,11 @@ public class MallRightList {
         this.commission_money = commission_money;
     }
 
+    public String getCategory_name() {
+        return category_name;
+    }
 
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
 }

@@ -34,6 +34,7 @@ import com.zhowin.youmamall.mine.activity.ReleaseGoodActivity;
 import com.zhowin.youmamall.mine.activity.SettingActivity;
 import com.zhowin.youmamall.mine.activity.ShareMaterialActivity;
 import com.zhowin.youmamall.mine.activity.WithdrawActivity;
+import com.zhowin.youmamall.mine.model.GoodInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 MallOrderListActivity.start(mContext, 4);
                 break;
             case R.id.tvReleaseGood:
-                startActivity(ReleaseGoodActivity.class);
+                ReleaseGoodActivity.start(mContext, false, new GoodInfo());
                 break;
             case R.id.llSPLBLayout:
                 ProductListActivity.start(mContext, 1);

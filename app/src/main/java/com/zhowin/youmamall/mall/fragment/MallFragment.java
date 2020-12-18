@@ -87,7 +87,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
 
     private void getMallRightList(int categoryId) {
-        HttpRequest.getMallRightList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+        HttpRequest.getMallRightList(this, true, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null) {

@@ -9,14 +9,24 @@ public class DepositMessage {
 
 
     /**
-     * is_pay : 0
-     * apply_merchant_money : 1
+     * is_open_merchant : 1
+     * is_pay : 1
+     * apply_merchant_money : 98
      * bond_detail : 保证金描述
      */
 
+    private int is_open_merchant;
     private int is_pay;
     private String apply_merchant_money;
     private String bond_detail;
+
+    public int getIs_open_merchant() {
+        return is_open_merchant;
+    }
+
+    public void setIs_open_merchant(int is_open_merchant) {
+        this.is_open_merchant = is_open_merchant;
+    }
 
     public int getIs_pay() {
         return is_pay;

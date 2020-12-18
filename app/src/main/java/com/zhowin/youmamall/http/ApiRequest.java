@@ -100,6 +100,9 @@ public interface ApiRequest {
     //下架商品
     String GOOD_OFF_SHELF_URL = "api/merchant/shelf";
 
+    //上架商品
+    String PUT_ON_THE_SHELF_URL = "api/merchant/grounding";
+
     //注销店铺
     String REMOVE_MERCHANT_LIST_URL = "api/merchant/remove";
 
@@ -117,6 +120,15 @@ public interface ApiRequest {
 
     //提现记录
     String WITHDRAWALS_RECORD_LIST_URL = "api/withdraw/list";
+
+    //发布、修改商品
+    String RELEASE_GOOD_URL = "api/merchant/release";
+
+    //获取用户商品列表
+    String GET_USER_GOOD_LIST_URL = "api/merchant/list";
+
+    //分类商品列表
+    String GET_COLUMN_GOOD_LIST_URL = "api/item/list";
 
 
     /**
@@ -205,8 +217,8 @@ public interface ApiRequest {
      * 商城右侧列表
      */
     @FormUrlEncoded
-    @POST(MALL_GOOD_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Field("shop_category_id") int shop_category_id, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Url String url, @Field("shop_category_id") int shop_category_id, @Field("page") int pageNum, @Field("size") int pageSize);
 
     /**
      * 商品详情
@@ -262,8 +274,8 @@ public interface ApiRequest {
      * 商品的下架
      */
     @FormUrlEncoded
-    @POST(GOOD_OFF_SHELF_URL)
-    Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Field("id") int id);
+    @POST
+    Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Url String url, @Field("id") int id);
 
     /**
      * 录入卡密
@@ -294,6 +306,21 @@ public interface ApiRequest {
      */
     @FormUrlEncoded
     @POST
-    Observable<ApiResponse<BaseResponse<AccountTurnoverList>>> getAccountTurnoverList(@Header(TOKEN) String token,@Url String url, @Field("page") int pageNum, @Field("size") int pageSize);
+    Observable<ApiResponse<BaseResponse<AccountTurnoverList>>> getAccountTurnoverList(@Header(TOKEN) String token, @Url String url, @Field("page") int pageNum, @Field("size") int pageSize);
+
+
+    /**
+     * 发布、修改商品
+     */
+    @FormUrlEncoded
+    @POST(RELEASE_GOOD_URL)
+    Observable<ApiResponse<Object>> releaseOrChangeGood(@Header(TOKEN) String token, @FieldMap HashMap<String, Object> map);
+
+    /**
+     * 用户商品列表
+     */
+    @FormUrlEncoded
+    @POST(GET_USER_GOOD_LIST_URL)
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getGoodList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
 
 }

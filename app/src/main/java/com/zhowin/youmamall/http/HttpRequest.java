@@ -297,10 +297,11 @@ public class HttpRequest {
     }
 
     /**
-     * 商城右侧分类
+     * 商城右侧分类商品  和 首页分类商品公用
      */
-    public static void getMallRightList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
-        apiRequest.getMallRightList(UserInfo.getUserToken(), category_id, page, size)
+    public static void getMallRightList(LifecycleOwner activity, boolean isMallRight, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
+        String url = isMallRight ? ApiRequest.MALL_GOOD_LIST_URL : ApiRequest.GET_COLUMN_GOOD_LIST_URL;
+        apiRequest.getMallRightList(UserInfo.getUserToken(), url, category_id, page, size)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
@@ -465,10 +466,11 @@ public class HttpRequest {
     }
 
     /**
-     * 商品下架
+     * 商品上架、下架
      */
-    public static void goodOffShelf(LifecycleOwner activity, int id, final HttpCallBack<Object> callBack) {
-        apiRequest.goodOffShelf(UserInfo.getUserToken(), id)
+    public static void goodOffOrPutOnShelf(LifecycleOwner activity, boolean isPutOn, int id, final HttpCallBack<Object> callBack) {
+        String url = isPutOn ? ApiRequest.PUT_ON_THE_SHELF_URL : ApiRequest.GOOD_OFF_SHELF_URL;
+        apiRequest.goodOffShelf(UserInfo.getUserToken(), url, id)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -553,13 +555,55 @@ public class HttpRequest {
      */
     public static void getAccountTurnoverList(LifecycleOwner activity, boolean isWithdraw, int page, int size, final HttpCallBack<BaseResponse<AccountTurnoverList>> callBack) {
         String url = isWithdraw ? ApiRequest.WITHDRAWALS_RECORD_LIST_URL : ApiRequest.ACCOUNT_TURNOVER_LIST_URL;
-        apiRequest.getAccountTurnoverList(UserInfo.getUserToken(), url,page, size)
+        apiRequest.getAccountTurnoverList(UserInfo.getUserToken(), url, page, size)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<AccountTurnoverList>>() {
 
                     @Override
                     public void onSuccess(BaseResponse<AccountTurnoverList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 发布 修改 商品
+     */
+    public static void releaseOrChangeGood(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<Object> callBack) {
+        apiRequest.releaseOrChangeGood(UserInfo.getUserToken(), map)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 获取商品列表
+     */
+    public static void getGoodList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
+        apiRequest.getGoodList(UserInfo.getUserToken(), page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<MallRightList> demo) {
                         callBack.onSuccess(demo);
                     }
 
