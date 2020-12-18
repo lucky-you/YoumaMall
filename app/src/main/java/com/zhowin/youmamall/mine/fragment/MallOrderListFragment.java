@@ -5,24 +5,37 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.EmptyViewUtils;
+import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeMallOrderFragmentLayoutBinding;
+import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
+import com.zhowin.youmamall.home.activity.ProductDetailsActivity;
+import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mine.adapter.MallOrderListAdapter;
+import com.zhowin.youmamall.mine.callback.OnMallOrderListClickListener;
+import com.zhowin.youmamall.mine.model.MallOrderList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * author : zho
  * date  ：2020/11/30
- * desc ：
+ * desc ：商品订单
  */
-public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFragmentLayoutBinding> {
+public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFragmentLayoutBinding> implements OnMallOrderListClickListener {
 
 
     private MallOrderListAdapter mallOrderListAdapter;
+    private int fragmentIndex;
 
     public static MallOrderListFragment Instance(int index) {
         MallOrderListFragment couponListFragment = new MallOrderListFragment();
@@ -40,15 +53,48 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
 
     @Override
     public void initView() {
-
+        fragmentIndex = getArguments().getInt(ConstantValue.INDEX);
+        getMallOrderList(true);
     }
 
     @Override
     public void initData() {
-        List<String> stringList = Arrays.asList("", "", "", "", "", "");
-        mallOrderListAdapter = new MallOrderListAdapter(stringList);
+        mallOrderListAdapter = new MallOrderListAdapter(new ArrayList<>());
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.recyclerView.setAdapter(mallOrderListAdapter);
+        mallOrderListAdapter.setOnMallOrderListClickListener(this);
+    }
+
+    private void getMallOrderList(boolean isRefresh) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
+        HttpRequest.getMallOrderList(this, fragmentIndex, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallOrderList>>() {
+            @Override
+            public void onSuccess(BaseResponse<MallOrderList> baseResponse) {
+                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (isRefresh) {
+                        mallOrderListAdapter.setNewData(baseResponse.getData());
+                    } else {
+                        mallOrderListAdapter.addData(baseResponse.getData());
+                    }
+                    if (baseResponse.getData().size() < pageNumber) {
+                        mallOrderListAdapter.loadMoreEnd(true);
+                    } else {
+                        mallOrderListAdapter.loadMoreComplete();
+                    }
+                } else {
+                    EmptyViewUtils.bindEmptyView(mContext, mallOrderListAdapter);
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 
     @Override
@@ -56,8 +102,25 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                getMallOrderList(true);
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
+        mallOrderListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getMallOrderList(false);
+            }
+        }, mBinding.recyclerView);
+    }
+
+    @Override
+    public void onStartPayment(GoodItem goodItem) {
+        ConfirmOrderActivity.start(mContext, goodItem);
+    }
+
+    @Override
+    public void onGoodDetails(int goodId) {
+        ProductDetailsActivity.start(mContext, goodId);
     }
 }

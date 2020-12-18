@@ -16,6 +16,7 @@ import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
+import com.zhowin.youmamall.mine.model.MallOrderList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public interface ApiRequest {
     //商城左侧分类
     String GET_MALL_LEFT_LIST_URL = "api/category/list";
 
-    //商城商品列表
+    //商品分类列表
     String MALL_GOOD_LIST_URL = "api/item/list";
 
     //商品详情
@@ -127,8 +128,8 @@ public interface ApiRequest {
     //获取用户商品列表
     String GET_USER_GOOD_LIST_URL = "api/merchant/list";
 
-    //分类商品列表
-    String GET_COLUMN_GOOD_LIST_URL = "api/item/list";
+    //订单列表
+    String GET_MALL_ORDER_LIST_URL = "api/trade_order/list";
 
 
     /**
@@ -217,8 +218,8 @@ public interface ApiRequest {
      * 商城右侧列表
      */
     @FormUrlEncoded
-    @POST
-    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Url String url, @Field("shop_category_id") int shop_category_id, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(MALL_GOOD_LIST_URL)
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Field("shop_category_id") int shop_category_id, @Field("page") int pageNum, @Field("size") int pageSize);
 
     /**
      * 商品详情
@@ -322,5 +323,12 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(GET_USER_GOOD_LIST_URL)
     Observable<ApiResponse<BaseResponse<MallRightList>>> getGoodList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+
+    /**
+     * 订单列表
+     */
+    @FormUrlEncoded
+    @POST(GET_MALL_ORDER_LIST_URL)
+    Observable<ApiResponse<BaseResponse<MallOrderList>>> getMallOrderList(@Header(TOKEN) String token, @Field("status") int status, @Field("page") int pageNum, @Field("size") int pageSize);
 
 }

@@ -24,6 +24,7 @@ import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityConfirmOrderBinding;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.model.GoodItem;
+import com.zhowin.youmamall.mine.activity.MallOrderListActivity;
 import com.zhowin.youmamall.mine.activity.MyCouponActivity;
 import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
@@ -78,14 +79,14 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
                 break;
             case R.id.tvSubmitOrder:
                 if (1 == payType) {
-                    int isSetPassword=  UserInfo.getUserInfo().getIs_pay_pwd();
-                    if (1==isSetPassword){
+                    int isSetPassword = UserInfo.getUserInfo().getIs_pay_pwd();
+                    if (1 == isSetPassword) {
                         showPayPasswordDialog();
-                    }else {
+                    } else {
                         setCommissionPaymentPassword();
                     }
                 } else {
-//                    confirmOrder();
+                    confirmOrder("");
                 }
                 break;
         }
@@ -117,7 +118,6 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
 
             @Override
             public void onDeterminePayment(String password) {
-                ToastUtils.showToast(password);
                 confirmOrder(password);
             }
         });
@@ -145,6 +145,16 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
             @Override
             public void onSuccess(PaymentReqInfo o) {
                 dismissLoadDialog();
+                switch (payType) {
+                    case 1:
+                        MallOrderListActivity.start(mContext, 0);
+                        break;
+                    case 2: //支付宝支付
+                        break;
+                    case 3://微信支付
+                        break;
+                }
+
             }
 
             @Override

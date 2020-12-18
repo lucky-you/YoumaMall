@@ -17,6 +17,9 @@ import com.zhowin.youmamall.mine.fragment.MallOrderListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 商品订单
+ */
 public class MallOrderListActivity extends BaseBindActivity<ActivityMallOrderListBinding> {
 
     private int jumpPosition;

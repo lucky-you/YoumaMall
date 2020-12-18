@@ -22,6 +22,7 @@ import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
+import com.zhowin.youmamall.mine.model.MallOrderList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
@@ -299,9 +300,8 @@ public class HttpRequest {
     /**
      * 商城右侧分类商品  和 首页分类商品公用
      */
-    public static void getMallRightList(LifecycleOwner activity, boolean isMallRight, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
-        String url = isMallRight ? ApiRequest.MALL_GOOD_LIST_URL : ApiRequest.GET_COLUMN_GOOD_LIST_URL;
-        apiRequest.getMallRightList(UserInfo.getUserToken(), url, category_id, page, size)
+    public static void getMallRightList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
+        apiRequest.getMallRightList(UserInfo.getUserToken(), category_id, page, size)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
@@ -604,6 +604,27 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(BaseResponse<MallRightList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 订单列表
+     */
+    public static void getMallOrderList(LifecycleOwner activity, int status, int page, int size, final HttpCallBack<BaseResponse<MallOrderList>> callBack) {
+        apiRequest.getMallOrderList(UserInfo.getUserToken(), status, page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<MallOrderList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<MallOrderList> demo) {
                         callBack.onSuccess(demo);
                     }
 

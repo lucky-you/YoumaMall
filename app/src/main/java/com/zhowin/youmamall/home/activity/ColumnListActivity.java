@@ -72,7 +72,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
         if (isRefresh) {
             currentPage = 1;
         }
-        HttpRequest.getMallRightList(this, false, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+        HttpRequest.getMallRightList(this,  categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
