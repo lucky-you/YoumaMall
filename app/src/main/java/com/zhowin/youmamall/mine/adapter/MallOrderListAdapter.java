@@ -47,7 +47,7 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
             @Override
             public void onClick(View v) {
                 if (onMallOrderListClickListener != null) {
-                    onMallOrderListClickListener.onGoodDetails(item.getId());
+                    onMallOrderListClickListener.onGoodDetails(item.getItem_id());
                 }
             }
         });
@@ -61,10 +61,11 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                     public void onClick(View v) {
                         if (onMallOrderListClickListener != null) {
                             GoodItem goodItem = new GoodItem();
-                            goodItem.setId(item.getId());
+                            goodItem.setId(item.getItem_id());
                             goodItem.setName(item.getName());
                             goodItem.setPrice(item.getPay_money());
                             goodItem.setImage(item.getImage());
+                            goodItem.setPayOrder(item.getPay_no());
                             onMallOrderListClickListener.onStartPayment(goodItem);
                         }
                     }

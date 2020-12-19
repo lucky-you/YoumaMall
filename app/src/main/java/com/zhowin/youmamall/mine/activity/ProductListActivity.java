@@ -27,6 +27,8 @@ import com.zhowin.youmamall.mine.adapter.ProductListAdapter;
 import com.zhowin.youmamall.mine.adapter.SalesTurnoverAdapter;
 import com.zhowin.youmamall.mine.callback.OnProductItemClickListener;
 import com.zhowin.youmamall.mine.model.GoodInfo;
+import com.zhowin.youmamall.mine.model.SalesTurnoverList;
+import com.zhowin.youmamall.mine.model.SoldGoodList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +73,6 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
 
     @Override
     public void initData() {
-        List<String> stringList = Arrays.asList("", "", "", "", "", "");
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.recyclerView.addItemDecoration(new DivideLineItemDecoration(mContext, getBaseColor(R.color.color_f6f6f6), 1));
         switch (jumpPosition) {
@@ -88,16 +89,33 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                 }, mBinding.recyclerView);
                 break;
             case 2:
-                goodSoldListAdapter = new GoodSoldListAdapter(stringList);
+                getSoldGoodList(true);
+                goodSoldListAdapter = new GoodSoldListAdapter(new ArrayList<>());
                 mBinding.recyclerView.setAdapter(goodSoldListAdapter);
+                goodSoldListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                    @Override
+                    public void onLoadMoreRequested() {
+                        getSoldGoodList(false);
+                    }
+                }, mBinding.recyclerView);
                 break;
             case 3:
-                salesTurnoverAdapter = new SalesTurnoverAdapter(stringList);
+                getSalesTurnoverList(true);
+                salesTurnoverAdapter = new SalesTurnoverAdapter(new ArrayList<>());
                 mBinding.recyclerView.setAdapter(salesTurnoverAdapter);
+                salesTurnoverAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                    @Override
+                    public void onLoadMoreRequested() {
+                        getSalesTurnoverList(false);
+                    }
+                }, mBinding.recyclerView);
                 break;
         }
     }
 
+    /**
+     * 自己的商品列表
+     */
     private void getGoodList(boolean isRefresh) {
         if (isRefresh) {
             currentPage = 1;
@@ -135,6 +153,86 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
         });
     }
 
+    /**
+     * 已售商品列表
+     */
+    private void getSoldGoodList(boolean isRefresh) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
+        showLoadDialog();
+        HttpRequest.getSoldGoodList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<SoldGoodList>>() {
+            @Override
+            public void onSuccess(BaseResponse<SoldGoodList> baseResponse) {
+                dismissLoadDialog();
+                if (baseResponse != null) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (baseResponse.getData() != null && !baseResponse.getData().isEmpty()) {
+                        if (isRefresh) {
+                            goodSoldListAdapter.setNewData(baseResponse.getData());
+                        } else {
+                            goodSoldListAdapter.addData(baseResponse.getData());
+                        }
+                        if (baseResponse.getData().size() < pageNumber) {
+                            goodSoldListAdapter.loadMoreEnd(true);
+                        } else {
+                            goodSoldListAdapter.loadMoreComplete();
+                        }
+                    } else {
+                        EmptyViewUtils.bindEmptyView(mContext, goodSoldListAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
+    /**
+     * 出售流水
+     */
+    private void getSalesTurnoverList(boolean isRefresh) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
+        showLoadDialog();
+        HttpRequest.getSalesTurnoverList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<SalesTurnoverList>>() {
+            @Override
+            public void onSuccess(BaseResponse<SalesTurnoverList> baseResponse) {
+                dismissLoadDialog();
+                if (baseResponse != null) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (baseResponse.getData() != null && !baseResponse.getData().isEmpty()) {
+                        if (isRefresh) {
+                            salesTurnoverAdapter.setNewData(baseResponse.getData());
+                        } else {
+                            salesTurnoverAdapter.addData(baseResponse.getData());
+                        }
+                        if (baseResponse.getData().size() < pageNumber) {
+                            salesTurnoverAdapter.loadMoreEnd(true);
+                        } else {
+                            salesTurnoverAdapter.loadMoreComplete();
+                        }
+                    } else {
+                        EmptyViewUtils.bindEmptyView(mContext, salesTurnoverAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
 
     @Override
     public void initListener() {
@@ -146,8 +244,10 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         getGoodList(true);
                         break;
                     case 2:
+                        getSoldGoodList(true);
                         break;
                     case 3:
+                        getSalesTurnoverList(true);
                         break;
                 }
                 mBinding.refreshLayout.setRefreshing(false);

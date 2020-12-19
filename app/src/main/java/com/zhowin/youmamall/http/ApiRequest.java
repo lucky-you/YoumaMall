@@ -8,6 +8,7 @@ import com.zhowin.base_library.qiniu.QiNiuYunBean;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
+import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
@@ -17,6 +18,8 @@ import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
+import com.zhowin.youmamall.mine.model.SalesTurnoverList;
+import com.zhowin.youmamall.mine.model.SoldGoodList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
@@ -130,6 +133,12 @@ public interface ApiRequest {
 
     //订单列表
     String GET_MALL_ORDER_LIST_URL = "api/trade_order/list";
+
+    //已售商品列表
+    String GET_SOLD_GOOD_LIST_URL = "api/merchant/order_list";
+
+    //出售流水
+    String GET_SALES_TURNOVER_LIST_URL = "api/merchant/sell_record";
 
 
     /**
@@ -268,7 +277,7 @@ public interface ApiRequest {
      */
     @FormUrlEncoded
     @POST(CONFIRM_ORDER_URL)
-    Observable<ApiResponse<PaymentReqInfo>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password);
+    Observable<ApiResponse<ConfirmOrderInfo>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password, @Field("pay_no") String pay_no);
 
 
     /**
@@ -330,5 +339,19 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(GET_MALL_ORDER_LIST_URL)
     Observable<ApiResponse<BaseResponse<MallOrderList>>> getMallOrderList(@Header(TOKEN) String token, @Field("status") int status, @Field("page") int pageNum, @Field("size") int pageSize);
+
+    /**
+     * 已售商品列表
+     */
+    @FormUrlEncoded
+    @POST(GET_SOLD_GOOD_LIST_URL)
+    Observable<ApiResponse<BaseResponse<SoldGoodList>>> getSoldGoodList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+
+    /**
+     * 出售流水
+     */
+    @FormUrlEncoded
+    @POST(GET_SALES_TURNOVER_LIST_URL)
+    Observable<ApiResponse<BaseResponse<SalesTurnoverList>>> getSalesTurnoverList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
 
 }

@@ -19,6 +19,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
+import com.zhowin.youmamall.login.activity.LoginActivity;
 import com.zhowin.youmamall.mine.activity.DepositActivity;
 import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 import com.zhowin.youmamall.mine.adapter.ColumnListAdapter;
@@ -225,7 +226,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 UserInfo.setUserInfo(new UserInfo());
                 if (outLoginApp) {
                     SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
-                    ActivityManager.getAppInstance().AppExit(mContext);
+                    startActivity(LoginActivity.class);
                 } else {
                     ToastUtils.showToast("注销成功");
                 }

@@ -114,6 +114,7 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
 
         setGoodDataToView();
     }
+
     private void setGoodDataToView() {
         if (isChangeGoodInfo && goodInfo != null) {
             goodCategoryId = goodInfo.getCategoryId();
@@ -258,6 +259,7 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
             @Override
             public void onFail(int errorCode, String errorMsg) {
                 dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
             }
         });
     }

@@ -11,5 +11,6 @@ public interface OnMallOrderListClickListener {
 
 
     void onStartPayment(GoodItem goodItem);
+
     void onGoodDetails(int goodId);
 }

@@ -14,6 +14,7 @@ import com.zhowin.base_library.utils.RxSchedulers;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
+import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
@@ -23,6 +24,8 @@ import com.zhowin.youmamall.mine.model.AccountTurnoverList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
+import com.zhowin.youmamall.mine.model.SalesTurnoverList;
+import com.zhowin.youmamall.mine.model.SoldGoodList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
@@ -447,14 +450,14 @@ public class HttpRequest {
     /**
      * 提交订单
      */
-    public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, final HttpCallBack<PaymentReqInfo> callBack) {
-        apiRequest.confirmOrder(UserInfo.getUserToken(), id, type, password)
+    public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, String payOrder, final HttpCallBack<ConfirmOrderInfo> callBack) {
+        apiRequest.confirmOrder(UserInfo.getUserToken(), id, type, password, payOrder)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<PaymentReqInfo>() {
+                .subscribe(new ApiObserver<ConfirmOrderInfo>() {
 
                     @Override
-                    public void onSuccess(PaymentReqInfo demo) {
+                    public void onSuccess(ConfirmOrderInfo demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -604,6 +607,48 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(BaseResponse<MallRightList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 已售商品列表
+     */
+    public static void getSoldGoodList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<SoldGoodList>> callBack) {
+        apiRequest.getSoldGoodList(UserInfo.getUserToken(), page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<SoldGoodList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<SoldGoodList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 出售流水
+     */
+    public static void getSalesTurnoverList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<SalesTurnoverList>> callBack) {
+        apiRequest.getSalesTurnoverList(UserInfo.getUserToken(), page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<SalesTurnoverList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<SalesTurnoverList> demo) {
                         callBack.onSuccess(demo);
                     }
 

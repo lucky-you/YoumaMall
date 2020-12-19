@@ -51,12 +51,12 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
                 break;
             case R.id.tvConfirmSubmission:
                 if (1 == paymentType) {
-                  int isSetPassword=  UserInfo.getUserInfo().getIs_pay_pwd();
-                  if (1==isSetPassword){
-                      showPayPasswordDialog();
-                  }else {
-                      setCommissionPaymentPassword();
-                  }
+                    int isSetPassword = UserInfo.getUserInfo().getIs_pay_pwd();
+                    if (1 == isSetPassword) {
+                        showPayPasswordDialog();
+                    } else {
+                        setCommissionPaymentPassword();
+                    }
                 } else {
                     startDepositPayment("");
                 }
@@ -112,7 +112,6 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
         new CenterHitMessageDialog(mContext, "您尚未设置支付密码", new OnCenterHitMessageListener() {
             @Override
             public void onNegativeClick(Dialog dialog) {
-                showPayPasswordDialog();
             }
 
             @Override

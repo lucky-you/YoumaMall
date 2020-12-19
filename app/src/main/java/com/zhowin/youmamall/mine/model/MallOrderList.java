@@ -7,20 +7,21 @@ package com.zhowin.youmamall.mine.model;
  */
 public class MallOrderList {
 
-
     /**
-     * pay_no : 20201218170108030318
-     * name : 亲密约
-     * image : https://png.lxxxin.com/uploads/20201130/FqmKdry1rqKF12xrb2UA7lM8xcBA.png
-     * createtime : 1608282068
-     * id : 33
-     * order_no : 20201218170108030318
-     * pay_money : 0.01
+     * item_id : 6
+     * pay_no : 20201219104250058727
+     * name : 微微助手
+     * image : https://png.lxxxin.com/uploads/20201207/FmjxCwReF6c_I9GXZudKvyQ-ZhLl.jpg
+     * createtime : 1608345770
+     * id : 71
+     * order_no : 20201219104250058727
+     * pay_money : 50.00
      * secret_key :
-     * status : 1
+     * status : 0
      * num : 1
      */
 
+    private int item_id;
     private String pay_no;
     private String name;
     private String image;
@@ -31,6 +32,14 @@ public class MallOrderList {
     private String secret_key;
     private int status;
     private int num;
+
+    public int getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
+    }
 
     public String getPay_no() {
         return pay_no;

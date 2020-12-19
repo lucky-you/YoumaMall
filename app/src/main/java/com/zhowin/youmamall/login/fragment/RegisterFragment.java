@@ -103,7 +103,7 @@ public class RegisterFragment extends BaseBindFragment<IncludeRegisterFragmentLa
         map.put("password", editPassword);
         map.put("again_password", editPasswordAgain);
         map.put("mobile", mobile);
-        map.put("code", invitationCode);
+        map.put("code", captchaCode);
         map.put("invitation_code", invitationCode);
         HttpRequest.registerFromPhoneNumber(this, map, new HttpCallBack<UserInfo>() {
             @Override

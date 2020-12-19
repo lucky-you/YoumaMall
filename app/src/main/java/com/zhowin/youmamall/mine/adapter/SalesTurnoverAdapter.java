@@ -6,21 +6,22 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 
 import java.util.List;
 
 /**
  * author : zho
  * date  ：2020/12/1
- * desc ：
+ * desc ：出售流水
  */
-public class SalesTurnoverAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public SalesTurnoverAdapter(@Nullable List<String> data) {
-        super(R.layout.include_sales_turnover_item_view,  data);
+public class SalesTurnoverAdapter extends BaseQuickAdapter<SalesTurnoverList, BaseViewHolder> {
+    public SalesTurnoverAdapter(@Nullable List<SalesTurnoverList> data) {
+        super(R.layout.include_sales_turnover_item_view, data);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, String item) {
+    protected void convert(@NonNull BaseViewHolder helper, SalesTurnoverList item) {
 
     }
 }

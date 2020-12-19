@@ -14,6 +14,7 @@ public class GoodItem implements Parcelable {
     private String name;
     private String price;
     private String image;
+    private String payOrder;
 
     public GoodItem() {
     }
@@ -23,6 +24,7 @@ public class GoodItem implements Parcelable {
         name = in.readString();
         price = in.readString();
         image = in.readString();
+        payOrder = in.readString();
     }
 
     public static final Creator<GoodItem> CREATOR = new Creator<GoodItem>() {
@@ -36,19 +38,6 @@ public class GoodItem implements Parcelable {
             return new GoodItem[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(price);
-        dest.writeString(image);
-    }
 
     public int getId() {
         return id;
@@ -82,7 +71,25 @@ public class GoodItem implements Parcelable {
         this.image = image;
     }
 
-    public static Creator<GoodItem> getCREATOR() {
-        return CREATOR;
+    public String getPayOrder() {
+        return payOrder;
+    }
+
+    public void setPayOrder(String payOrder) {
+        this.payOrder = payOrder;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeString(image);
+        dest.writeString(payOrder);
     }
 }
