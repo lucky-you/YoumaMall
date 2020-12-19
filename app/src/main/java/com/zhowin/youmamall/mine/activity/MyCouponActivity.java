@@ -25,6 +25,7 @@ public class MyCouponActivity extends BaseBindActivity<ActivityMyCouponBinding> 
 
     private int classType;
 
+
     public static void start(Context context, int type) {
         Intent intent = new Intent(context, MyCouponActivity.class);
         intent.putExtra(ConstantValue.TYPE, type);

@@ -1,19 +1,26 @@
 package com.zhowin.youmamall.mine.dialog;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
 import com.zhowin.base_library.base.BaseDialogView;
+import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.youmamall.R;
 
 /**
  * author : zho
  * date  ：2020/12/1
- * desc ：
+ * desc ：分享素材的dialog
  */
 public class ShareMaterialDialog extends BaseDialogView {
+
+
+    private ImageView ivContent;
+
     public ShareMaterialDialog(@NonNull Context context) {
         super(context);
     }
@@ -25,7 +32,15 @@ public class ShareMaterialDialog extends BaseDialogView {
 
     @Override
     public void initView() {
+        ivContent = get(R.id.ivContent);
+        get(R.id.tvCancel).setOnClickListener(this::onViewClick);
+        get(R.id.tvDetermine).setOnClickListener(this::onViewClick);
+    }
 
+    public void setImageUrl(String imageUrl) {
+        if (!TextUtils.isEmpty(imageUrl)) {
+            GlideUtils.loadObjectImage(mContext, imageUrl, ivContent);
+        }
     }
 
     @Override
@@ -35,6 +50,12 @@ public class ShareMaterialDialog extends BaseDialogView {
 
     @Override
     public void onViewClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.tvCancel:
+                break;
+            case R.id.tvDetermine:
+                break;
+        }
+        dismiss();
     }
 }

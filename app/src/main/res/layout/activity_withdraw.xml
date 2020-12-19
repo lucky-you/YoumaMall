@@ -37,7 +37,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="22dp"
                         android:gravity="center"
-                        android:text="990.05"
+                        android:text="00.00"
                         android:textColor="@color/color_333"
                         android:textSize="20sp" />
 
@@ -152,18 +152,18 @@
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_gravity="center"
-                            android:layout_weight="5" />
+                            android:layout_weight="4" />
 
                         <TextView
                             android:id="@+id/tvWithdrawType"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="2.5"
+                            android:layout_weight="3.5"
                             android:drawableRight="@mipmap/ic_arrow_right"
                             android:drawablePadding="6dp"
                             android:gravity="right|center"
-                            android:text="支付宝"
+                            android:text=""
                             android:textColor="@color/color_333"
                             android:textSize="15sp" />
 
@@ -220,6 +220,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="7.5"
+                            android:inputType="textPassword"
                             android:background="@null"
                             android:hint="请输入支付密码"
                             android:textColor="@color/color_333"

@@ -100,7 +100,11 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                     mBinding.ivUserLevel.setVisibility(0 != userInfo.getLevel() ? View.VISIBLE : View.GONE);
                     mBinding.ivUserLevel.setImageResource(UserLevelHelper.getUserLevel(userInfo.getLevel()));
                     mBinding.tvYQMCode.setText("邀请码：" + userInfo.getInvitation_code());
-                    mBinding.tvTJRText.setText("推荐人：");
+                    mBinding.tvTJRText.setText("推荐人：" + userInfo.getF_nickname());
+                    mBinding.tvKTYJValue.setText(userInfo.getMoney());
+                    mBinding.tvLJTXValue.setText(userInfo.getWithdrawal());
+                    mBinding.tvJRSYValue.setText(userInfo.getToday_income());
+                    mBinding.tvLJSYValue.setText(userInfo.getIncome());
                 }
 
             }

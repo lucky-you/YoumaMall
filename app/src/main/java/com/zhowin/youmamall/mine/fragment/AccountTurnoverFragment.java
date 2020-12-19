@@ -61,6 +61,7 @@ public class AccountTurnoverFragment extends BaseBindFragment<IncludeCouponListF
         getAccountTurnoverList(true);
 
         accountTurnoverAdapter = new AccountTurnoverAdapter(new ArrayList<>());
+        accountTurnoverAdapter.setFragmentIndex(fragmentIndex);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.recyclerView.addItemDecoration(new DivideLineItemDecoration(mContext, getBaseColor(R.color.color_f6f6f6), 1));
         mBinding.recyclerView.setAdapter(accountTurnoverAdapter);

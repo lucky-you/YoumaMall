@@ -25,6 +25,7 @@ import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
+import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
@@ -670,6 +671,48 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(BaseResponse<MallOrderList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 分享素材
+     */
+    public static void getShareMaterial(LifecycleOwner activity, final HttpCallBack<List<ShareMaterialList>> callBack) {
+        apiRequest.getShareMaterial(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<ShareMaterialList>>() {
+
+                    @Override
+                    public void onSuccess(List<ShareMaterialList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 申请提现
+     */
+    public static void applyWithdraw(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<Object> callBack) {
+        apiRequest.applyWithdraw(UserInfo.getUserToken(), map)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
                         callBack.onSuccess(demo);
                     }
 

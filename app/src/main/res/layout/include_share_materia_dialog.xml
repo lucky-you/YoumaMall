@@ -17,7 +17,7 @@
         android:textSize="15sp" />
 
     <ImageView
-        android:id="@+id/tvContent"
+        android:id="@+id/ivContent"
         android:layout_width="280dp"
         android:layout_height="390dp"
         android:layout_gravity="center_horizontal"

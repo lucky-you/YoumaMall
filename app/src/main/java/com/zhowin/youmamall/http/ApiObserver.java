@@ -40,22 +40,25 @@ public abstract class ApiObserver<T> implements Observer<ApiResponse<T>> {
             onSuccess(response.getData());
         } else if (response.getCode() == 401) {
             onFail(response.getCode(), response.getMsg());
-            showNoNetWorkDialog();
+            showNoNetWorkDialog("Token已失效,请重新登录");
+        } else if (response.getCode() == 100001) {
+            //账号被冻结
+            onFail(response.getCode(), response.getMsg());
+            showNoNetWorkDialog("账号已冻结");
         } else {
             onFail(response.getCode(), response.getMsg());
         }
     }
 
-    private void showNoNetWorkDialog() {
+    private void showNoNetWorkDialog(String title) {
         NoNetWorkDialogView noNetWorkDialogView = new NoNetWorkDialogView(BaseApplication.getInstance());
-        noNetWorkDialogView.setHitTitleMessage("Token已失效,请重新登录");
+        noNetWorkDialogView.setHitTitleMessage(title);
         noNetWorkDialogView.show();
         noNetWorkDialogView.setOnNoNetWorkClickListener(new OnNoNetWorkClickListener() {
             @Override
             public void onDurationClick() {
                 UserInfo.setUserInfo(new UserInfo());
                 LoginActivity.start(LoginActivity.getInstance);
-                ActivityManager.getAppInstance().finishActivity(MainActivity.class);
             }
         });
     }

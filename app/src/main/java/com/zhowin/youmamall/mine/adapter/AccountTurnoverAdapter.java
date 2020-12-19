@@ -17,17 +17,54 @@ import java.util.List;
  * desc ：
  */
 public class AccountTurnoverAdapter extends BaseQuickAdapter<AccountTurnoverList, BaseViewHolder> {
+
+    private int fragmentIndex;
+
+
     public AccountTurnoverAdapter(@Nullable List<AccountTurnoverList> data) {
         super(R.layout.include_account_turnover_item_view, data);
     }
 
+    public void setFragmentIndex(int fragmentIndex) {
+        this.fragmentIndex = fragmentIndex;
+        notifyDataSetChanged();
+    }
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, AccountTurnoverList item) {
+        switch (fragmentIndex) {
+            case 0:
+                helper.setText(R.id.tvLeftType, item.getMemo())
+                        .setText(R.id.tvLeftTime, DateHelpUtils.getStringDate(item.getCreatetime()))
+                        .setText(R.id.tvRightValue, item.getMoney())
+                        .setGone(R.id.tvRightStatus, false);
+                break;
+            case 1:
+                helper.setText(R.id.tvLeftType, "提现")
+                        .setText(R.id.tvLeftTime, DateHelpUtils.getStringDate(item.getCreatetime()))
+                        .setText(R.id.tvRightValue, "-" + item.getMoney())
+                        .setGone(R.id.tvRightStatus, true);
+                switch (item.getStatus()) {
+                    case 0:
+                        helper.setText(R.id.tvRightStatus, "处理中")
+                                .setTextColor(R.id.tvRightStatus, getItemTextColor(R.color.color_FF560B));
+                        break;
+                    case 1:
+                        helper.setText(R.id.tvRightStatus, "已拒绝")
+                                .setTextColor(R.id.tvRightStatus, getItemTextColor(R.color.color_E83219));
+                        break;
+                    case 2:
+                        helper.setText(R.id.tvRightStatus, "已到账")
+                                .setTextColor(R.id.tvRightStatus, getItemTextColor(R.color.color_666));
+                        break;
+                }
+                break;
+        }
 
-        helper.setText(R.id.tvLeftType, item.getMemo())
-                .setText(R.id.tvLeftTime, DateHelpUtils.getStringDate(item.getCreatetime()))
-                .setText(R.id.tvRightValue, item.getMoney())
-                .setText(R.id.tvRightStatus, "缴纳成功");
+    }
 
+
+    private int getItemTextColor(int color) {
+        return mContext.getResources().getColor(color);
     }
 }

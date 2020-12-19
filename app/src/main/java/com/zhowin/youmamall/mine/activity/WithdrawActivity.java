@@ -1,17 +1,34 @@
 package com.zhowin.youmamall.mine.activity;
 
 
+import android.text.TextUtils;
 import android.view.View;
 
+import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.pickerview.OnSelectConditionsClickListener;
+import com.zhowin.base_library.pickerview.PickerViewConditionsUtils;
+import com.zhowin.base_library.pickerview.SelectPickerList;
+import com.zhowin.base_library.utils.ActivityManager;
+import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SpanUtils;
+import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
+import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.ActivityWithdrawBinding;
+import com.zhowin.youmamall.http.HttpRequest;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 佣金提现
  */
 public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> {
+
+    private int selectPosition, statusType;
 
 
     @Override
@@ -21,8 +38,7 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
 
     @Override
     public void initView() {
-
-        setOnClick(R.id.tvConfirmSubmission);
+        setOnClick(R.id.tvWithdrawType, R.id.tvConfirmSubmission);
         SpanUtils.with(mBinding.tvHitMessage)
                 .appendLine("温馨提示：").setBold()
                 .appendLine()
@@ -34,15 +50,104 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
 
     @Override
     public void initData() {
-
+        getUserInfoMessage();
     }
+
+    private void getUserInfoMessage() {
+        showLoadDialog();
+        HttpRequest.getUserInfoMessage(this, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo userInfo) {
+                dismissLoadDialog();
+                if (userInfo != null) {
+                    mBinding.tvBalance.setText(userInfo.getMoney());
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvConfirmSubmission:
+            case R.id.tvWithdrawType:
+                selectStatusDialog();
+                break;
 
+            case R.id.tvConfirmSubmission:
+                startApplyWithdraw();
                 break;
         }
+    }
+
+    private void startApplyWithdraw() {
+
+        String applyMoney = mBinding.editWithdrawMoney.getText().toString().trim();
+        String applyAccount = mBinding.editAccount.getText().toString().trim();
+        String applyUserName = mBinding.editUserName.getText().toString().trim();
+        String applyUserPassword = mBinding.editPayPassword.getText().toString().trim();
+        if (TextUtils.isEmpty(applyMoney)) {
+            ToastUtils.showToast("请输入提现金额");
+            return;
+        }
+        if (TextUtils.isEmpty(applyAccount)) {
+            ToastUtils.showToast("请输入提现账号");
+            return;
+        }
+        if (0 == statusType) {
+            ToastUtils.showToast("请选择账号类型");
+            return;
+        }
+        if (TextUtils.isEmpty(applyUserName)) {
+            ToastUtils.showToast("请输入真实姓名");
+            return;
+        }
+        if (TextUtils.isEmpty(applyUserPassword)) {
+            ToastUtils.showToast("请输入支付密码");
+            return;
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("money", applyMoney);
+        map.put("account", applyAccount);
+        map.put("type", statusType);
+        map.put("realname", applyUserName);
+        map.put("pay_password", applyUserPassword);
+        showLoadDialog();
+        HttpRequest.applyWithdraw(this, map, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+                ToastUtils.showCustomToast(mContext, "申请成功，请等待审核");
+                ActivityManager.getAppInstance().finishActivity();
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+
+    }
+
+
+    private void selectStatusDialog() {
+        List<SelectPickerList> selectPickerList = new ArrayList<>();
+        selectPickerList.add(new SelectPickerList(1, "支付宝"));
+        selectPickerList.add(new SelectPickerList(2, "微信"));
+        PickerViewConditionsUtils.selectConditionsView(mContext, selectPickerList, selectPosition, new OnSelectConditionsClickListener() {
+            @Override
+            public void onConditionsSelect(int position, String selectName, int selectId) {
+                selectPosition = position;
+                statusType = selectId;
+                mBinding.tvWithdrawType.setText(selectName);
+            }
+        });
     }
 }

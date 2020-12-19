@@ -19,6 +19,7 @@ import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
+import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
 import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
@@ -139,6 +140,12 @@ public interface ApiRequest {
 
     //出售流水
     String GET_SALES_TURNOVER_LIST_URL = "api/merchant/sell_record";
+
+    //分享素材
+    String GET_SHARE_MATER_LIST_URL = "api/set/share_list";
+
+    //申请提现
+    String APPLY_WITHDRAW_LIST_URL = "api/withdraw/apply";
 
 
     /**
@@ -354,4 +361,18 @@ public interface ApiRequest {
     @POST(GET_SALES_TURNOVER_LIST_URL)
     Observable<ApiResponse<BaseResponse<SalesTurnoverList>>> getSalesTurnoverList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
 
+
+    /**
+     * 获取分享素材
+     */
+    @POST(GET_SHARE_MATER_LIST_URL)
+    Observable<ApiResponse<List<ShareMaterialList>>> getShareMaterial(@Header(TOKEN) String token);
+
+
+    /**
+     * 申请提现
+     */
+    @FormUrlEncoded
+    @POST(APPLY_WITHDRAW_LIST_URL)
+    Observable<ApiResponse<Object>> applyWithdraw(@Header(TOKEN) String token, @FieldMap HashMap<String, Object> map);
 }

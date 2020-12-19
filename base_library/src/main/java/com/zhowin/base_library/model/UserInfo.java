@@ -2,7 +2,6 @@ package com.zhowin.base_library.model;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.GsonUtils;
 import com.zhowin.base_library.utils.SPUtils;
@@ -17,19 +16,26 @@ public class UserInfo {
 
     /**
      * id : 4
-     * nickname : 136****7786
+     * nickname : 周小川
      * mobile : 13677197786
-     * avatar : data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgaGVpZ2h0PSIxMDAiIHdpZHRoPSIxMDAiPjxyZWN0IGZpbGw9InJnYigyMjksMTc0LDE2MCkiIHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48L3JlY3Q+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LXNpemU9IjUwIiB0ZXh0LWNvcHk9ImZhc3QiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHRleHQtcmlnaHRzPSJhZG1pbiIgYWxpZ25tZW50LWJhc2VsaW5lPSJjZW50cmFsIj4xPC90ZXh0Pjwvc3ZnPg==
-     * money : 0.00
-     * wechat_qrcode :
-     * token : 060e941c-fd86-4285-8630-e16ddce06c0d
+     * avatar : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517862
+     * money : 1546.97
+     * wechat_qrcode : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517764
+     * token : 81852db4-ae13-4281-b0f8-c502849a5dce
      * user_id : 4
-     * createtime : 1607334395
-     * expiretime : 1609926395
+     * createtime : 1608366165
+     * expiretime : 1610958165
      * expires_in : 2592000
-     * is_pay_pwd : 0
-     * level : 0
-     * invitation_code :
+     * level : 1
+     * is_pay_pwd : 1
+     * invitation_code : 353534
+     * f_nickname : admin
+     * withdrawal : 0.00
+     * today_income : 2.00
+     * income : 2.00
+     * last_income_time : 1608344509
+     * pid : 1
+     * open_withdraw : 1
      */
 
     private int id;
@@ -43,9 +49,16 @@ public class UserInfo {
     private int createtime;
     private int expiretime;
     private int expires_in;
-    private int is_pay_pwd;
     private int level;
+    private int is_pay_pwd;
     private String invitation_code;
+    private String f_nickname;
+    private String withdrawal;
+    private String today_income;
+    private String income;
+    private int last_income_time;
+    private int pid;
+    private String open_withdraw;
 
     public static void setUserInfo(UserInfo data) {
         String userInfo = GsonUtils.toJson(data);
@@ -91,7 +104,6 @@ public class UserInfo {
     public static String getUserPassword() {
         return (String) SPUtils.get(ConstantValue.PASSWORD, "");
     }
-
 
 
     public int getId() {
@@ -182,14 +194,6 @@ public class UserInfo {
         this.expires_in = expires_in;
     }
 
-    public int getIs_pay_pwd() {
-        return is_pay_pwd;
-    }
-
-    public void setIs_pay_pwd(int is_pay_pwd) {
-        this.is_pay_pwd = is_pay_pwd;
-    }
-
     public int getLevel() {
         return level;
     }
@@ -198,11 +202,75 @@ public class UserInfo {
         this.level = level;
     }
 
+    public int getIs_pay_pwd() {
+        return is_pay_pwd;
+    }
+
+    public void setIs_pay_pwd(int is_pay_pwd) {
+        this.is_pay_pwd = is_pay_pwd;
+    }
+
     public String getInvitation_code() {
         return invitation_code;
     }
 
     public void setInvitation_code(String invitation_code) {
         this.invitation_code = invitation_code;
+    }
+
+    public String getF_nickname() {
+        return f_nickname;
+    }
+
+    public void setF_nickname(String f_nickname) {
+        this.f_nickname = f_nickname;
+    }
+
+    public String getWithdrawal() {
+        return withdrawal;
+    }
+
+    public void setWithdrawal(String withdrawal) {
+        this.withdrawal = withdrawal;
+    }
+
+    public String getToday_income() {
+        return today_income;
+    }
+
+    public void setToday_income(String today_income) {
+        this.today_income = today_income;
+    }
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income;
+    }
+
+    public int getLast_income_time() {
+        return last_income_time;
+    }
+
+    public void setLast_income_time(int last_income_time) {
+        this.last_income_time = last_income_time;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
+    public String getOpen_withdraw() {
+        return open_withdraw;
+    }
+
+    public void setOpen_withdraw(String open_withdraw) {
+        this.open_withdraw = open_withdraw;
     }
 }

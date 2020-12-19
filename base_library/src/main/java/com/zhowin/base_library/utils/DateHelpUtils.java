@@ -31,7 +31,7 @@ public class DateHelpUtils {
     }
 
     public static String getStringDate(long time) {
-        Date date = new Date(time);
+        Date date = new Date(time * 1000);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
