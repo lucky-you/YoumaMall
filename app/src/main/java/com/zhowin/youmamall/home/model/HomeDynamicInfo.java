@@ -17,6 +17,7 @@ public class HomeDynamicInfo {
     private List<MallLeftList> category_list;
     private List<VipWelfareList> vip_rule_list;
     private List<BannerList> slide_list;
+    private LatestNewInfo notice;
 
     public List<BannerList> getHome_list() {
         return home_list;
@@ -48,5 +49,13 @@ public class HomeDynamicInfo {
 
     public void setSlide_list(List<BannerList> slide_list) {
         this.slide_list = slide_list;
+    }
+
+    public LatestNewInfo getNotice() {
+        return notice;
+    }
+
+    public void setNotice(LatestNewInfo notice) {
+        this.notice = notice;
     }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zhowin.base_library.adapter.HomePageAdapter;
+import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -14,6 +15,8 @@ import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
 import com.zhowin.youmamall.home.activity.MessageListActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
 import com.zhowin.youmamall.home.dialog.LatestNewDialog;
+import com.zhowin.youmamall.home.model.UnreadMessageInfo;
+import com.zhowin.youmamall.http.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,11 @@ import java.util.List;
  * desc ：
  */
 public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBinding> implements OnTabSelectListener {
+
+
+    private String[] mTitles = {"任务", "首页", "圈子"};
+    private List<Fragment> fragments = new ArrayList<>();
+
     @Override
     public int getLayoutId() {
         return R.layout.include_home_fragment_layout;
@@ -36,8 +44,6 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 
     @Override
     public void initData() {
-        String[] mTitles = {"任务", "首页", "圈子"};
-        List<Fragment> fragments = new ArrayList<>();
         fragments.add(new HomeTaskFragment());
         fragments.add(new HomePageFragment());
         fragments.add(new HomeCircleFragment());
@@ -48,6 +54,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
         mBinding.slidingTabLayout.setOnTabSelectListener(this);
         mBinding.slidingTabLayout.setCurrentTab(1);
         setTabSelect(1, true);
+        getUnreadMessageInfo();
     }
 
 
@@ -67,7 +74,6 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 
     @Override
     public void onTabReselect(int position) {
-
     }
 
     @Override
@@ -82,8 +88,21 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
         }
     }
 
-    private void showLatestNewDialog() {
-        LatestNewDialog latestNewDialog = new LatestNewDialog(mContext);
-        latestNewDialog.show();
+    private void getUnreadMessageInfo() {
+        HttpRequest.getUnreadMessageInfo(this, new HttpCallBack<UnreadMessageInfo>() {
+            @Override
+            public void onSuccess(UnreadMessageInfo unreadMessageInfo) {
+                if (unreadMessageInfo != null) {
+                    mBinding.msvMessage.setVisibility(unreadMessageInfo.getRead_num() > 0 ? View.VISIBLE : View.GONE);
+                    mBinding.msvMessage.setText(String.valueOf(unreadMessageInfo.getRead_num()));
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+
+            }
+        });
     }
+
 }

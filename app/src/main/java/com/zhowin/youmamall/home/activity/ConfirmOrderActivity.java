@@ -97,7 +97,6 @@ public class ConfirmOrderActivity extends BaseBindActivity<ActivityConfirmOrderB
         new CenterHitMessageDialog(mContext, "您尚未设置支付密码", new OnCenterHitMessageListener() {
             @Override
             public void onNegativeClick(Dialog dialog) {
-                showPayPasswordDialog();
             }
 
             @Override

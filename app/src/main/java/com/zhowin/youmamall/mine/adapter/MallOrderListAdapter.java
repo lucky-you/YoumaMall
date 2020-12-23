@@ -40,7 +40,6 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                 .setText(R.id.tvNumberOfPayments, "x" + item.getNum())
                 .setText(R.id.tvPrice, "¥" + item.getPay_money())
                 .setText(R.id.tvCJSJText, DateHelpUtils.getStringDate(item.getCreatetime()))
-                .setText(R.id.tvCPMYText, item.getSecret_key())
                 .setText(R.id.tvSFJEText, "¥" + item.getPay_money())
                 .setGone(R.id.tvNowPay, 0 == item.getStatus())
                 .getView(R.id.llOrderRootLayout).setOnClickListener(new View.OnClickListener() {
@@ -55,6 +54,7 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
         switch (item.getStatus()) {
             case 0:
                 helper.setText(R.id.tvOrderStatus, "待付款")
+                        .setGone(R.id.clCPMYLayout, false)
                         .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B))
                         .getView(R.id.tvNowPay).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -72,13 +72,19 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                 });
                 break;
             case 1:
-                helper.setText(R.id.tvOrderStatus, "待发货");
+                helper.setText(R.id.tvOrderStatus, "待发货")
+                        .setGone(R.id.clCPMYLayout, false)
+                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B));
                 break;
             case 2:
-                helper.setText(R.id.tvOrderStatus, "待收货");
+                helper.setText(R.id.tvOrderStatus, "待收货")
+                        .setGone(R.id.clCPMYLayout, false)
+                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B));
                 break;
             case 3:
                 helper.setText(R.id.tvOrderStatus, "已完成")
+                        .setGone(R.id.clCPMYLayout, true)
+                        .setText(R.id.tvCPMYText, item.getSecret_key())
                         .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_227BFF));
                 break;
         }

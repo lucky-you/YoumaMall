@@ -35,6 +35,7 @@ import com.zhowin.youmamall.mine.activity.ReleaseGoodActivity;
 import com.zhowin.youmamall.mine.activity.SettingActivity;
 import com.zhowin.youmamall.mine.activity.ShareMaterialActivity;
 import com.zhowin.youmamall.mine.activity.WithdrawActivity;
+import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.GoodInfo;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ import java.util.List;
 public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     private ColumnListAdapter columnListAdapter;
+
+    private boolean isOpenMerchant;//是否开通店铺
 
     @Override
     public int getLayoutId() {
@@ -87,6 +90,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     public void onResume() {
         super.onResume();
         getUserInfoMessage();
+        getDepositMessage();
     }
 
     private void getUserInfoMessage() {
@@ -111,6 +115,27 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
+
+    private void getDepositMessage() {
+        showLoadDialog();
+        HttpRequest.getDepositMessage(this, new HttpCallBack<DepositMessage>() {
+            @Override
+            public void onSuccess(DepositMessage depositMessage) {
+                dismissLoadDialog();
+                if (depositMessage != null) {
+                    isOpenMerchant = 1 == depositMessage.getIs_open_merchant();
+                    mBinding.tvOpenStore.setText(isOpenMerchant ? "发布商品" : "开通店铺");
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
                 ToastUtils.showToast(errorMsg);
             }
         });
@@ -150,7 +175,11 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 showOutLoginDialog(2, "确定要注销吗?");
                 break;
             case R.id.tvOpenStore:
-                startActivity(DepositActivity.class);
+                if (isOpenMerchant) {
+                    ReleaseGoodActivity.start(mContext, false, new GoodInfo());
+                } else {
+                    startActivity(DepositActivity.class);
+                }
                 break;
         }
     }
@@ -164,6 +193,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             }
         });
     }
+
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

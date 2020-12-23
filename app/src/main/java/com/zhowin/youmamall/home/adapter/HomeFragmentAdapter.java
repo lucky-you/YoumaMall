@@ -73,6 +73,7 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
                 HomeFLGNAdapter homeFLGNAdapter = new HomeFLGNAdapter(item.getVipWelfareList());
                 FeaturesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
                 FeaturesRecyclerView.setAdapter(homeFLGNAdapter);
+                homeFLGNAdapter.setOnHomeSeeMoreListener(onHomeSeeMoreListener);
                 break;
         }
     }

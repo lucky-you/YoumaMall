@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.youth.banner.adapter.BannerAdapter;
 import com.zhowin.base_library.R;
+import com.zhowin.base_library.callback.OnBannerItemClickListener;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SizeUtils;
 
@@ -24,15 +25,15 @@ import java.util.List;
 public class BannerImageAdapter extends BannerAdapter<BannerList, BannerImageAdapter.ViewHolder> {
 
     protected int imageType;
+    private OnBannerItemClickListener onBannerItemClickListener;
 
     public BannerImageAdapter(List<BannerList> dates, int type) {
         super(dates);
         this.imageType = type;
     }
 
-    public void setImageType(int imageType) {
-        this.imageType = imageType;
-        notifyDataSetChanged();
+    public void setOnBannerItemClickListener(OnBannerItemClickListener onBannerItemClickListener) {
+        this.onBannerItemClickListener = onBannerItemClickListener;
     }
 
     @Override
@@ -64,9 +65,17 @@ public class BannerImageAdapter extends BannerAdapter<BannerList, BannerImageAda
     public void onBindView(ViewHolder holder, BannerList data, int position, int size) {
         if (!TextUtils.isEmpty(data.getImage()))
             GlideUtils.loadObjectImage(holder.imageView.getContext(), data.getImage(), holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onBannerItemClickListener != null) {
+                    onBannerItemClickListener.onBannerClick(data);
+                }
+            }
+        });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {

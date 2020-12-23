@@ -1,5 +1,6 @@
 package com.zhowin.youmamall.home.fragment;
 
+import android.app.Dialog;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,9 +10,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.banner.BannerImageAdapter;
 import com.zhowin.base_library.banner.BannerList;
+import com.zhowin.base_library.callback.OnBannerItemClickListener;
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.ApiResponse;
+import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -19,17 +24,24 @@ import com.zhowin.youmamall.databinding.IncludeHomePageFragmentBinding;
 import com.zhowin.youmamall.home.activity.ColumnListActivity;
 import com.zhowin.youmamall.home.activity.ConfirmOrderActivity;
 import com.zhowin.youmamall.home.activity.ProductDetailsActivity;
+import com.zhowin.youmamall.home.activity.WebViewActivity;
 import com.zhowin.youmamall.home.adapter.HomeCategoryListAdapter;
 import com.zhowin.youmamall.home.adapter.HomeFragmentAdapter;
 import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
 import com.zhowin.youmamall.home.callback.OnHomeSeeMoreListener;
+import com.zhowin.youmamall.home.dialog.LatestNewDialog;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
 import com.zhowin.youmamall.home.model.HomePageList;
+import com.zhowin.youmamall.home.model.LatestNewInfo;
+import com.zhowin.youmamall.home.model.UnreadMessageInfo;
+import com.zhowin.youmamall.home.model.VipWelfareList;
 import com.zhowin.youmamall.http.ApiRequest;
+import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.main.activity.MainActivity;
 import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mall.model.MallLeftList;
+import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +63,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     private HomeCategoryListAdapter homeCategoryListAdapter;
     private HomeFragmentAdapter homeFragmentAdapter;
     private List<HomePageList> homePageLists = new ArrayList<>();
+    private List<BannerList> slideshowList;
 
     @Override
     public int getLayoutId() {
@@ -59,13 +72,15 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void initView() {
-
+        setOnClick(R.id.rivImageOne, R.id.rivImageTwo, R.id.rivImageThree);
     }
 
     @Override
     public void initData() {
 
         getHomeDynamic();
+
+        getUnreadMessageInfo();
 
         homeCategoryListAdapter = new HomeCategoryListAdapter(new ArrayList<>());
         mBinding.ColumnRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
@@ -75,7 +90,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         mBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.homeRecyclerView.setAdapter(homeFragmentAdapter);
         homeFragmentAdapter.setOnGoodCardItemClickListener(this);
-        homeFragmentAdapter.setOnHomeSeeMoreListener(this::onRightSeeMore);
+        homeFragmentAdapter.setOnHomeSeeMoreListener(this);
     }
 
 
@@ -114,11 +129,18 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                                     BannerImageAdapter bannerImageAdapter = new BannerImageAdapter(bannerList, 2);
                                     mBinding.homeBanner.setAdapter(bannerImageAdapter).start();
                                 }
-                                List<BannerList> slideshowList = homeDynamicInfo.getSlide_list();
+                                slideshowList = homeDynamicInfo.getSlide_list();
                                 if (slideshowList != null && !slideshowList.isEmpty()) {
                                     BannerImageAdapter bannerAdapter = new BannerImageAdapter(bannerList, 2);
                                     mBinding.leftSlideshow.setAdapter(bannerAdapter).start();
+                                    bannerAdapter.setOnBannerItemClickListener(new OnBannerItemClickListener() {
+                                        @Override
+                                        public void onBannerClick(BannerList bannerList) {
+                                            ProductDetailsActivity.start(mContext, bannerList.getId());
+                                        }
+                                    });
                                 }
+                                showLatestNewDialog(homeDynamicInfo.getNotice());
                             }
                         }
                     }
@@ -135,6 +157,47 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                     }
                 });
 
+    }
+
+    private void getUnreadMessageInfo() {
+        HttpRequest.getUnreadMessageInfo(this, new HttpCallBack<UnreadMessageInfo>() {
+            @Override
+            public void onSuccess(UnreadMessageInfo unreadMessageInfo) {
+                if (unreadMessageInfo != null) {
+                    mBinding.homeMarqueeView.startWithList(unreadMessageInfo.getMoney_log());
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+
+            }
+        });
+    }
+
+    private void showLatestNewDialog(LatestNewInfo latestNewInfo) {
+        if (latestNewInfo != null) {
+            LatestNewDialog latestNewDialog = new LatestNewDialog(mContext);
+            latestNewDialog.setLatestNewData(latestNewInfo);
+            latestNewDialog.show();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rivImageOne:
+                if (UserInfo.getUserInfo().getLevel() > 0) {
+
+                } else {
+                    showHitLevelDialog();
+                }
+                break;
+            case R.id.rivImageTwo:
+                break;
+            case R.id.rivImageThree:
+                break;
+        }
     }
 
     @Override
@@ -168,6 +231,30 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     @Override
     public void onRightSeeMore() {
         MainActivity.Instance.showJumpFragment(1);
-
     }
+
+    @Override
+    public void onFLGNItemClick(VipWelfareList item) {
+        if (UserInfo.getUserInfo().getLevel() > 0) {
+            WebViewActivity.start(mContext, item.getName(), item.getUrl());
+        } else {
+            showHitLevelDialog();
+        }
+    }
+
+    private void showHitLevelDialog() {
+        new CenterHitMessageDialog(mContext, "您当前非会员,是否开通会员?", new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                OpenAgentActivity.start(mContext, 2);
+            }
+        }).setNegativeButton("我再想想")
+                .setPositiveButton("立即开通")
+                .show();
+    }
+
 }

@@ -41,7 +41,7 @@ public class GoodDetailsInfo {
     private int shop_category_id;
     private String image;
     private String price;
-    private String original_price;
+    private double original_price;
     private String contact;
     private String content;
     private int status;
@@ -58,9 +58,11 @@ public class GoodDetailsInfo {
     private int is_vip;
     private int merchant_id;
     private int is_del;
-    private String available_money;
-    private int commission_money;
+    private double available_money;
+    private double commission_money;
     private String category_name;
+    private String h5_url;
+    private String pay_description;
 
     public int getId() {
         return id;
@@ -102,11 +104,11 @@ public class GoodDetailsInfo {
         this.price = price;
     }
 
-    public String getOriginal_price() {
+    public double getOriginal_price() {
         return original_price;
     }
 
-    public void setOriginal_price(String original_price) {
+    public void setOriginal_price(double original_price) {
         this.original_price = original_price;
     }
 
@@ -238,19 +240,19 @@ public class GoodDetailsInfo {
         this.is_del = is_del;
     }
 
-    public String getAvailable_money() {
+    public double getAvailable_money() {
         return available_money;
     }
 
-    public void setAvailable_money(String available_money) {
+    public void setAvailable_money(double available_money) {
         this.available_money = available_money;
     }
 
-    public int getCommission_money() {
+    public double getCommission_money() {
         return commission_money;
     }
 
-    public void setCommission_money(int commission_money) {
+    public void setCommission_money(double commission_money) {
         this.commission_money = commission_money;
     }
 
@@ -260,5 +262,21 @@ public class GoodDetailsInfo {
 
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
+    }
+
+    public String getH5_url() {
+        return h5_url;
+    }
+
+    public void setH5_url(String h5_url) {
+        this.h5_url = h5_url;
+    }
+
+    public String getPay_description() {
+        return pay_description;
+    }
+
+    public void setPay_description(String pay_description) {
+        this.pay_description = pay_description;
     }
 }

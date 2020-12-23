@@ -39,7 +39,6 @@ public abstract class BaseDialogView extends Dialog implements View.OnClickListe
     }
 
 
-
     public abstract int getLayoutId();
 
     public abstract void initView();

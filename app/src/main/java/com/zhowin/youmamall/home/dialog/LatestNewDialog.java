@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.zhowin.base_library.base.BaseDialogView;
 import com.zhowin.base_library.utils.SpanUtils;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.home.model.LatestNewInfo;
 
 /**
  * author : zho
@@ -26,14 +27,21 @@ public class LatestNewDialog extends BaseDialogView {
 
     @Override
     public void initView() {
-        SpanUtils.with(get(R.id.tvContent))
-                .appendLine("所有软件：请先下载安装好软件，再购买激活码").setBold()
-                .appendLine()
-                .appendLine("提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信" +
-                        "息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息")
-                .appendLine()
-                .create();
 
+
+        get(R.id.tvDetermine).setOnClickListener(this::onViewClick);
+
+    }
+
+    public void setLatestNewData(LatestNewInfo latestNewData) {
+        if (latestNewData != null) {
+            SpanUtils.with(get(R.id.tvContent))
+                    .appendLine(latestNewData.getTitle()).setBold()
+                    .appendLine()
+                    .appendLine(latestNewData.getContent())
+                    .appendLine()
+                    .create();
+        }
     }
 
     @Override
@@ -43,6 +51,10 @@ public class LatestNewDialog extends BaseDialogView {
 
     @Override
     public void onViewClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.tvDetermine:
+                dismiss();
+                break;
+        }
     }
 }

@@ -40,6 +40,7 @@ public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
     public void initView() {
         payTitle = getIntent().getStringExtra(ConstantValue.TITLE);
         paymentUrl = getIntent().getStringExtra(ConstantValue.URL);
+        mBinding.tvTitleView.setTitle(payTitle);
     }
 
     @Override

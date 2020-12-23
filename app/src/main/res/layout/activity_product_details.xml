@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="256人已付款"
+                        android:text="00人已付款"
                         android:textColor="@color/color_999"
                         android:textSize="11sp"
                         app:layout_constraintBaseline_toBaselineOf="@id/tvProductName"
@@ -98,6 +98,7 @@
                         app:layout_constraintLeft_toRightOf="@id/tvProductPrice" />
 
                     <TextView
+                        android:id="@+id/tvShareCode"
                         android:layout_width="66dp"
                         android:layout_height="30dp"
                         android:background="@drawable/shape_theme_color_4dp_bg"
@@ -131,6 +132,7 @@
 
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="218dp"
                     android:background="@color/color_f6f6f6"

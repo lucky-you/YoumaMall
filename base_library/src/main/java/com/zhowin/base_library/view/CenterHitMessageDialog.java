@@ -144,6 +144,5 @@ public class CenterHitMessageDialog extends Dialog implements View.OnClickListen
             }
             dismiss();
         }
-
     }
 }

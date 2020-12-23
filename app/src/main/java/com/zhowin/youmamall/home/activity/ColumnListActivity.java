@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 分类商品
+ * 分类   /  VIP  商品列表
  */
 public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBinding> implements OnGoodCardItemClickListener {
 
@@ -72,7 +72,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
         if (isRefresh) {
             currentPage = 1;
         }
-        HttpRequest.getMallRightList(this,  categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+        HttpRequest.getMallRightList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
@@ -83,7 +83,6 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
                     } else {
                         homeXPSFAdapter.addData(baseResponse.getData());
                     }
-
                     if (baseResponse.getData().size() < pageNumber) {
                         homeXPSFAdapter.loadMoreEnd(true);
                     } else {

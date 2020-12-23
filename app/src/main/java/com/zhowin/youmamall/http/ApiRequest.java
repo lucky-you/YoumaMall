@@ -12,6 +12,7 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
@@ -146,6 +147,12 @@ public interface ApiRequest {
 
     //申请提现
     String APPLY_WITHDRAW_LIST_URL = "api/withdraw/apply";
+
+    //未读消息
+    String GET_UNREAD_MESSAGE_URL = "api/banner/dynamic";
+
+    //vip商品列表
+    String GET_VIP_GOOD_LIST_URL = "api/item/vip_list";
 
 
     /**
@@ -375,4 +382,12 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(APPLY_WITHDRAW_LIST_URL)
     Observable<ApiResponse<Object>> applyWithdraw(@Header(TOKEN) String token, @FieldMap HashMap<String, Object> map);
+
+    /**
+     * 未读消息与动态
+     */
+    @POST(GET_UNREAD_MESSAGE_URL)
+    Observable<ApiResponse<UnreadMessageInfo>> getUnreadMessageInfo(@Header(TOKEN) String token);
+
+
 }

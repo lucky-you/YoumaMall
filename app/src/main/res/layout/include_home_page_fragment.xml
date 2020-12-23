@@ -63,8 +63,8 @@
                     <com.sunfusheng.marqueeview.MarqueeView
                         android:id="@+id/homeMarqueeView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/ivLeftImage"
                         app:layout_constraintTop_toTopOf="parent"
@@ -101,6 +101,7 @@
                         android:orientation="vertical">
 
                         <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/rivImageOne"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_margin="4dp"
@@ -110,6 +111,7 @@
                             app:riv_corner_radius="6dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/rivImageTwo"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_margin="4dp"
@@ -119,6 +121,7 @@
                             app:riv_corner_radius="6dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/rivImageThree"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_margin="4dp"

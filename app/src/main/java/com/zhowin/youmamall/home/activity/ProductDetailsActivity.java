@@ -1,10 +1,15 @@
 package com.zhowin.youmamall.home.activity;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.view.View;
 
+import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.GlideUtils;
@@ -13,17 +18,23 @@ import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityProductDetailsBinding;
+import com.zhowin.youmamall.home.callback.OnShareCodeListener;
+import com.zhowin.youmamall.home.dialog.ShareCodeDialog;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.model.GoodItem;
+
+import java.io.File;
 
 /**
  * 商品详情
  */
 public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDetailsBinding> {
 
-    private int goodId;
+    private int goodId, categoryId;
+    private String categoryName;
     private GoodItem goodItem = new GoodItem();
+    private GoodDetailsInfo goodDetail;
 
     public static void start(Context context, int goodId) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
@@ -39,7 +50,7 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     @Override
     public void initView() {
         goodId = getIntent().getIntExtra(ConstantValue.ID, -1);
-        setOnClick(R.id.tvBuyNow);
+        setOnClick(R.id.tvBuyNow, R.id.tvShareCode, R.id.llShopMallLayout, R.id.llShareCodeLayout);
         SpanUtils.with(mBinding.tvPurchaseNotes)
                 .appendLine("购买须知").setForegroundColor(getBaseColor(R.color.color_E83219)).setBold()
                 .appendLine("1.请先复制链接到浏览器打开下载好App,查看视频教程。确保是自己需要的辅助再进行下单")
@@ -63,6 +74,9 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
             public void onSuccess(GoodDetailsInfo goodDetailsInfo) {
                 dismissLoadDialog();
                 if (goodDetailsInfo != null) {
+                    goodDetail = goodDetailsInfo;
+                    categoryName = goodDetailsInfo.getCategory_name();
+                    categoryId = goodDetailsInfo.getShop_category_id();
                     goodItem.setId(goodDetailsInfo.getId());
                     goodItem.setName(goodDetailsInfo.getName());
                     goodItem.setImage(goodDetailsInfo.getImage());
@@ -72,6 +86,7 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
                     mBinding.tvNumberOfPayments.setText(goodDetailsInfo.getSale() + "人已付款");
                     mBinding.tvProductPrice.setText("¥" + goodDetailsInfo.getPrice());
                     mBinding.tvCommissionPrice.setText("佣金" + goodDetailsInfo.getCommission_money() + "元");
+                    mBinding.tvProductLink.setText(goodDetailsInfo.getContent());
                 }
             }
 
@@ -86,9 +101,60 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.llShopMallLayout:
+                ColumnListActivity.start(mContext, categoryName, categoryId);
+                break;
+            case R.id.tvShareCode:
+            case R.id.llShareCodeLayout:
+                showShareDialog();
+                break;
             case R.id.tvBuyNow:
                 ConfirmOrderActivity.start(mContext, goodItem);
                 break;
         }
+    }
+
+    private void showShareDialog() {
+        ShareCodeDialog shareCodeDialog = new ShareCodeDialog(mContext);
+        shareCodeDialog.setShareCodeContent(goodDetail);
+        shareCodeDialog.show();
+        shareCodeDialog.setOnShareCodeListener(new OnShareCodeListener() {
+            @Override
+            public void onSaveImage(View llQrCodeLayout) {
+                SaveToAlbum(llQrCodeLayout);
+            }
+        });
+    }
+
+    private void SaveToAlbum(View llQrCodeLayout) {
+        Bitmap bitmapSrc = getCacheBitmapFromView(llQrCodeLayout);
+        ThreadUtils.executeBySingle(new ThreadUtils.SimpleTask<File>() {
+            @Override
+            public File doInBackground() throws Throwable {
+                return ImageUtils.save2Album(bitmapSrc, Bitmap.CompressFormat.JPEG);
+            }
+
+            @Override
+            public void onSuccess(File result) {
+                if (result != null) {
+                    ToastUtils.showToast("保存成功");
+                }
+            }
+        });
+    }
+
+    private Bitmap getCacheBitmapFromView(View view) {
+        final boolean drawingCacheEnabled = true;
+        view.setDrawingCacheEnabled(drawingCacheEnabled);
+        view.buildDrawingCache(drawingCacheEnabled);
+        final Bitmap drawingCache = view.getDrawingCache();
+        Bitmap bitmap;
+        if (drawingCache != null) {
+            bitmap = Bitmap.createBitmap(drawingCache);
+            view.setDrawingCacheEnabled(false);
+        } else {
+            bitmap = null;
+        }
+        return bitmap;
     }
 }

@@ -118,27 +118,38 @@
             app:layout_constraintBaseline_toBaselineOf="@id/tvCJSJLeft"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            android:id="@+id/tvCPMYLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
-            android:text="产品密钥"
-            android:textColor="@color/color_666"
-            android:textSize="11sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCPMYLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/tvCJSJLeft"
-            app:layout_constraintTop_toBottomOf="@id/tvCJSJLeft" />
+            app:layout_constraintTop_toBottomOf="@id/tvCJSJLeft">
 
-        <TextView
-            android:id="@+id/tvCPMYText"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
-            android:text="HNJDMMKC5849MM"
-            android:textColor="@color/color_666"
-            android:textSize="11sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvCPMYLeft"
-            app:layout_constraintRight_toRightOf="parent" />
+            <TextView
+                android:id="@+id/tvCPMYLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="产品密钥"
+                android:textColor="@color/color_666"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCPMYText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="HNJDMMKC5849MM"
+                android:textColor="@color/color_666"
+                android:textSize="11sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvCPMYLeft"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/tvSFJELeft"
@@ -148,8 +159,8 @@
             android:text="实际金额"
             android:textColor="@color/color_666"
             android:textSize="11sp"
-            app:layout_constraintLeft_toLeftOf="@id/tvCPMYLeft"
-            app:layout_constraintTop_toBottomOf="@id/tvCPMYLeft" />
+            app:layout_constraintLeft_toLeftOf="@id/clCPMYLayout"
+            app:layout_constraintTop_toBottomOf="@id/clCPMYLayout" />
 
         <TextView
             android:id="@+id/tvSFJEText"

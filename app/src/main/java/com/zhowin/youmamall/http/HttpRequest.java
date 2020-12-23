@@ -18,6 +18,7 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
@@ -702,6 +703,7 @@ public class HttpRequest {
                 });
     }
 
+
     /**
      * 申请提现
      */
@@ -723,4 +725,25 @@ public class HttpRequest {
                 });
     }
 
+
+    /**
+     * 获取未读消息
+     */
+    public static void getUnreadMessageInfo(LifecycleOwner activity, final HttpCallBack<UnreadMessageInfo> callBack) {
+        apiRequest.getUnreadMessageInfo(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<UnreadMessageInfo>() {
+
+                    @Override
+                    public void onSuccess(UnreadMessageInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
 }
