@@ -31,7 +31,6 @@ public class ShareMaterialActivity extends BaseBindActivity<ActivityShareMateria
 
     private ShareMaterialAdapter shareMaterialAdapter;
 
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_share_material;

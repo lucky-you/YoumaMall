@@ -19,12 +19,12 @@ public class UserInfo {
      * nickname : 周小川
      * mobile : 13677197786
      * avatar : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517862
-     * money : 1546.97
+     * money : 1146.97
      * wechat_qrcode : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517764
-     * token : 81852db4-ae13-4281-b0f8-c502849a5dce
+     * token : ae84ae07-2259-40c0-be62-e7a79eae4ce5
      * user_id : 4
-     * createtime : 1608366165
-     * expiretime : 1610958165
+     * createtime : 1608779074
+     * expiretime : 1611371074
      * expires_in : 2592000
      * level : 1
      * is_pay_pwd : 1
@@ -33,9 +33,9 @@ public class UserInfo {
      * withdrawal : 0.00
      * today_income : 2.00
      * income : 2.00
-     * last_income_time : 1608344509
+     * last_income_time : 1608775672
      * pid : 1
-     * open_withdraw : 1
+     * level_name : vip会员
      */
 
     private int id;
@@ -58,7 +58,7 @@ public class UserInfo {
     private String income;
     private int last_income_time;
     private int pid;
-    private String open_withdraw;
+    private String level_name;
 
     public static void setUserInfo(UserInfo data) {
         String userInfo = GsonUtils.toJson(data);
@@ -104,6 +104,8 @@ public class UserInfo {
     public static String getUserPassword() {
         return (String) SPUtils.get(ConstantValue.PASSWORD, "");
     }
+
+
 
 
     public int getId() {
@@ -266,11 +268,11 @@ public class UserInfo {
         this.pid = pid;
     }
 
-    public String getOpen_withdraw() {
-        return open_withdraw;
+    public String getLevel_name() {
+        return level_name;
     }
 
-    public void setOpen_withdraw(String open_withdraw) {
-        this.open_withdraw = open_withdraw;
+    public void setLevel_name(String level_name) {
+        this.level_name = level_name;
     }
 }

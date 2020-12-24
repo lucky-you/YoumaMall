@@ -27,6 +27,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/editContent"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center_vertical"
@@ -49,6 +50,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/editContact"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"

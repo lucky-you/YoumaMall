@@ -9,6 +9,8 @@ import com.zhowin.base_library.callback.OnPasswordEditListener;
 import com.zhowin.base_library.dialog.PasswordDialog;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.SPUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
@@ -72,6 +74,8 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
             public void onSuccess(DepositMessage depositMessage) {
                 dismissLoadDialog();
                 if (depositMessage != null) {
+                    boolean isOpenMerchant = 1 == depositMessage.getIs_open_merchant();
+                    SPUtils.set(ConstantValue.IS_OPEN_MERCHANT, isOpenMerchant);
                     mBinding.tvDepositMoney.setText(depositMessage.getApply_merchant_money());
                     mBinding.tvHitDepositMessage.setText(depositMessage.getBond_detail());
                 }

@@ -1,6 +1,8 @@
 package com.zhowin.youmamall.mine.fragment;
 
 import android.app.Dialog;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,6 +24,7 @@ import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
 import com.zhowin.youmamall.login.activity.LoginActivity;
 import com.zhowin.youmamall.mine.activity.DepositActivity;
 import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
+import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
 import com.zhowin.youmamall.mine.adapter.ColumnListAdapter;
 import com.zhowin.youmamall.mine.model.ColumnList;
 import com.zhowin.youmamall.http.HttpRequest;
@@ -37,6 +40,7 @@ import com.zhowin.youmamall.mine.activity.ShareMaterialActivity;
 import com.zhowin.youmamall.mine.activity.WithdrawActivity;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.GoodInfo;
+import com.zhowin.youmamall.mine.model.MineItemConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +53,8 @@ import java.util.List;
 public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     private ColumnListAdapter columnListAdapter;
-
     private boolean isOpenMerchant;//是否开通店铺
+    private int passwordType, itemType;//密码的状态 , 审核状态
 
     @Override
     public int getLayoutId() {
@@ -67,30 +71,71 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     @Override
     public void initData() {
-        List<ColumnList> columnList = new ArrayList<>();
-        columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通代理"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "幸运转盘"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_yhj, "我的优惠券"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_yqm, "邀请码"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
-        columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
-        columnListAdapter = new ColumnListAdapter(columnList);
+        columnListAdapter = new ColumnListAdapter(new ArrayList<>());
         mBinding.moreRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         mBinding.moreRecyclerView.setAdapter(columnListAdapter);
         columnListAdapter.setOnItemClickListener(this::onItemClick);
+    }
+
+    private List<ColumnList> getMineItemList() {
+        List<ColumnList> columnList = new ArrayList<>();
+        switch (itemType) {
+            case 1: //全部放开
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 2: //放开账号升级
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 3://放开佣金提现
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 4://隐藏  账号升级 和  佣金提现
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+        }
+        Log.e("xy", "size:" + columnList.size());
+        return columnList;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getUserInfoMessage();
-        getDepositMessage();
+        getMineItemConfig();
+        isOpenMerchant = SPUtils.getBoolean(ConstantValue.IS_OPEN_MERCHANT);
+        mBinding.tvOpenStore.setText(isOpenMerchant ? "发布商品" : "开通店铺");
     }
 
     private void getUserInfoMessage() {
@@ -99,10 +144,12 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             public void onSuccess(UserInfo userInfo) {
                 if (userInfo != null) {
                     UserInfo.setUserInfo(userInfo);
+                    passwordType = userInfo.getIs_pay_pwd();
                     GlideUtils.loadUserPhotoForLogin(mContext, userInfo.getAvatar(), mBinding.civUserHead);
                     mBinding.tvUserNickName.setText(userInfo.getNickname());
                     mBinding.ivUserLevel.setVisibility(0 != userInfo.getLevel() ? View.VISIBLE : View.GONE);
                     mBinding.ivUserLevel.setImageResource(UserLevelHelper.getUserLevel(userInfo.getLevel()));
+                    mBinding.tvProxy.setText("(" + userInfo.getLevel_name() + ")");
                     mBinding.tvYQMCode.setText("邀请码：" + userInfo.getInvitation_code());
                     mBinding.tvTJRText.setText("推荐人：" + userInfo.getF_nickname());
                     mBinding.tvKTYJValue.setText(userInfo.getMoney());
@@ -120,23 +167,27 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         });
     }
 
-
-    private void getDepositMessage() {
-        showLoadDialog();
-        HttpRequest.getDepositMessage(this, new HttpCallBack<DepositMessage>() {
+    private void getMineItemConfig() {
+        HttpRequest.getMineItemConfig(this, new HttpCallBack<MineItemConfig>() {
             @Override
-            public void onSuccess(DepositMessage depositMessage) {
-                dismissLoadDialog();
-                if (depositMessage != null) {
-                    isOpenMerchant = 1 == depositMessage.getIs_open_merchant();
-                    mBinding.tvOpenStore.setText(isOpenMerchant ? "发布商品" : "开通店铺");
+            public void onSuccess(MineItemConfig mineItemConfig) {
+                if (mineItemConfig != null) {
+                    if (TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
+                        itemType = 1;
+                    } else if (!TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
+                        itemType = 3;
+                    } else if (TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && !TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
+                        itemType = 2;
+                    } else if (!TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && !TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
+                        itemType = 4;
+                    }
+                    columnListAdapter.setNewData(getMineItemList());
                 }
             }
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
-                dismissLoadDialog();
-                ToastUtils.showToast(errorMsg);
+
             }
         });
     }
@@ -197,41 +248,134 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        switch (position) {
-            case 0:
-                OpenAgentActivity.start(mContext, 1);
+        switch (itemType) {
+            case 1: //全部放开
+                switch (position) {
+                    case 0:
+                        OpenAgentActivity.start(mContext, 2);
+                        break;
+                    case 1:
+                        startActivity(ShareMaterialActivity.class);
+                        break;
+                    case 2:
+                        OpenAgentActivity.start(mContext, 1);
+                        break;
+                    case 3:
+                        startActivity(MyTeamActivity.class);
+                        break;
+                    case 4:
+                        startActivity(WithdrawActivity.class);
+                        break;
+                    case 5:
+                        MyCouponActivity.start(mContext, 1);
+                        break;
+                    case 6:
+                        SetPasswordActivity.start(mContext, passwordType);
+                        break;
+                    case 7:
+                        startActivity(FeedbackActivity.class);
+                        break;
+                    case 8:
+                        startActivity(ContactServiceActivity.class);
+                        break;
+                    case 9:
+                        showOutLoginDialog(1, "确定要退出吗?");
+                        break;
+                }
+
                 break;
-            case 1:
+            case 2: //放开账号升级
+                switch (position) {
+                    case 0:
+                        OpenAgentActivity.start(mContext, 2);
+                        break;
+                    case 1:
+                        startActivity(ShareMaterialActivity.class);
+                        break;
+                    case 2:
+                        startActivity(MyTeamActivity.class);
+                        break;
+                    case 3:
+                        startActivity(WithdrawActivity.class);
+                        break;
+                    case 4:
+                        MyCouponActivity.start(mContext, 1);
+                        break;
+                    case 5:
+                        SetPasswordActivity.start(mContext, passwordType);
+                        break;
+                    case 6:
+                        startActivity(FeedbackActivity.class);
+                        break;
+                    case 7:
+                        startActivity(ContactServiceActivity.class);
+                        break;
+                    case 8:
+                        showOutLoginDialog(1, "确定要退出吗?");
+                        break;
+                }
                 break;
-            case 2:
+            case 3://放开佣金提现
+                switch (position) {
+                    case 0:
+                        OpenAgentActivity.start(mContext, 2);
+                        break;
+                    case 1:
+                        startActivity(ShareMaterialActivity.class);
+                        break;
+                    case 2:
+                        OpenAgentActivity.start(mContext, 1);
+                        break;
+                    case 3:
+                        startActivity(MyTeamActivity.class);
+                        break;
+                    case 4:
+                        MyCouponActivity.start(mContext, 1);
+                        break;
+                    case 5:
+                        SetPasswordActivity.start(mContext, passwordType);
+                        break;
+                    case 6:
+                        startActivity(FeedbackActivity.class);
+                        break;
+                    case 7:
+                        startActivity(ContactServiceActivity.class);
+                        break;
+                    case 8:
+                        showOutLoginDialog(1, "确定要退出吗?");
+                        break;
+                }
                 break;
-            case 3:
-                startActivity(MyTeamActivity.class);
-                break;
-            case 4:
-                startActivity(WithdrawActivity.class);
-                break;
-            case 5:
-                MyCouponActivity.start(mContext, 1);
-                break;
-            case 6:
-                MyCouponActivity.start(mContext, 2);
-                break;
-            case 7:
-                startActivity(ShareMaterialActivity.class);
-                break;
-            case 8:
-                break;
-            case 9:
-                startActivity(FeedbackActivity.class);
-                break;
-            case 10:
-                startActivity(ContactServiceActivity.class);
-                break;
-            case 11:
-                showOutLoginDialog(1, "确定要退出吗?");
+            case 4://隐藏  账号升级 和  佣金提现
+                switch (position) {
+                    case 0:
+                        OpenAgentActivity.start(mContext, 2);
+                        break;
+                    case 1:
+                        startActivity(ShareMaterialActivity.class);
+                        break;
+                    case 2:
+                        startActivity(MyTeamActivity.class);
+                        break;
+                    case 3:
+                        MyCouponActivity.start(mContext, 1);
+                        break;
+                    case 4:
+                        SetPasswordActivity.start(mContext, passwordType);
+                        break;
+                    case 5:
+                        startActivity(FeedbackActivity.class);
+                        break;
+                    case 6:
+                        startActivity(ContactServiceActivity.class);
+                        break;
+                    case 7:
+                        showOutLoginDialog(1, "确定要退出吗?");
+                        break;
+                }
                 break;
         }
+
     }
 
     private void showOutLoginDialog(int type, String title) {

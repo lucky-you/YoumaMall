@@ -1,6 +1,8 @@
 package com.zhowin.youmamall.home.adapter;
 
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -25,7 +27,8 @@ public class HomeFLGNAdapter extends BaseQuickAdapter<VipWelfareList, BaseViewHo
     public HomeFLGNAdapter(@Nullable List<VipWelfareList> data) {
         super(R.layout.include_item_flgn_layout, data);
     }
-private OnHomeSeeMoreListener  onHomeSeeMoreListener;
+
+    private OnHomeSeeMoreListener onHomeSeeMoreListener;
 
     public void setOnHomeSeeMoreListener(OnHomeSeeMoreListener onHomeSeeMoreListener) {
         this.onHomeSeeMoreListener = onHomeSeeMoreListener;
@@ -36,11 +39,12 @@ private OnHomeSeeMoreListener  onHomeSeeMoreListener;
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivIconImage));
         helper.setText(R.id.tvIconName, item.getName());
         RoundedImageView rivBackground = helper.getView(R.id.rivBackground);
-//        rivBackground.setBorderColor(Color.parseColor(item.getColour()));
+        int color = Color.parseColor("#" + item.getColour());
+        rivBackground.setBackgroundColor(color);
         helper.getView(R.id.clFLRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onHomeSeeMoreListener!=null){
+                if (onHomeSeeMoreListener != null) {
                     onHomeSeeMoreListener.onFLGNItemClick(item);
                 }
             }

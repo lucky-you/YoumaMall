@@ -18,7 +18,6 @@
             app:mTitle="我的团队" />
 
         <com.zhowin.base_library.view.RefreshLayout
-
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -31,6 +30,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -63,10 +63,10 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <com.flyco.tablayout.widget.MsgView
+                                    android:id="@+id/mvZXNumber"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_alignParentRight="true"
-                                    android:layout_marginStart="10dp"
                                     android:gravity="center"
                                     android:text="5"
                                     android:textColor="@color/white"
@@ -89,57 +89,6 @@
                                 android:textSize="15sp" />
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center">
-
-                                <ImageView
-                                    android:id="@+id/ivLeftTwoImage"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/icon_sc"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintLeft_toLeftOf="parent"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <com.flyco.tablayout.widget.MsgView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginStart="10dp"
-                                    android:gravity="center"
-                                    android:text="5"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp"
-                                    app:layout_constraintLeft_toRightOf="@id/ivLeftTwoImage"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:mv_backgroundColor="@color/color_FF560B"
-                                    app:mv_isRadiusHalfHeight="true" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="8dp"
-                                android:text="小市场"
-                                android:textColor="@color/color_333"
-                                android:textSize="15sp" />
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -167,10 +116,9 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <com.flyco.tablayout.widget.MsgView
+                                    android:id="@+id/mvTDNumber"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginStart="10dp"
                                     android:gravity="center"
                                     android:text="5"
                                     android:textColor="@color/white"

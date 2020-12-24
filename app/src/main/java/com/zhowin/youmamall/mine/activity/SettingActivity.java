@@ -41,7 +41,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
 
 
     private String qiNiuYunToken, qiNiuYunBaseUrl, userAvatar, userNickName, userQRCode;
-    private int isSetPayPassword;
+    private int passwordType;
 
     @Override
     public int getLayoutId() {
@@ -51,7 +51,6 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     @Override
     public void initView() {
         setOnClick(R.id.civUserHead, R.id.tvUserNickName, R.id.tvUserMobile, R.id.tvSetPayPassword, R.id.llQRCodeLayout);
-
     }
 
     @Override
@@ -75,7 +74,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
                     userAvatar = userInfo.getAvatar();
                     userNickName = userInfo.getNickname();
                     userQRCode = userInfo.getWechat_qrcode();
-                    isSetPayPassword = userInfo.getIs_pay_pwd();
+                    passwordType = userInfo.getIs_pay_pwd();
                     GlideUtils.loadUserPhotoForLogin(mContext, userAvatar, mBinding.civUserHead);
                     mBinding.tvUserNickName.setText(userNickName);
                     mBinding.tvUserMobile.setText(userInfo.getMobile());
@@ -95,7 +94,7 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.civUserHead:
-                showSelectUserHeadPhotoDialog();
+                showSelectUserHeadPhotoDialog(true);
                 break;
             case R.id.tvUserNickName:
                 showChangeNIckName();
@@ -104,9 +103,10 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
                 showChangeMobile();
                 break;
             case R.id.tvSetPayPassword:
-                SetPasswordActivity.start(mContext, isSetPayPassword);
+                SetPasswordActivity.start(mContext, passwordType);
                 break;
             case R.id.llQRCodeLayout:
+                showSelectUserHeadPhotoDialog(false);
                 break;
         }
     }
@@ -136,16 +136,16 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     }
 
 
-    private void showSelectUserHeadPhotoDialog() {
+    private void showSelectUserHeadPhotoDialog(boolean isSelectHead) {
         SelectUserImageDialog selectUserImageDialog = new SelectUserImageDialog();
         selectUserImageDialog.setOnSelectUserHeadDialogListener(new OnSelectUserHeadDialogListener() {
             @Override
             public void onTakePicture() {
                 //拍照
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermission(1, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
+                    requestPermission(isSelectHead, 1, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
                 } else {
-                    PictureSelectorUtils.takingPictures(mContext, 888);
+                    PictureSelectorUtils.takingPictures(mContext, isSelectHead ? 888 : 999);
                 }
             }
 
@@ -153,25 +153,25 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
             public void onAlbumSelection() {
                 //相册中选择
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermission(2, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
+                    requestPermission(isSelectHead, 2, Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
                 } else {
-                    PictureSelectorUtils.selectImageOfOne(mContext, 888, false);
+                    PictureSelectorUtils.selectImageOfOne(mContext, isSelectHead ? 888 : 999, false);
                 }
             }
         });
         selectUserImageDialog.show(getSupportFragmentManager(), "sc");
     }
 
-    private void requestPermission(int type, @PermissionDef String... permissions) {
+    private void requestPermission(boolean isSelectHead, int type, @PermissionDef String... permissions) {
         AndPermissionUtils.requestPermission(mContext, new AndPermissionListener() {
             @Override
             public void PermissionSuccess(List<String> permissions) {
                 switch (type) {
                     case 1:
-                        PictureSelectorUtils.takingPictures(mContext, 888);
+                        PictureSelectorUtils.takingPictures(mContext, isSelectHead ? 888 : 999);
                         break;
                     case 2:
-                        PictureSelectorUtils.selectImageOfOne(mContext, 888, false);
+                        PictureSelectorUtils.selectImageOfOne(mContext, isSelectHead ? 888 : 999, false);
                         break;
                 }
             }
@@ -204,24 +204,36 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 888:
+            case 888: //
                 //上传七牛云
-                List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                if (selectList.isEmpty()) return;
-                String imageUrl = PictureSelectorUtils.getPhotoPath(selectList.get(0));
-                qinIuUpLoad(imageUrl);
+                List<LocalMedia> selectHeadList = PictureSelector.obtainMultipleResult(data);
+                if (selectHeadList.isEmpty()) return;
+                String imageUrl = PictureSelectorUtils.getPhotoPath(selectHeadList.get(0));
+                qinIuUpLoad(imageUrl, true);
+                break;
+            case 999: //
+                //上传七牛云
+                List<LocalMedia> selectQrList = PictureSelector.obtainMultipleResult(data);
+                if (selectQrList.isEmpty()) return;
+                String imageQrUrl = PictureSelectorUtils.getPhotoPath(selectQrList.get(0));
+                qinIuUpLoad(imageQrUrl, false);
                 break;
         }
     }
 
-    private void qinIuUpLoad(String ImageUrl) {
+    private void qinIuUpLoad(String ImageUrl, boolean isSelectHead) {
         QinIuUtils.qinIuUpLoad(ImageUrl, qiNiuYunToken, new QinIuUpLoadListener() {
             @Override
             public void upLoadSuccess(String path) {
-                userAvatar = "/" + path;
-                String url = qiNiuYunBaseUrl + userAvatar;
-                System.out.print("url:" + url);
-                GlideUtils.loadObjectImage(mContext, qiNiuYunBaseUrl + userAvatar, mBinding.civUserHead);
+                if (isSelectHead) {
+                    userAvatar = "/" + path;
+                    String url = qiNiuYunBaseUrl + userAvatar;
+                    GlideUtils.loadObjectImage(mContext, url, mBinding.civUserHead);
+                } else {
+                    userQRCode = "/" + path;
+                    String qrCodeUrl = qiNiuYunBaseUrl + userQRCode;
+                    GlideUtils.loadObjectImage(mContext, qrCodeUrl, mBinding.ivWxQrCodeImage);
+                }
                 changeUserMessageInfo();
             }
 

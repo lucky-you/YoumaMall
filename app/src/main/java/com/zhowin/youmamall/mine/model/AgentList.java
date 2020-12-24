@@ -3,42 +3,71 @@ package com.zhowin.youmamall.mine.model;
 /**
  * author : zho
  * date  ：2020/12/17
- * desc ：代理列表
+ * desc ： VIP /  代理列表
  */
 public class AgentList {
 
 
-    private String title;
-    private String content;
-    private String price;
+    /**
+     * id : 6
+     * name : 市级代理商
+     * open_price : 488.00
+     * open_detail : 永久市级代理
+     * level : 3
+     */
 
-    public AgentList(String title, String content, String price) {
-        this.title = title;
-        this.content = content;
-        this.price = price;
+    private int id;
+    private String name;
+    private String open_price;
+    private String open_detail;
+    private int level;
+    private boolean  isSelect;
+
+    public int getId() {
+        return id;
     }
 
-    public String getTitle() {
-        return title;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getName() {
+        return name;
     }
 
-    public String getContent() {
-        return content;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getOpen_price() {
+        return open_price;
     }
 
-    public String getPrice() {
-        return price;
+    public void setOpen_price(String open_price) {
+        this.open_price = open_price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public String getOpen_detail() {
+        return open_detail;
+    }
+
+    public void setOpen_detail(String open_detail) {
+        this.open_detail = open_detail;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

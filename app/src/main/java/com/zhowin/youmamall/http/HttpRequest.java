@@ -3,6 +3,7 @@ package com.zhowin.youmamall.http;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.utilcode.util.ApiUtils;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import com.zhowin.base_library.http.HttpCallBack;
@@ -18,13 +19,17 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.MessageList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
+import com.zhowin.youmamall.mine.model.AgentList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
+import com.zhowin.youmamall.mine.model.MineItemConfig;
+import com.zhowin.youmamall.mine.model.MyTeamInfo;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
@@ -737,6 +742,154 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(UnreadMessageInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 开通vip / 代理的规则
+     */
+    public static void getVipOrAgentRule(LifecycleOwner activity, boolean isOpenVIP, final HttpCallBack<List<AgentList>> callBack) {
+        String url = isOpenVIP ? ApiRequest.OPEN_VIP_RULE_URL : ApiRequest.OPEN_AGENT_RULE_URL;
+        apiRequest.getVipOrAgentRule(UserInfo.getUserToken(), url)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<AgentList>>() {
+
+                    @Override
+                    public void onSuccess(List<AgentList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 开通vip
+     */
+    public static void openVIP(LifecycleOwner activity, int type, final HttpCallBack<ConfirmOrderInfo> callBack) {
+        apiRequest.openVIP(UserInfo.getUserToken(), type)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<ConfirmOrderInfo>() {
+
+                    @Override
+                    public void onSuccess(ConfirmOrderInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 开通代理
+     */
+    public static void openAgent(LifecycleOwner activity, int type, int itemId, final HttpCallBack<ConfirmOrderInfo> callBack) {
+        apiRequest.openAgent(UserInfo.getUserToken(), type, itemId)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<ConfirmOrderInfo>() {
+
+                    @Override
+                    public void onSuccess(ConfirmOrderInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 我的团队
+     */
+    public static void getMyTeamList(LifecycleOwner activity, int page, int size, final HttpCallBack<MyTeamInfo> callBack) {
+        apiRequest.getMyTeamList(UserInfo.getUserToken(), page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<MyTeamInfo>() {
+
+                    @Override
+                    public void onSuccess(MyTeamInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 意见反馈
+     */
+    public static void submitFeedback(LifecycleOwner activity, String content, String contact, final HttpCallBack<Object> callBack) {
+        apiRequest.submitFeedback(UserInfo.getUserToken(), content, contact)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 我的界面配置
+     */
+    public static void getMineItemConfig(LifecycleOwner activity, final HttpCallBack<MineItemConfig> callBack) {
+        apiRequest.getMineItemConfig(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<MineItemConfig>() {
+
+                    @Override
+                    public void onSuccess(MineItemConfig demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 获取信息列表
+     */
+    public static void getMessageList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<MessageList>> callBack) {
+        apiRequest.getMessageList(UserInfo.getUserToken(), page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<MessageList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<MessageList> demo) {
                         callBack.onSuccess(demo);
                     }
 

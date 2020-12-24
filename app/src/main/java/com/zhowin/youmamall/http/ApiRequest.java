@@ -12,13 +12,17 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.MessageList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
 import com.zhowin.youmamall.mine.model.AccountTurnoverList;
+import com.zhowin.youmamall.mine.model.AgentList;
 import com.zhowin.youmamall.mine.model.ContactServiceList;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.MallOrderList;
+import com.zhowin.youmamall.mine.model.MineItemConfig;
+import com.zhowin.youmamall.mine.model.MyTeamInfo;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
@@ -153,6 +157,31 @@ public interface ApiRequest {
 
     //vip商品列表
     String GET_VIP_GOOD_LIST_URL = "api/item/vip_list";
+
+    //开通Vip规则
+    String OPEN_VIP_RULE_URL = "api/proxy/vip_rule";
+
+    //开通代理规则
+    String OPEN_AGENT_RULE_URL = "api/proxy/upgrade_rule";
+
+    //开通VIP
+    String OPEN_VIP_URL = "api/proxy/open_vip";
+
+    //开通 代理
+    String OPEN_AGENT_URL = "api/proxy/open_proxy";
+
+    //我的团队
+    String MY_TEAM_LIST_URL = "api/proxy/my_team";
+
+    //意见反馈
+    String FEEDBACK_URL = "api/feedback/submit";
+
+    //我的配置
+    String MINE_ITEM_CONFIG_URL = "api/set/config_set";
+
+
+    //站内信信息列表
+    String GET_MESSAGE_LIST_URL = "api/message/list";
 
 
     /**
@@ -388,6 +417,56 @@ public interface ApiRequest {
      */
     @POST(GET_UNREAD_MESSAGE_URL)
     Observable<ApiResponse<UnreadMessageInfo>> getUnreadMessageInfo(@Header(TOKEN) String token);
+
+    /**
+     * 开通vip / 代理 的规则
+     */
+    @POST
+    Observable<ApiResponse<List<AgentList>>> getVipOrAgentRule(@Header(TOKEN) String token, @Url String url);
+
+    /**
+     * 开通vip
+     */
+    @FormUrlEncoded
+    @POST(OPEN_VIP_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> openVIP(@Header(TOKEN) String token, @Field("type") int type);
+
+    /**
+     * 开通代理
+     */
+    @FormUrlEncoded
+    @POST(OPEN_AGENT_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> openAgent(@Header(TOKEN) String token, @Field("type") int type, @Field("id") int id);
+
+
+    /**
+     * 我的团队
+     */
+    @FormUrlEncoded
+    @POST(MY_TEAM_LIST_URL)
+    Observable<ApiResponse<MyTeamInfo>> getMyTeamList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+
+
+    /**
+     * 意见反馈
+     */
+    @FormUrlEncoded
+    @POST(FEEDBACK_URL)
+    Observable<ApiResponse<Object>> submitFeedback(@Header(TOKEN) String token, @Field("content") String content, @Field("contact") String contact);
+
+    /**
+     * 我的界面配置
+     */
+    @POST(MINE_ITEM_CONFIG_URL)
+    Observable<ApiResponse<MineItemConfig>> getMineItemConfig(@Header(TOKEN) String token);
+
+
+    /**
+     * 获取信息列表
+     */
+    @FormUrlEncoded
+    @POST(GET_MESSAGE_LIST_URL)
+    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
 
 
 }
