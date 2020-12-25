@@ -155,6 +155,7 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
     @Override
     public void onCopyContent(String content) {
         ClipboardUtils.copyText(content);
+        ToastUtils.showToast("已复制到粘贴板");
     }
 
     @Override

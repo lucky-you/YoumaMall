@@ -188,7 +188,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         switch (v.getId()) {
             case R.id.rivImageOne:
                 if (UserInfo.getUserInfo().getLevel() > 0) {
-                    ColumnListActivity.start(mContext, 2, "", 0);
+                    ColumnListActivity.start(mContext, 2, "会员代理", 0);
                 } else {
                     showHitLevelDialog();
                 }
