@@ -33,7 +33,6 @@ import com.zhowin.youmamall.mine.model.MyTeamInfo;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
-import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -308,10 +307,22 @@ public class HttpRequest {
     }
 
     /**
-     * 商城右侧分类商品  和 首页分类商品公用
+     * VIP商品列表  和 商品列表    复购商品列表
      */
-    public static void getMallRightList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
-        apiRequest.getMallRightList(UserInfo.getUserToken(), category_id, page, size)
+    public static void getMallRightList(LifecycleOwner activity, int type, HashMap<String, Object> map, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
+        String url = null;
+        switch (type) {
+            case 1: //商品列表
+                url = ApiRequest.MALL_GOOD_LIST_URL;
+                break;
+            case 2://VIP商品列表
+                url = ApiRequest.GET_VIP_GOOD_LIST_URL;
+                break;
+            case 3://复购商品列表
+                url = ApiRequest.REPURCHASE_GOOD_LIST_URL;
+                break;
+        }
+        apiRequest.getMallRightList(UserInfo.getUserToken(), url, map)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
@@ -540,16 +551,16 @@ public class HttpRequest {
     }
 
     /**
-     * 立即支付
+     * 立即入住
      */
-    public static void startDepositPayment(LifecycleOwner activity, int type, String password, final HttpCallBack<PaymentReqInfo> callBack) {
+    public static void startDepositPayment(LifecycleOwner activity, int type, String password, final HttpCallBack<ConfirmOrderInfo> callBack) {
         apiRequest.startDepositPayment(UserInfo.getUserToken(), type, password)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
-                .subscribe(new ApiObserver<PaymentReqInfo>() {
+                .subscribe(new ApiObserver<ConfirmOrderInfo>() {
 
                     @Override
-                    public void onSuccess(PaymentReqInfo demo) {
+                    public void onSuccess(ConfirmOrderInfo demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -677,6 +688,27 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(BaseResponse<MallOrderList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 确认收货
+     */
+    public static void goodConfirmReceipt(LifecycleOwner activity, int goodId, final HttpCallBack<Object> callBack) {
+        apiRequest.goodConfirmReceipt(UserInfo.getUserToken(), goodId)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
                         callBack.onSuccess(demo);
                     }
 
@@ -898,5 +930,12 @@ public class HttpRequest {
                         callBack.onFail(errorCode, errorMsg);
                     }
                 });
+    }
+
+    /**
+     * 下载图片
+     */
+    public static void downLoadImage(LifecycleOwner activity,String imageUrl, final HttpCallBack<BaseResponse<MessageList>> callBack) {
+
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/30
- * desc ：
+ * desc ：订单列表
  */
 public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseViewHolder> {
     public MallOrderListAdapter(@Nullable List<MallOrderList> data) {
@@ -41,7 +41,6 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                 .setText(R.id.tvPrice, "¥" + item.getPay_money())
                 .setText(R.id.tvCJSJText, DateHelpUtils.getStringDate(item.getCreatetime()))
                 .setText(R.id.tvSFJEText, "¥" + item.getPay_money())
-                .setGone(R.id.tvNowPay, 0 == item.getStatus())
                 .getView(R.id.llOrderRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +55,8 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                 helper.setText(R.id.tvOrderStatus, "待付款")
                         .setGone(R.id.clCPMYLayout, false)
                         .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B))
+                        .setGone(R.id.tvNowPay, true)
+                        .setText(R.id.tvNowPay, "立即支付")
                         .getView(R.id.tvNowPay).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,18 +75,30 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
             case 1:
                 helper.setText(R.id.tvOrderStatus, "待发货")
                         .setGone(R.id.clCPMYLayout, false)
-                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B));
+                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B))
+                        .setGone(R.id.tvNowPay, false);
                 break;
             case 2:
                 helper.setText(R.id.tvOrderStatus, "待收货")
                         .setGone(R.id.clCPMYLayout, false)
-                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B));
+                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_FFA53B))
+                        .setGone(R.id.tvNowPay, true)
+                        .setText(R.id.tvNowPay, "确认收货")
+                        .getView(R.id.tvNowPay).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onMallOrderListClickListener != null) {
+                            onMallOrderListClickListener.onConfirmReceipt(item.getId());
+                        }
+                    }
+                });
                 break;
             case 3:
                 helper.setText(R.id.tvOrderStatus, "已完成")
                         .setGone(R.id.clCPMYLayout, true)
                         .setText(R.id.tvCPMYText, item.getSecret_key())
-                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_227BFF));
+                        .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_227BFF))
+                        .setGone(R.id.tvNowPay, false);
                 break;
         }
     }

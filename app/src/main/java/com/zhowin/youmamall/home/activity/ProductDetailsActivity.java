@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ConstantValue;
@@ -51,14 +55,14 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     public void initView() {
         goodId = getIntent().getIntExtra(ConstantValue.ID, -1);
         setOnClick(R.id.tvBuyNow, R.id.tvShareCode, R.id.llShopMallLayout, R.id.llShareCodeLayout);
-        SpanUtils.with(mBinding.tvPurchaseNotes)
-                .appendLine("购买须知").setForegroundColor(getBaseColor(R.color.color_E83219)).setBold()
-                .appendLine("1.请先复制链接到浏览器打开下载好App,查看视频教程。确保是自己需要的辅助再进行下单")
-                .appendLine("2.所有软件功能问题最终以安装后实际功能为准在购买先行查阅教程等教材后下单购买")
-                .appendLine("3.已购买的用户如调软件查村，开发波抓跑路服务等不可抗柜的因素不退换")
-                .appendLine("4.手机剧机恢复出厂设置系统升级个人行为操作导散软件无法使用的，不在售后范围内")
-                .appendLine("5.既然选择了方便就要自己承担一切不可预测的风险早竟是第三方插件。请知晓以上种种")
-                .create();
+//        SpanUtils.with(mBinding.tvPurchaseNotes)
+//                .appendLine("购买须知").setForegroundColor(getBaseColor(R.color.color_E83219)).setBold()
+//                .appendLine("1.请先复制链接到浏览器打开下载好App,查看视频教程。确保是自己需要的辅助再进行下单")
+//                .appendLine("2.所有软件功能问题最终以安装后实际功能为准在购买先行查阅教程等教材后下单购买")
+//                .appendLine("3.已购买的用户如调软件查村，开发波抓跑路服务等不可抗柜的因素不退换")
+//                .appendLine("4.手机剧机恢复出厂设置系统升级个人行为操作导散软件无法使用的，不在售后范围内")
+//                .appendLine("5.既然选择了方便就要自己承担一切不可预测的风险早竟是第三方插件。请知晓以上种种")
+//                .create();
 
     }
 
@@ -87,6 +91,13 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
                     mBinding.tvProductPrice.setText("¥" + goodDetailsInfo.getPrice());
                     mBinding.tvCommissionPrice.setText("佣金" + goodDetailsInfo.getCommission_money() + "元");
                     mBinding.tvProductLink.setText(goodDetailsInfo.getContent());
+                    String goodDescription = goodDetailsInfo.getPay_description();
+                    if (!TextUtils.isEmpty(goodDescription)) {
+                        SpanUtils.with(mBinding.tvPurchaseNotes)
+                                .appendLine("购买须知").setForegroundColor(getBaseColor(R.color.color_E83219)).setBold()
+                                .appendLine(goodDescription)
+                                .create();
+                    }
                 }
             }
 
@@ -102,7 +113,7 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llShopMallLayout:
-                ColumnListActivity.start(mContext, categoryName, categoryId);
+                ColumnListActivity.start(mContext, 1, categoryName, categoryId);
                 break;
             case R.id.tvShareCode:
             case R.id.llShareCodeLayout:
@@ -138,11 +149,20 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
             public void onSuccess(File result) {
                 if (result != null) {
                     ToastUtils.showToast("保存成功");
+                } else {
+                    ToastUtils.showToast("保存失败");
                 }
             }
         });
     }
 
+
+    /**
+     * 获取 view 的截图
+     *
+     * @param view view的范围
+     * @return bitmap
+     */
     private Bitmap getCacheBitmapFromView(View view) {
         final boolean drawingCacheEnabled = true;
         view.setDrawingCacheEnabled(drawingCacheEnabled);

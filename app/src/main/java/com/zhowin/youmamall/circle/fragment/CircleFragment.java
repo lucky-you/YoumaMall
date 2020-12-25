@@ -1,5 +1,6 @@
 package com.zhowin.youmamall.circle.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
+import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -26,11 +28,21 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/26
- * desc ：
+ * desc ：圈子
  */
 public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayoutBinding> implements OnCircleItemClickListener {
 
+
     private CircleFragmentAdapter circleFragmentAdapter;
+    private int fragmentIndex;
+
+    public static CircleFragment newInstance(int type) {
+        CircleFragment circleFragment = new CircleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ConstantValue.TYPE, type);
+        circleFragment.setArguments(bundle);
+        return circleFragment;
+    }
 
 
     @Override
@@ -40,6 +52,8 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
 
     @Override
     public void initView() {
+        fragmentIndex = getArguments().getInt(ConstantValue.TYPE);
+        mBinding.tvTitleView.setVisibility(1 == fragmentIndex ? View.VISIBLE : View.GONE);
         getCircleList(true);
     }
 

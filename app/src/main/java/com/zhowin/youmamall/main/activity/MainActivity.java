@@ -50,13 +50,13 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
         }
         mFragments.add(new HomeFragment());
         mFragments.add(new MallFragment());
-        mFragments.add(new CircleFragment());
+        mFragments.add(CircleFragment.newInstance(1));
         mFragments.add(new DynamicFragment());
         mFragments.add(new MineFragment());
         mBinding.commonTabLayout.setTabData(mTabEntities, mContext, R.id.container, mFragments);
     }
 
-    public void showJumpFragment(int position){
+    public void showJumpFragment(int position) {
         mBinding.commonTabLayout.setCurrentTab(position);
     }
 

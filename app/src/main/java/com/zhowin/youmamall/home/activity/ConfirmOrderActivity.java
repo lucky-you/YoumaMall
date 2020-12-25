@@ -28,7 +28,6 @@ import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mine.activity.MallOrderListActivity;
 import com.zhowin.youmamall.mine.activity.MyCouponActivity;
 import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
-import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 /**
  * 确认订单

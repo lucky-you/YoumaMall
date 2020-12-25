@@ -125,7 +125,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
                 break;
         }
-        Log.e("xy", "size:" + columnList.size());
         return columnList;
     }
 

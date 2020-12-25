@@ -29,6 +29,7 @@ import com.zhowin.youmamall.mall.model.MallRightList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -87,7 +88,11 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
 
     private void getMallRightList(int categoryId) {
-        HttpRequest.getMallRightList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("shop_category_id", categoryId);
+        map.put("page", currentPage);
+        map.put("size", pageNumber);
+        HttpRequest.getMallRightList(this, 1, map, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null) {

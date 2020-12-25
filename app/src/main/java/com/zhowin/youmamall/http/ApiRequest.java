@@ -26,17 +26,19 @@ import com.zhowin.youmamall.mine.model.MyTeamInfo;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 import com.zhowin.youmamall.mine.model.ShareMaterialList;
 import com.zhowin.youmamall.mine.model.SoldGoodList;
-import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 
@@ -92,6 +94,12 @@ public interface ApiRequest {
     //商品分类列表
     String MALL_GOOD_LIST_URL = "api/item/list";
 
+    //vip商品列表
+    String GET_VIP_GOOD_LIST_URL = "api/item/vip_list";
+
+    //复购商品列表
+    String REPURCHASE_GOOD_LIST_URL = "api/item/repeat_list";
+
     //商品详情
     String GET_GOOD_DETAILS_URL = "api/item/detail";
 
@@ -140,6 +148,9 @@ public interface ApiRequest {
     //订单列表
     String GET_MALL_ORDER_LIST_URL = "api/trade_order/list";
 
+    //确认收货
+    String CONFIRM_RECEIPT_GOOD_URL = "api/trade_order/delivery";
+
     //已售商品列表
     String GET_SOLD_GOOD_LIST_URL = "api/merchant/order_list";
 
@@ -155,8 +166,6 @@ public interface ApiRequest {
     //未读消息
     String GET_UNREAD_MESSAGE_URL = "api/banner/dynamic";
 
-    //vip商品列表
-    String GET_VIP_GOOD_LIST_URL = "api/item/vip_list";
 
     //开通Vip规则
     String OPEN_VIP_RULE_URL = "api/proxy/vip_rule";
@@ -270,8 +279,8 @@ public interface ApiRequest {
      * 商城右侧列表
      */
     @FormUrlEncoded
-    @POST(MALL_GOOD_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Field("shop_category_id") int shop_category_id, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Url String url, @FieldMap HashMap<String, Object> map);
 
     /**
      * 商品详情
@@ -348,10 +357,9 @@ public interface ApiRequest {
     /**
      * 立即入住
      */
-
     @FormUrlEncoded
     @POST(START_PAYMENT_DEPOSIT_URL)
-    Observable<ApiResponse<PaymentReqInfo>> startDepositPayment(@Header(TOKEN) String token, @Field("type") int type, @Field("pay_password") String pay_password);
+    Observable<ApiResponse<ConfirmOrderInfo>> startDepositPayment(@Header(TOKEN) String token, @Field("type") int type, @Field("pay_password") String pay_password);
 
 
     /**
@@ -382,6 +390,15 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(GET_MALL_ORDER_LIST_URL)
     Observable<ApiResponse<BaseResponse<MallOrderList>>> getMallOrderList(@Header(TOKEN) String token, @Field("status") int status, @Field("page") int pageNum, @Field("size") int pageSize);
+
+
+    /**
+     * 确认收货
+     */
+    @FormUrlEncoded
+    @POST(CONFIRM_RECEIPT_GOOD_URL)
+    Observable<ApiResponse<Object>> goodConfirmReceipt(@Header(TOKEN) String token, @Field("id") int goodId);
+
 
     /**
      * 已售商品列表
@@ -468,5 +485,12 @@ public interface ApiRequest {
     @POST(GET_MESSAGE_LIST_URL)
     Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
 
+
+    /**
+     * 下载图片
+     */
+    @GET
+    @Streaming
+    Observable<ResponseBody> downloadFile(@Url String  imgUrl);
 
 }

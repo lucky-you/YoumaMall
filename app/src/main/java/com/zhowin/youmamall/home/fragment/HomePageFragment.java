@@ -188,14 +188,16 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
         switch (v.getId()) {
             case R.id.rivImageOne:
                 if (UserInfo.getUserInfo().getLevel() > 0) {
-
+                    ColumnListActivity.start(mContext, 2, "", 0);
                 } else {
                     showHitLevelDialog();
                 }
                 break;
             case R.id.rivImageTwo:
+                ColumnListActivity.start(mContext, 1, "", 0);
                 break;
             case R.id.rivImageThree:
+                ColumnListActivity.start(mContext, 3, "", 0);
                 break;
         }
     }
@@ -213,7 +215,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String categoryTitle = homeCategoryListAdapter.getItem(position).getName();
                 int categoryId = homeCategoryListAdapter.getItem(position).getId();
-                ColumnListActivity.start(mContext, categoryTitle, categoryId);
+                ColumnListActivity.start(mContext, 1, categoryTitle, categoryId);
             }
         });
     }

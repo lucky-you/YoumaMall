@@ -16,11 +16,12 @@ import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityDepositBinding;
+import com.zhowin.youmamall.home.activity.WebViewActivity;
+import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.callback.OnSelectPaymentClickListener;
 import com.zhowin.youmamall.mine.dialog.SelectPaymentTypeDialog;
 import com.zhowin.youmamall.mine.model.DepositMessage;
-import com.zhowin.youmamall.wxapi.PaymentReqInfo;
 
 /**
  * 缴纳保证金
@@ -60,7 +61,7 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
                         setCommissionPaymentPassword();
                     }
                 } else {
-                    startDepositPayment("");
+                    confirmOrder("");
                 }
                 break;
         }
@@ -137,21 +138,29 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
 
             @Override
             public void onDeterminePayment(String password) {
-                startDepositPayment(password);
+                confirmOrder(password);
             }
         });
         dialog.show();
     }
 
 
-    private void startDepositPayment(String password) {
+    private void confirmOrder(String password) {
         showLoadDialog();
-        HttpRequest.startDepositPayment(this, paymentType, password, new HttpCallBack<PaymentReqInfo>() {
+        HttpRequest.startDepositPayment(this, paymentType, password, new HttpCallBack<ConfirmOrderInfo>() {
             @Override
-            public void onSuccess(PaymentReqInfo paymentReqInfo) {
+            public void onSuccess(ConfirmOrderInfo confirmOrderInfo) {
                 dismissLoadDialog();
-                if (paymentReqInfo != null) {
-
+                switch (paymentType) {
+                    case 1:
+                        ToastUtils.showToast("支付成功");
+                        break;
+                    case 2: //支付宝支付
+                    case 3://微信支付
+                        String paymentUrl = confirmOrderInfo.getUrl();
+                        String paymentTitle = 2 == paymentType ? "支付宝支付" : "微信支付";
+                        WebViewActivity.start(mContext, paymentTitle, paymentUrl);
+                        break;
                 }
             }
 

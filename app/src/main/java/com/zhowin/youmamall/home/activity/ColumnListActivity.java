@@ -25,20 +25,23 @@ import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mall.model.MallRightList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * 分类   /  VIP  商品列表
+ * categoryType :  1：商品列表  2：VIP商品列表  3:复购商品列表
  */
 public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBinding> implements OnGoodCardItemClickListener {
 
 
     private String categoryTitle;
-    private int categoryId;
+    private int categoryType, categoryId;
     private HomeXPSFAdapter homeXPSFAdapter;
 
-    public static void start(Context context, String categoryTitle, int categoryId) {
+    public static void start(Context context, int type, String categoryTitle, int categoryId) {
         Intent intent = new Intent(context, ColumnListActivity.class);
+        intent.putExtra(ConstantValue.INDEX, type);
         intent.putExtra(ConstantValue.TITLE, categoryTitle);
         intent.putExtra(ConstantValue.ID, categoryId);
         context.startActivity(intent);
@@ -51,10 +54,10 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
 
     @Override
     public void initView() {
+        categoryType = getIntent().getIntExtra(ConstantValue.INDEX, -1);
         categoryTitle = getIntent().getStringExtra(ConstantValue.TITLE);
         categoryId = getIntent().getIntExtra(ConstantValue.ID, -1);
         mBinding.tvTitleView.setTitle(categoryTitle);
-
         getColumnDataList(true);
     }
 
@@ -72,9 +75,29 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
         if (isRefresh) {
             currentPage = 1;
         }
-        HttpRequest.getMallRightList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<MallRightList>>() {
+        HashMap<String, Object> map = new HashMap<>();
+        switch (categoryType) {
+            case 1:
+                map.put("shop_category_id", categoryId);
+                map.put("sort", 1);
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
+                break;
+            case 2:
+                map.put("shop_category_id", categoryId);
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
+                break;
+            case 3:
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
+                break;
+        }
+        showLoadDialog();
+        HttpRequest.getMallRightList(this, categoryType, map, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
+                dismissLoadDialog();
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
@@ -95,6 +118,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
                 ToastUtils.showToast(errorMsg);
             }
         });

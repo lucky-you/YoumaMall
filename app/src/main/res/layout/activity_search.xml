@@ -51,6 +51,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.zhowin.base_library.view.RefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_f6f6f6">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                style="@style/RecycleViewStyle" />
+
+        </com.zhowin.base_library.view.RefreshLayout>
+
     </LinearLayout>
 
 </layout>

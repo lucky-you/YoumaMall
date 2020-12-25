@@ -11,6 +11,7 @@ import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
+import com.zhowin.youmamall.circle.fragment.CircleFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
 import com.zhowin.youmamall.home.activity.MessageListActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
@@ -46,7 +47,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
     public void initData() {
         fragments.add(new HomeTaskFragment());
         fragments.add(new HomePageFragment());
-        fragments.add(new HomeCircleFragment());
+        fragments.add(CircleFragment.newInstance(2));
         HomePageAdapter homePageAdapter = new HomePageAdapter(getChildFragmentManager(), fragments, mTitles);
         mBinding.noScrollViewPager.setAdapter(homePageAdapter);
         mBinding.noScrollViewPager.setOffscreenPageLimit(mTitles.length);

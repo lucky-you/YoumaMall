@@ -2,6 +2,8 @@ package com.zhowin.base_library.http;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
@@ -33,13 +35,13 @@ public class RetrofitFactory {
         okHttpClient = initOkHttp();
     }
 
-
     public static RetrofitFactory getInstance() {
         if (httpUtils == null) {
             httpUtils = new RetrofitFactory();
         }
         return httpUtils;
     }
+
 
     /**
      * 初始化Retrofit

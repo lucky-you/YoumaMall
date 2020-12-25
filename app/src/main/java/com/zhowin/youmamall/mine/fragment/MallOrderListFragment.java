@@ -123,4 +123,26 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
     public void onGoodDetails(int goodId) {
         ProductDetailsActivity.start(mContext, goodId);
     }
+
+    @Override
+    public void onConfirmReceipt(int goodId) {
+        confirmReceiptGood(goodId);
+    }
+
+    private void confirmReceiptGood(int goodId) {
+        showLoadDialog();
+        HttpRequest.goodConfirmReceipt(this, goodId, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+                getMallOrderList(true);
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
 }
