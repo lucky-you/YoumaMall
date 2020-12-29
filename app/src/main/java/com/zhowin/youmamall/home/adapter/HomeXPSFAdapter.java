@@ -39,7 +39,6 @@ public class HomeXPSFAdapter extends BaseQuickAdapter<MallRightList, BaseViewHol
                 .setText(R.id.tvCardName, item.getName())
                 .setText(R.id.tvCommissionPrice, "佣金" + item.getCommission_money() + "元")
                 .setText(R.id.tvPrice, "¥" + item.getPrice());
-
         helper.getView(R.id.tvBuy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

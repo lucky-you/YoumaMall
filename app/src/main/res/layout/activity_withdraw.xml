@@ -160,10 +160,9 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="3.5"
-                            android:drawableRight="@mipmap/ic_arrow_right"
                             android:drawablePadding="6dp"
                             android:gravity="right|center"
-                            android:text=""
+                            android:text="支付宝"
                             android:textColor="@color/color_333"
                             android:textSize="15sp" />
 
@@ -220,9 +219,9 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="7.5"
-                            android:inputType="textPassword"
                             android:background="@null"
                             android:hint="请输入支付密码"
+                            android:inputType="textPassword"
                             android:textColor="@color/color_333"
                             android:textColorHint="@color/color_999"
                             android:textSize="15sp" />

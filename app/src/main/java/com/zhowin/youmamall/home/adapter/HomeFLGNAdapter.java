@@ -39,7 +39,13 @@ public class HomeFLGNAdapter extends BaseQuickAdapter<VipWelfareList, BaseViewHo
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivIconImage));
         helper.setText(R.id.tvIconName, item.getName());
         RoundedImageView rivBackground = helper.getView(R.id.rivBackground);
-        int color = Color.parseColor("#" + item.getColour());
+        String colorText = item.getColour();
+        int color;
+        if (colorText.startsWith("#")) {
+            color = Color.parseColor(item.getColour());
+        } else {
+            color = Color.parseColor("#" + item.getColour());
+        }
         rivBackground.setBackgroundColor(color);
         helper.getView(R.id.clFLRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override

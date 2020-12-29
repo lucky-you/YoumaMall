@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.ClipboardUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
@@ -23,9 +24,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.yalantis.ucrop.util.FileUtils;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.yanzhenjie.permission.runtime.PermissionDef;
+import com.zhowin.base_library.base.BaseApplication;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.BaseResponse;
@@ -46,18 +47,28 @@ import com.zhowin.youmamall.dynamic.model.DynamicList;
 import com.zhowin.youmamall.http.ApiRequest;
 import com.zhowin.youmamall.http.HttpRequest;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -144,11 +155,11 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
 
     @Override
     public void onSavePhoto(List<String> images) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            requestPermission(images, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
-//        } else {
-//            createDownLoadImage(images);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermission(images, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE);
+        } else {
+            createDownLoadImage(images);
+        }
     }
 
 
@@ -178,11 +189,13 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
     }
 
     private void createDownLoadImage(List<String> images) {
-        for (String url : images) {
-            Log.e("xy", "imagesUrl:" + url);
+
+        MiteDownLoad(images);
+//        for (String url : images) {
+//            Log.e("xy", "imagesUrl:" + url);
 //            downloadFile(url, "image");
-//            downLoadImage(url);
-        }
+////            downLoadImage(url);
+//        }
     }
 
     /**
@@ -192,6 +205,10 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
      */
     public void downloadFile(String url, String code) {
         String savePatch = Environment.getExternalStorageDirectory() + File.separator + "aYouMa";
+
+        String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
+
+
         RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class)
                 .downloadFile(url)
                 .subscribeOn(Schedulers.io())
@@ -199,14 +216,16 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                 .subscribe(new DisposableObserver<ResponseBody>() {
                     @Override
                     public void onNext(ResponseBody responseBody) {
+                        Log.e("xy", "responseBody:" + responseBody);
                         Bitmap bitmap = null;
                         byte[] bys;
                         try {
                             bys = responseBody.bytes();
                             bitmap = BitmapFactory.decodeByteArray(bys, 0, bys.length);
-                            ImageUtils.save2Album(bitmap, Bitmap.CompressFormat.JPEG);
-                            String saveLocalPath = savePatch + File.separator + code + ".jpg";
-                            Log.e("xy", "saveLocalPath:" + saveLocalPath);
+                            Log.e("xy", "bitmap:" + bitmap);
+                            if (FileUtils.createOrExistsDir(PATH_CHALLENGE_VIDEO))
+                                ImageUtils.save(bitmap, PATH_CHALLENGE_VIDEO, Bitmap.CompressFormat.JPEG);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -251,5 +270,106 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
             }
         });
     }
+
+    private void MiteDownLoad(List<String> images) {
+        String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
+
+        ApiRequest apiService = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class);
+        //注意：此处是保存多张图片，可以采用异步线程
+        ArrayList<Observable<Boolean>> observables = new ArrayList<>();
+        final AtomicInteger count = new AtomicInteger();
+        for (String image : images) {
+            observables.add(apiService.downloadFile(image)
+                    .subscribeOn(Schedulers.io())
+                    .map(new Function<ResponseBody, Boolean>() {
+                        @Override
+                        public Boolean apply(ResponseBody responseBody) throws Exception {
+                            InputStream inputStream = responseBody.byteStream();
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            ImageUtils.save(bitmap, PATH_CHALLENGE_VIDEO, Bitmap.CompressFormat.JPEG);
+//                            File mFile = new File(PATH_CHALLENGE_VIDEO);
+//                            if (!FileUtils.isFileExists(mFile) && FileUtils.createOrExistsFile(mFile))
+//                                writeFileToDisk(responseBody, mFile);
+                            return true;
+                        }
+                    }));
+        }
+        // observable的merge 将所有的observable合成一个Observable，所有的observable同时发射数据
+        Disposable subscribe = Observable.merge(observables).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean b) throws Exception {
+                        if (b) {
+                            count.addAndGet(1);
+                            Log.e("xy", "download is succcess");
+
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("xy", "download error");
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.e("xy", "download complete");
+                        // 下载成功的数量 和 图片集合的数量一致，说明全部下载成功了
+                        if (images.size() == count.get()) {
+                            ToastUtils.showToast("保存成功");
+                        } else {
+                            if (count.get() == 0) {
+                                ToastUtils.showToast("保存失败");
+                            } else {
+                                ToastUtils.showToast("因网络问题 保存成功" + count + ",保存失败" + (images.size() - count.get()));
+                            }
+                        }
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        Log.e("xy", "disposable");
+                    }
+                });
+    }
+
+    private void writeFileToDisk(ResponseBody response, File file) {
+        long currentLength = 0;
+        OutputStream os = null;
+        if (response == null) {
+            return;
+        }
+        InputStream is = response.byteStream();
+        try {
+            os = new FileOutputStream(file);
+            int len;
+            byte[] buff = new byte[1024];
+            while ((len = is.read(buff)) != -1) {
+                os.write(buff, 0, len);
+                currentLength += len;
+                Log.e("xy", "当前进度:" + currentLength);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
 }

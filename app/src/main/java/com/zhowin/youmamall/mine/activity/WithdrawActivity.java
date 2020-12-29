@@ -28,8 +28,6 @@ import java.util.List;
  */
 public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> {
 
-    private int selectPosition, statusType;
-
 
     @Override
     public int getLayoutId() {
@@ -77,9 +75,7 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvWithdrawType:
-                selectStatusDialog();
                 break;
-
             case R.id.tvConfirmSubmission:
                 startApplyWithdraw();
                 break;
@@ -87,7 +83,6 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
     }
 
     private void startApplyWithdraw() {
-
         String applyMoney = mBinding.editWithdrawMoney.getText().toString().trim();
         String applyAccount = mBinding.editAccount.getText().toString().trim();
         String applyUserName = mBinding.editUserName.getText().toString().trim();
@@ -98,10 +93,6 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
         }
         if (TextUtils.isEmpty(applyAccount)) {
             ToastUtils.showToast("请输入提现账号");
-            return;
-        }
-        if (0 == statusType) {
-            ToastUtils.showToast("请选择账号类型");
             return;
         }
         if (TextUtils.isEmpty(applyUserName)) {
@@ -115,7 +106,7 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
         HashMap<String, Object> map = new HashMap<>();
         map.put("money", applyMoney);
         map.put("account", applyAccount);
-        map.put("type", statusType);
+        map.put("type", "1");
         map.put("realname", applyUserName);
         map.put("pay_password", applyUserPassword);
         showLoadDialog();
@@ -133,21 +124,6 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
                 ToastUtils.showToast(errorMsg);
             }
         });
-
     }
 
-
-    private void selectStatusDialog() {
-        List<SelectPickerList> selectPickerList = new ArrayList<>();
-        selectPickerList.add(new SelectPickerList(1, "支付宝"));
-        selectPickerList.add(new SelectPickerList(2, "微信"));
-        PickerViewConditionsUtils.selectConditionsView(mContext, selectPickerList, selectPosition, new OnSelectConditionsClickListener() {
-            @Override
-            public void onConditionsSelect(int position, String selectName, int selectId) {
-                selectPosition = position;
-                statusType = selectId;
-                mBinding.tvWithdrawType.setText(selectName);
-            }
-        });
-    }
 }

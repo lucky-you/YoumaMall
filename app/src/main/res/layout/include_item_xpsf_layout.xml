@@ -34,24 +34,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="170dp"
-        android:layout_height="30dp">
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/tvCardName"
             style="@style/TextViewStyleOf14Sp"
+            android:layout_width="0dp"
             android:layout_marginStart="8dp"
-            android:text="蔚蓝年卡"
+            android:text="啊是十多个"
             android:textColor="@color/color_333"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tvCommissionPrice"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCommissionPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:text="佣金25.0元"
             android:textColor="@color/color_666"
             android:textSize="12sp"
@@ -64,7 +68,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="170dp"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/tvPrice"

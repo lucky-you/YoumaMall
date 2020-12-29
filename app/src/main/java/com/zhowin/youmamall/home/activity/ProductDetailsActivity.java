@@ -1,18 +1,13 @@
 package com.zhowin.youmamall.home.activity;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.ImageUtils;
-import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ConstantValue;
