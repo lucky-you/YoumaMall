@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/determine"
-            android:textColor="#333333"
+            android:textColor="#FFDE00"
             android:textSize="15sp" />
 
     </LinearLayout>

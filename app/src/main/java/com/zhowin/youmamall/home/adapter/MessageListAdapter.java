@@ -24,10 +24,10 @@ public class MessageListAdapter extends BaseQuickAdapter<MessageList, BaseViewHo
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MessageList item) {
-        GlideUtils.loadUserPhotoForLogin(mContext, "item.getContent()", helper.getView(R.id.civLeftImage));
         helper.setText(R.id.tvLeftTitle, item.getTitle())
-                .setText(R.id.tvLeftContent, item.getContent())
-                .setText(R.id.tvCreateTime, DateHelpUtils.getStringDate(item.getCreatetime()));
+                .setText(R.id.tvContent, item.getContent())
+                .setText(R.id.tvCreateTime, DateHelpUtils.getStrTimeNotSeconds(item.getCreatetime()))
+                .setText(R.id.tvRightTie, DateHelpUtils.getCurrentDayNotYear(item.getCreatetime()));
 
     }
 }

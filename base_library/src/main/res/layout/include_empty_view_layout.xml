@@ -16,7 +16,7 @@
             android:id="@+id/ivHitImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_empty" />
+            android:src="@mipmap/temporarilynodata_img" />
 
         <TextView
             android:id="@+id/tvHitText"

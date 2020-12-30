@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingTop="8dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civLeftImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_def_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLeftTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:gravity="center_vertical"
+        android:text="新增利润提示"
+        android:textColor="@color/color_333"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/civLeftImage"
+        app:layout_constraintTop_toBottomOf="@id/tvLeftContent"
+        app:layout_constraintTop_toTopOf="@id/civLeftImage" />
+
+    <TextView
+        android:id="@+id/tvLeftContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="宋*为您贡献1.39元无卡代理"
+        android:textColor="@color/color_666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/civLeftImage"
+        app:layout_constraintLeft_toLeftOf="@id/tvLeftTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvLeftTitle" />
+
+
+    <com.flyco.tablayout.widget.MsgView
+        android:id="@+id/msvHitMessage"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/tvLeftTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvLeftTitle"
+        app:mv_backgroundColor="@color/color_FF560B"
+        app:mv_isRadiusHalfHeight="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,29 +1,20 @@
 package com.zhowin.youmamall.dynamic.fragment;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.ClipboardUtils;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.ImageUtils;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.Target;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.yanzhenjie.permission.runtime.PermissionDef;
 import com.zhowin.base_library.base.BaseApplication;
@@ -37,45 +28,32 @@ import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
-import com.zhowin.youmamall.circle.adapter.CircleFragmentAdapter;
 import com.zhowin.youmamall.databinding.IncludeDynamicFragmentLayoutBinding;
 import com.zhowin.youmamall.download.DownloadStatusListener;
 import com.zhowin.youmamall.download.DownloadUtil;
 import com.zhowin.youmamall.dynamic.adapter.DynamicFragmentAdapter;
 import com.zhowin.youmamall.dynamic.callback.OnDynamicItemClickListener;
 import com.zhowin.youmamall.dynamic.model.DynamicList;
+import com.zhowin.youmamall.download.DownFileListener;
+import com.zhowin.youmamall.download.FileDownloadUtils;
 import com.zhowin.youmamall.http.ApiRequest;
 import com.zhowin.youmamall.http.HttpRequest;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * author : zho
@@ -189,91 +167,55 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
     }
 
     private void createDownLoadImage(List<String> images) {
-
-        MiteDownLoad(images);
-//        for (String url : images) {
-//            Log.e("xy", "imagesUrl:" + url);
-//            downloadFile(url, "image");
-////            downLoadImage(url);
-//        }
+        for (int i = 0; i < images.size(); i++) {
+            downLoadImageFile(images.get(i), i + 1, images.size());
+        }
     }
+
+    private int count=0;
 
     /**
-     * 指定线程下载文件(异步)，非阻塞式下载
-     *
-     * @param url 图片url
+     * 下载图片
      */
-    public void downloadFile(String url, String code) {
-        String savePatch = Environment.getExternalStorageDirectory() + File.separator + "aYouMa";
-
-        String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
-
-
-        RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class)
-                .downloadFile(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.newThread())
-                .subscribe(new DisposableObserver<ResponseBody>() {
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        Log.e("xy", "responseBody:" + responseBody);
-                        Bitmap bitmap = null;
-                        byte[] bys;
-                        try {
-                            bys = responseBody.bytes();
-                            bitmap = BitmapFactory.decodeByteArray(bys, 0, bys.length);
-                            Log.e("xy", "bitmap:" + bitmap);
-                            if (FileUtils.createOrExistsDir(PATH_CHALLENGE_VIDEO))
-                                ImageUtils.save(bitmap, PATH_CHALLENGE_VIDEO, Bitmap.CompressFormat.JPEG);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (bitmap != null) {
-                            bitmap.recycle();
-                        }
+    private void downLoadImageFile(String url, int id, int imgSize) {
+        String savePath = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
+        String mUrlPath = null;
+        if (FileUtils.createOrExistsDir(savePath)) {
+            String imgName = url;
+            int i = imgName.lastIndexOf('/');//一定是找最后一个'/'出现的位置
+            if (i != -1) {
+                imgName = imgName.substring(i);
+                mUrlPath = savePath + imgName;
+            }
+            FileDownloadUtils.downLoadFile(url, mUrlPath, id, new DownFileListener() {
+                @Override
+                public void loadSuccess() {
+                    count++;
+                    Log.e("xy", "success");
+                    if (count == imgSize) {
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showToast("保存成功");
+                            }
+                        });
                     }
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                @Override
+                public void loadProgress(int progress) {
+                }
 
-                    @Override
-                    public void onComplete() {
-                        Log.e("xy", "下载完成");
-                    }
-                });
+                @Override
+                public void fail(String error) {
+                    Log.e("xy", "error");
+                }
+            });
+        }
     }
 
-    private void downLoadImage(String url) {
-        DownloadUtil downloadUtil = new DownloadUtil();
-        downloadUtil.downloadFile(url, new DownloadStatusListener() {
-            @Override
-            public void onStart() {
 
-            }
-
-            @Override
-            public void onProgress(int currentLength) {
-                Log.e("xy", "currentLength：" + currentLength);
-            }
-
-            @Override
-            public void onFinish(String localPath) {
-                Log.e("xy", "localPath：" + localPath);
-
-            }
-
-            @Override
-            public void onFailure(String errorInfo) {
-                Log.e("xy", "errorInfo：" + errorInfo);
-            }
-        });
-    }
-
-    private void MiteDownLoad(List<String> images) {
-        String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
-
+    private void onMiteDownLoad(List<String> images) {
         ApiRequest apiService = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class);
         //注意：此处是保存多张图片，可以采用异步线程
         ArrayList<Observable<Boolean>> observables = new ArrayList<>();
@@ -281,15 +223,11 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
         for (String image : images) {
             observables.add(apiService.downloadFile(image)
                     .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.newThread())
                     .map(new Function<ResponseBody, Boolean>() {
                         @Override
                         public Boolean apply(ResponseBody responseBody) throws Exception {
-                            InputStream inputStream = responseBody.byteStream();
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            ImageUtils.save(bitmap, PATH_CHALLENGE_VIDEO, Bitmap.CompressFormat.JPEG);
-//                            File mFile = new File(PATH_CHALLENGE_VIDEO);
-//                            if (!FileUtils.isFileExists(mFile) && FileUtils.createOrExistsFile(mFile))
-//                                writeFileToDisk(responseBody, mFile);
+                            saveIo(responseBody.byteStream());
                             return true;
                         }
                     }));
@@ -301,8 +239,7 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                     public void accept(Boolean b) throws Exception {
                         if (b) {
                             count.addAndGet(1);
-                            Log.e("xy", "download is succcess");
-
+                            Log.e("xy", "download is succcess---size:" + count.get());
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -333,43 +270,29 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                 });
     }
 
-    private void writeFileToDisk(ResponseBody response, File file) {
-        long currentLength = 0;
-        OutputStream os = null;
-        if (response == null) {
-            return;
-        }
-        InputStream is = response.byteStream();
-        try {
-            os = new FileOutputStream(file);
-            int len;
-            byte[] buff = new byte[1024];
-            while ((len = is.read(buff)) != -1) {
-                os.write(buff, 0, len);
-                currentLength += len;
-                Log.e("xy", "当前进度:" + currentLength);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (os != null) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private void saveIo(InputStream inputStream) {
+        String savePath = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
+        if (FileUtils.createOrExistsDir(savePath)) {
+            String imgName = UUID.randomUUID().toString() + ".jpg"; //随机生成不同的名字
+            File imageFile = new File(savePath + "/" + imgName);
+            if (FileUtils.createOrExistsFile(imageFile)) {
+                boolean isSaveSuccess = FileIOUtils.writeFileFromIS(imageFile, inputStream, true);
+                sendBroadcastToAlbum(mContext, imageFile);
+                Log.e("xy", "isSaveSuccess:" + isSaveSuccess);
             }
         }
     }
 
-
+    public void sendBroadcastToAlbum(Context context, File imagePath) {
+        if (imagePath != null && imagePath.length() > 0) {
+            if (imagePath.exists()) {
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(imagePath);
+                if (uri != null && context != null) {
+                    intent.setData(uri);
+                    context.sendBroadcast(intent);
+                }
+            }
+        }
+    }
 }

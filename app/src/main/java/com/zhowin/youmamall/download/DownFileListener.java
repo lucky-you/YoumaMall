@@ -1,4 +1,4 @@
-package com.zhowin.youmamall.dynamic.utils;
+package com.zhowin.youmamall.download;
 
 /**
  * author : zho

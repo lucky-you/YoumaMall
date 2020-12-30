@@ -15,6 +15,8 @@
             android:layout_height="wrap_content"
             app:mBackgroundColor="@color/color_FFDE00"
             app:mLeftSrc="@mipmap/back_black_icon"
+            app:mRightText="全部已读"
+            app:mRightTextColor="@color/color_333"
             app:mTitle="消息" />
 
         <com.zhowin.base_library.view.RefreshLayout

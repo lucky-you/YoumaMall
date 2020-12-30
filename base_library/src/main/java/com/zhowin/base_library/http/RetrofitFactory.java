@@ -24,11 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitFactory {
 
 
-
     public static final int DEFAULT_TIME = 30;
     public static RetrofitFactory httpUtils;
     private OkHttpClient okHttpClient;
-
 
 
     private RetrofitFactory() {

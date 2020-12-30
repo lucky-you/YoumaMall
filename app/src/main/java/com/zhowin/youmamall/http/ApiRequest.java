@@ -12,6 +12,7 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.MessageCategory;
 import com.zhowin.youmamall.home.model.MessageList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
@@ -191,6 +192,9 @@ public interface ApiRequest {
 
     //站内信信息列表
     String GET_MESSAGE_LIST_URL = "api/message/list";
+
+    //站内信分类
+    String MESSAGE_CATEGORY_LIST = "api/message/category";
 
 
     /**
@@ -483,14 +487,21 @@ public interface ApiRequest {
      */
     @FormUrlEncoded
     @POST(GET_MESSAGE_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("type") int type,@Field("page") int pageNum, @Field("size") int pageSize);
 
+
+    /**
+     * 消息分类
+     */
+    @POST(MESSAGE_CATEGORY_LIST)
+    Observable<ApiResponse<List<MessageCategory>>> getMessageCategory(@Header(TOKEN) String token);
 
     /**
      * 下载图片
      */
-    @GET
     @Streaming
-    Observable<ResponseBody> downloadFile(@Url String  imgUrl);
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String imgUrl);
+
 
 }

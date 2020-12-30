@@ -1,12 +1,16 @@
 package com.zhowin.youmamall.home.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
+import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.DivideLineItemDecoration;
@@ -22,6 +26,15 @@ import java.util.Arrays;
 
 public class MessageListActivity extends BaseBindActivity<ActivityMessageListBinding> {
 
+    private String categoryTitle;
+    private int categoryType;
+
+    public static void start(Context context, String title, int type) {
+        Intent intent = new Intent(context, MessageListActivity.class);
+        intent.putExtra(ConstantValue.TITLE, title);
+        intent.putExtra(ConstantValue.TYPE, type);
+        context.startActivity(intent);
+    }
 
     private MessageListAdapter messageListAdapter;
 
@@ -32,6 +45,9 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
 
     @Override
     public void initView() {
+        categoryTitle = getIntent().getStringExtra(ConstantValue.TITLE);
+        categoryType = getIntent().getIntExtra(ConstantValue.TYPE, -1);
+        mBinding.tvTitleView.setTitle(categoryTitle);
         getMessageList(true);
     }
 
@@ -46,7 +62,7 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
     private void getMessageList(boolean isRefresh) {
         if (isRefresh) currentPage = 1;
         showLoadDialog();
-        HttpRequest.getMessageList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<MessageList>>() {
+        HttpRequest.getMessageList(this, categoryType, currentPage, pageNumber, new HttpCallBack<BaseResponse<MessageList>>() {
             @Override
             public void onSuccess(BaseResponse<MessageList> baseResponse) {
                 dismissLoadDialog();

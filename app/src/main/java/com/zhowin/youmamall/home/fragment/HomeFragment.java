@@ -13,6 +13,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.fragment.CircleFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeFragmentLayoutBinding;
+import com.zhowin.youmamall.home.activity.MessageCategoryActivity;
 import com.zhowin.youmamall.home.activity.MessageListActivity;
 import com.zhowin.youmamall.home.activity.SearchActivity;
 import com.zhowin.youmamall.home.dialog.LatestNewDialog;
@@ -84,7 +85,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
                 startActivity(SearchActivity.class);
                 break;
             case R.id.clMessageLayout:
-                startActivity(MessageListActivity.class);
+                startActivity(MessageCategoryActivity.class);
                 break;
         }
     }

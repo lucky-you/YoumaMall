@@ -40,15 +40,15 @@ public class DateHelpUtils {
      * 没有秒
      */
     public static String getStrTimeNotSeconds(long timeStamp) {
-        Date date = new Date(timeStamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = new Date(timeStamp * 1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
         return sdf.format(date);
     }
 
 
     public static String getCurrentDayNotYear(long timeStamp) {
-        Date date = new Date(timeStamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+        Date date = new Date(timeStamp * 1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(date);
     }
 

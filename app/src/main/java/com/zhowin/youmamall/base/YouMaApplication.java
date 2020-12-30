@@ -21,11 +21,11 @@ public class YouMaApplication extends BaseApplication {
                         .Creator(new FileDownloadUrlConnection.Configuration()
                         .connectTimeout(15000) // set connection timeout.
                         .readTimeout(15000) // set read timeout.
-                )).maxNetworkThreadCount(1)
+                )).maxNetworkThreadCount(2)
                 .connectionCountAdapter(new FileDownloadHelper.ConnectionCountAdapter() {
                     @Override
                     public int determineConnectionCount(int downloadId, String url, String path, long totalLength) {
-                        return 1;
+                        return 2;
                     }
                 })
                 .commit();

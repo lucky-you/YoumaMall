@@ -194,10 +194,10 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                 }
                 break;
             case R.id.rivImageTwo:
-                ColumnListActivity.start(mContext, 1, "", 0);
+                ColumnListActivity.start(mContext, 1, "商品热销", 0);
                 break;
             case R.id.rivImageThree:
-                ColumnListActivity.start(mContext, 3, "", 0);
+                ColumnListActivity.start(mContext, 3, "商品复购", 0);
                 break;
         }
     }

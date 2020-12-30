@@ -30,7 +30,8 @@ import okhttp3.ResponseBody;
 public class DownloadUtil {
 
     private static final String TAG = "xy";
-    public static final String PATH_CHALLENGE_VIDEO = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
+
+    public static final String SAVE_PATH = Environment.getExternalStorageDirectory() + "/" + BaseApplication.getInstance().getString(R.string.app_name);
     //视频下载相关
     protected ApiRequest mApiService;
     private String mUrlPath; //下载到本地的视频路径
@@ -50,11 +51,11 @@ public class DownloadUtil {
     public void downloadFile(String url, final DownloadStatusListener downloadListener) {
         //通过Url得到保存到本地的文件名
         String name = url;
-        if (FileUtils.createOrExistsDir(PATH_CHALLENGE_VIDEO)) {
+        if (FileUtils.createOrExistsDir(SAVE_PATH)) {
             int i = name.lastIndexOf('/');//一定是找最后一个'/'出现的位置
             if (i != -1) {
                 name = name.substring(i);
-                mUrlPath = PATH_CHALLENGE_VIDEO + name;
+                mUrlPath = SAVE_PATH + name;
             }
         }
         if (TextUtils.isEmpty(mUrlPath)) {

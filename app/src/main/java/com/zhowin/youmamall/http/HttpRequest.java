@@ -19,6 +19,7 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.MessageCategory;
 import com.zhowin.youmamall.home.model.MessageList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
@@ -911,11 +912,12 @@ public class HttpRequest {
                 });
     }
 
+
     /**
      * 获取信息列表
      */
-    public static void getMessageList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<MessageList>> callBack) {
-        apiRequest.getMessageList(UserInfo.getUserToken(), page, size)
+    public static void getMessageList(LifecycleOwner activity, int type, int page, int size, final HttpCallBack<BaseResponse<MessageList>> callBack) {
+        apiRequest.getMessageList(UserInfo.getUserToken(), type, page, size)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MessageList>>() {
@@ -933,9 +935,27 @@ public class HttpRequest {
     }
 
     /**
-     * 下载图片
+     * 获取消息分类
+     *
+     * @param activity
+     * @param callBack
      */
-    public static void downLoadImage(LifecycleOwner activity,String imageUrl, final HttpCallBack<BaseResponse<MessageList>> callBack) {
+    public static void getMessageCategory(LifecycleOwner activity, final HttpCallBack<List<MessageCategory>> callBack) {
+        apiRequest.getMessageCategory(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<MessageCategory>>() {
 
+                    @Override
+                    public void onSuccess(List<MessageCategory> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
     }
+
 }
