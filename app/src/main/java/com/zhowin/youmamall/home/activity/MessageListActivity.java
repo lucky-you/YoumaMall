@@ -24,8 +24,13 @@ import com.zhowin.youmamall.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * 消息列表
+ */
 public class MessageListActivity extends BaseBindActivity<ActivityMessageListBinding> {
 
+
+    private MessageListAdapter messageListAdapter;
     private String categoryTitle;
     private int categoryType;
 
@@ -36,7 +41,6 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
         context.startActivity(intent);
     }
 
-    private MessageListAdapter messageListAdapter;
 
     @Override
     public int getLayoutId() {

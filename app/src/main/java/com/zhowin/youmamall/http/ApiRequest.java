@@ -196,6 +196,9 @@ public interface ApiRequest {
     //站内信分类
     String MESSAGE_CATEGORY_LIST = "api/message/category";
 
+    //设置全部已读
+    String SET_ALL_READ_URL = "api/message/read";
+
 
     /**
      * 返回的是自己的用户信息
@@ -487,7 +490,7 @@ public interface ApiRequest {
      */
     @FormUrlEncoded
     @POST(GET_MESSAGE_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("type") int type,@Field("page") int pageNum, @Field("size") int pageSize);
+    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("type") int type, @Field("page") int pageNum, @Field("size") int pageSize);
 
 
     /**
@@ -503,5 +506,10 @@ public interface ApiRequest {
     @GET
     Observable<ResponseBody> downloadFile(@Url String imgUrl);
 
+    /**
+     * 设置全部已读
+     */
+    @POST(SET_ALL_READ_URL)
+    Observable<ApiResponse<Object>> setAllReadMessage(@Header(TOKEN) String token);
 
 }

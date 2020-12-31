@@ -958,4 +958,25 @@ public class HttpRequest {
                 });
     }
 
+    /**
+     * 设置全部已读
+     */
+    public static void setAllReadMessage(LifecycleOwner activity, final HttpCallBack<Object> callBack) {
+        apiRequest.setAllReadMessage(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
+
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
 }

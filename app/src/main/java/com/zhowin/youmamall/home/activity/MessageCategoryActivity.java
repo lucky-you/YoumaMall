@@ -82,6 +82,28 @@ public class MessageCategoryActivity extends BaseBindActivity<ActivityMessageCat
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
+        mBinding.tvTitleView.getRightTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAllReadMessage();
+            }
+        });
+    }
 
+    private void setAllReadMessage() {
+        showLoadDialog();
+        HttpRequest.setAllReadMessage(this, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+                getMessageCategory();
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
     }
 }
