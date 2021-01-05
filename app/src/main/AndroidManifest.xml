@@ -14,37 +14,87 @@
     <application
         android:name=".base.YouMaApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.MessageCategoryActivity"></activity>
-        <activity android:name=".home.activity.WebViewActivity" />
-        <activity android:name=".mine.activity.OpenAgentActivity" />
-        <activity android:name=".login.activity.ForgetPasswordActivity" />
-        <activity android:name=".circle.activity.ReleaseCircleActivity" />
-        <activity android:name=".mine.activity.ReleaseGoodActivity" />
-        <activity android:name=".mine.activity.ShareMaterialActivity" />
-        <activity android:name=".mine.activity.ProductListActivity" />
-        <activity android:name=".home.activity.MessageListActivity" />
-        <activity android:name=".home.activity.ProductDetailsActivity" />
-        <activity android:name=".mine.activity.CardPasswordActivity" />
-        <activity android:name=".mine.activity.MallOrderListActivity" />
-        <activity android:name=".mine.activity.DepositActivity" />
-        <activity android:name=".mine.activity.WithdrawActivity" />
-        <activity android:name=".mine.activity.MyTeamActivity" />
-        <activity android:name=".mine.activity.MyCouponActivity" />
-        <activity android:name=".mine.activity.FeedbackActivity" />
-        <activity android:name=".mine.activity.ContactServiceActivity" />
-        <activity android:name=".mine.activity.SetPasswordActivity" />
-        <activity android:name=".mine.activity.ChangeMobileActivity" />
-        <activity android:name=".mine.activity.SettingActivity" />
-        <activity android:name=".home.activity.ColumnListActivity" />
-        <activity android:name=".home.activity.ConfirmOrderActivity" />
-        <activity android:name=".home.activity.SearchActivity" />
-        <activity android:name=".login.activity.LoginActivity" />
+        <activity
+            android:name=".home.activity.MessageCategoryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.WebViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.OpenAgentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".login.activity.ForgetPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".circle.activity.ReleaseCircleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.ReleaseGoodActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.ShareMaterialActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.ProductListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.MessageListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.ProductDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.CardPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.MallOrderListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.DepositActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.WithdrawActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.MyTeamActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.MyCouponActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.FeedbackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.ContactServiceActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.SetPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.ChangeMobileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mine.activity.SettingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.ColumnListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.ConfirmOrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.activity.SearchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".login.activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <meta-data
             android:name="design_width_in_dp"
@@ -69,8 +119,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.activity.GuidePageActivity" />
-        <activity android:name=".main.activity.MainActivity" />
+        <activity
+            android:name=".main.activity.GuidePageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>
