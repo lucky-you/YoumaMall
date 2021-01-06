@@ -189,18 +189,18 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
             case R.id.rivImageOne:
                 if (!isLogin())
                     if (UserInfo.getUserInfo().getLevel() > 0) {
-                        ColumnListActivity.start(mContext, 2, "会员代理", 0);
+                        ColumnListActivity.start(mContext, 2, "福利中心", 0);
                     } else {
                         showHitLevelDialog();
                     }
                 break;
             case R.id.rivImageTwo:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 1, "商品热销", 0);
+                    ColumnListActivity.start(mContext, 1, "热销商品", 0);
                 break;
             case R.id.rivImageThree:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 3, "商品复购", 0);
+                    ColumnListActivity.start(mContext, 3, "复购商品", 0);
                 break;
         }
     }
@@ -235,8 +235,16 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     }
 
     @Override
-    public void onRightSeeMore() {
-        MainActivity.Instance.showJumpFragment(1);
+    public void onRightSeeMore(int position) {
+//        MainActivity.Instance.showJumpFragment(1);
+        switch (position) {
+            case 0:
+                ColumnListActivity.start(mContext, 1, "热销商品", 0);
+                break;
+            case 1:
+                ColumnListActivity.start(mContext, 3, "新品首发", 0);
+                break;
+        }
     }
 
     @Override

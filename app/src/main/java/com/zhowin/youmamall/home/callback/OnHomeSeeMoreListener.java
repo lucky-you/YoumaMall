@@ -10,7 +10,7 @@ import com.zhowin.youmamall.home.model.VipWelfareList;
 public interface OnHomeSeeMoreListener {
 
 
-    void onRightSeeMore();
+    void onRightSeeMore(int position);
 
     void onFLGNItemClick(VipWelfareList item);
 

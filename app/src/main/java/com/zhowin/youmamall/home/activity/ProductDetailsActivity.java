@@ -10,6 +10,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.utils.BitmapUtils;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.base_library.utils.SpanUtils;
@@ -135,7 +136,7 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     }
 
     private void SaveToAlbum(View llQrCodeLayout) {
-        Bitmap bitmapSrc = getCacheBitmapFromView(llQrCodeLayout);
+        Bitmap bitmapSrc = BitmapUtils.getCacheBitmapFromView(llQrCodeLayout);
         ThreadUtils.executeBySingle(new ThreadUtils.SimpleTask<File>() {
             @Override
             public File doInBackground() throws Throwable {
@@ -154,24 +155,4 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     }
 
 
-    /**
-     * 获取 view 的截图
-     *
-     * @param view view的范围
-     * @return bitmap
-     */
-    private Bitmap getCacheBitmapFromView(View view) {
-        final boolean drawingCacheEnabled = true;
-        view.setDrawingCacheEnabled(drawingCacheEnabled);
-        view.buildDrawingCache(drawingCacheEnabled);
-        final Bitmap drawingCache = view.getDrawingCache();
-        Bitmap bitmap;
-        if (drawingCache != null) {
-            bitmap = Bitmap.createBitmap(drawingCache);
-            view.setDrawingCacheEnabled(false);
-        } else {
-            bitmap = null;
-        }
-        return bitmap;
-    }
 }

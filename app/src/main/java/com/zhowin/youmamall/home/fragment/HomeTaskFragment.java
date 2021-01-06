@@ -7,7 +7,7 @@ import com.zhowin.youmamall.databinding.IncludeHomeTaskFragmentBinding;
 /**
  * author : zho
  * date  ：2020/11/26
- * desc ：任务
+ * desc ：资源
  */
 public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBinding> {
     @Override

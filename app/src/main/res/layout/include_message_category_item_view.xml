@@ -61,4 +61,17 @@
         app:layout_constraintTop_toTopOf="@id/tvLeftTitle"
         app:mv_backgroundColor="@color/color_FF560B"
         app:mv_isRadiusHalfHeight="true" />
+
+    <TextView
+        android:id="@+id/tvRightTie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:text="10:26"
+        android:textColor="@color/color_666"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvLeftContent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,7 @@ import com.zhowin.youmamall.main.activity.MainActivity;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import cn.jpush.android.api.JPushInterface;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -111,6 +112,7 @@ public class RegisterFragment extends BaseBindFragment<IncludeRegisterFragmentLa
                 dismissLoadDialog();
                 if (userInfo != null) {
                     UserInfo.setUserInfo(userInfo);
+                    JPushInterface.setAlias(mContext, 2, String.valueOf(userInfo.getUser_id()));
                     startActivity(MainActivity.class);
                     ActivityManager.getAppInstance().finishActivity();
                 }

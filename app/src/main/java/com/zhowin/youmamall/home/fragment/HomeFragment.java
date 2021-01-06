@@ -26,12 +26,12 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/26
- * desc ：
+ * desc ：资源
  */
 public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBinding> implements OnTabSelectListener {
 
 
-    private String[] mTitles = {"任务", "首页", "圈子"};
+    private String[] mTitles = {"资源", "首页", "圈子"};
     private List<Fragment> fragments = new ArrayList<>();
 
     @Override
@@ -56,9 +56,14 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
         mBinding.slidingTabLayout.setOnTabSelectListener(this);
         mBinding.slidingTabLayout.setCurrentTab(1);
         setTabSelect(1, true);
-        getUnreadMessageInfo();
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUnreadMessageInfo();
+    }
 
     private void setTabSelect(int position, boolean select) {
         mBinding.slidingTabLayout.getTitleView(position).setTextSize(TypedValue.COMPLEX_UNIT_PX, SizeUtils.sp2px(select ? 18 : 15));

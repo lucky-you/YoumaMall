@@ -52,7 +52,7 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<HomePageList, BaseView
             @Override
             public void onClick(View v) {
                 if (onHomeSeeMoreListener != null) {
-                    onHomeSeeMoreListener.onRightSeeMore();
+                    onHomeSeeMoreListener.onRightSeeMore(helper.getAdapterPosition());
                 }
             }
         });

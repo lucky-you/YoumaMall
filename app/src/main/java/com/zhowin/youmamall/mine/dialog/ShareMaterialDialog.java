@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.zhowin.base_library.base.BaseDialogView;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.mine.callback.OnShareMaterialListener;
 
 /**
  * author : zho
@@ -20,6 +21,7 @@ public class ShareMaterialDialog extends BaseDialogView {
 
 
     private ImageView ivContent;
+    private OnShareMaterialListener onShareMaterialListener;
 
     public ShareMaterialDialog(@NonNull Context context) {
         super(context);
@@ -48,12 +50,19 @@ public class ShareMaterialDialog extends BaseDialogView {
 
     }
 
+    public void setOnShareMaterialListener(OnShareMaterialListener onShareMaterialListener) {
+        this.onShareMaterialListener = onShareMaterialListener;
+    }
+
     @Override
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.tvCancel:
                 break;
             case R.id.tvDetermine:
+                if (onShareMaterialListener!=null){
+                    onShareMaterialListener.onStartShare(ivContent);
+                }
                 break;
         }
         dismiss();

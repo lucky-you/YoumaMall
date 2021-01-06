@@ -19,6 +19,7 @@ public class MessageCategory {
     private String name;
     private int read_num;
     private String content;
+    private int createtime;
 
     public int getType() {
         return type;
@@ -50,5 +51,13 @@ public class MessageCategory {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(int createtime) {
+        this.createtime = createtime;
     }
 }

@@ -18,6 +18,8 @@ import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.login.activity.ForgetPasswordActivity;
 import com.zhowin.youmamall.main.activity.MainActivity;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * author : zho
  * date  ：2020/11/26
@@ -89,6 +91,7 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
                 dismissLoadDialog();
                 if (userInfo != null) {
                     UserInfo.setUserInfo(userInfo);
+                    JPushInterface.setAlias(mContext, 2, String.valueOf(userInfo.getUser_id()));
                     if (isRememberPassword) {
                         SPUtils.set(ConstantValue.REMEMBER_PASSWORD, true);
                         UserInfo.setUserPassword(mBinding.editPassword.getText().toString().trim());
