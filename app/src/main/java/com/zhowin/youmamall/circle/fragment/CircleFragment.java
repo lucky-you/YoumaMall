@@ -117,7 +117,8 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
         mBinding.tvTitleView.getRightTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ReleaseCircleActivity.class);
+                if (!isLogin())
+                    startActivity(ReleaseCircleActivity.class);
             }
         });
     }

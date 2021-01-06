@@ -72,6 +72,10 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
             setTabSelect(i, false);
         }
         setTabSelect(position, true);
+        if (0 == position) {
+            if (!isLogin())
+                mBinding.noScrollViewPager.setCurrentItem(position);
+        }
     }
 
     @Override
@@ -82,10 +86,12 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivSearch:
-                startActivity(SearchActivity.class);
+                if (!isLogin())
+                    startActivity(SearchActivity.class);
                 break;
             case R.id.clMessageLayout:
-                startActivity(MessageCategoryActivity.class);
+                if (!isLogin())
+                    startActivity(MessageCategoryActivity.class);
                 break;
         }
     }
@@ -95,8 +101,12 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
             @Override
             public void onSuccess(UnreadMessageInfo unreadMessageInfo) {
                 if (unreadMessageInfo != null) {
-                    mBinding.msvMessage.setVisibility(unreadMessageInfo.getRead_num() > 0 ? View.VISIBLE : View.GONE);
-                    mBinding.msvMessage.setText(String.valueOf(unreadMessageInfo.getRead_num()));
+                    if (!isLogin()) {
+                        mBinding.msvMessage.setVisibility(unreadMessageInfo.getRead_num() > 0 ? View.VISIBLE : View.GONE);
+                        mBinding.msvMessage.setText(String.valueOf(unreadMessageInfo.getRead_num()));
+                    } else {
+                        mBinding.msvMessage.setVisibility(View.GONE);
+                    }
                 }
             }
 

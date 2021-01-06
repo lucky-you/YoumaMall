@@ -112,10 +112,12 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
                 break;
             case R.id.tvShareCode:
             case R.id.llShareCodeLayout:
-                showShareDialog();
+                if (!isLogin())
+                    showShareDialog();
                 break;
             case R.id.tvBuyNow:
-                ConfirmOrderActivity.start(mContext, goodItem);
+                if (!isLogin())
+                    ConfirmOrderActivity.start(mContext, goodItem);
                 break;
         }
     }

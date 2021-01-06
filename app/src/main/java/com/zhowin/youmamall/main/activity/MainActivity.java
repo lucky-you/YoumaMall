@@ -4,6 +4,7 @@ package com.zhowin.youmamall.main.activity;
 import androidx.fragment.app.Fragment;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.circle.fragment.CircleFragment;
@@ -16,7 +17,7 @@ import com.zhowin.youmamall.mine.fragment.MineFragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
+public class MainActivity extends BaseBindActivity<ActivityMainBinding> implements OnTabSelectListener {
 
 
     private String[] mTitles = {"首页", "商城", "圈子", "动态", "我的"};
@@ -54,6 +55,7 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
         mFragments.add(new DynamicFragment());
         mFragments.add(new MineFragment());
         mBinding.commonTabLayout.setTabData(mTabEntities, mContext, R.id.container, mFragments);
+        mBinding.commonTabLayout.setOnTabSelectListener(this);
     }
 
     public void showJumpFragment(int position) {
@@ -64,5 +66,19 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> {
     protected void onDestroy() {
         super.onDestroy();
         Instance = null;
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        if (4 == position) {
+            if (!isLogin()) {
+                mBinding.commonTabLayout.setCurrentTab(position);
+            }
+        }
+    }
+
+    @Override
+    public void onTabReselect(int position) {
+
     }
 }

@@ -187,17 +187,20 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rivImageOne:
-                if (UserInfo.getUserInfo().getLevel() > 0) {
-                    ColumnListActivity.start(mContext, 2, "会员代理", 0);
-                } else {
-                    showHitLevelDialog();
-                }
+                if (!isLogin())
+                    if (UserInfo.getUserInfo().getLevel() > 0) {
+                        ColumnListActivity.start(mContext, 2, "会员代理", 0);
+                    } else {
+                        showHitLevelDialog();
+                    }
                 break;
             case R.id.rivImageTwo:
-                ColumnListActivity.start(mContext, 1, "商品热销", 0);
+                if (!isLogin())
+                    ColumnListActivity.start(mContext, 1, "商品热销", 0);
                 break;
             case R.id.rivImageThree:
-                ColumnListActivity.start(mContext, 3, "商品复购", 0);
+                if (!isLogin())
+                    ColumnListActivity.start(mContext, 3, "商品复购", 0);
                 break;
         }
     }
@@ -222,7 +225,8 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void onClickBuyCard(GoodItem goodItem) {
-        ConfirmOrderActivity.start(mContext, goodItem);
+        if (!isLogin())
+            ConfirmOrderActivity.start(mContext, goodItem);
     }
 
     @Override
@@ -237,11 +241,12 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void onFLGNItemClick(VipWelfareList item) {
-        if (UserInfo.getUserInfo().getLevel() > 0) {
-            WebViewActivity.start(mContext, item.getName(), item.getUrl());
-        } else {
-            showHitLevelDialog();
-        }
+        if (!isLogin())
+            if (UserInfo.getUserInfo().getLevel() > 0) {
+                WebViewActivity.start(mContext, item.getName(), item.getUrl());
+            } else {
+                showHitLevelDialog();
+            }
     }
 
     private void showHitLevelDialog() {

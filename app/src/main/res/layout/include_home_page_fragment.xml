@@ -107,7 +107,7 @@
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_def_image"
+                            android:src="@drawable/icon_agent"
                             app:riv_corner_radius="6dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -117,7 +117,7 @@
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_def_image"
+                            android:src="@drawable/icon_sprx"
                             app:riv_corner_radius="6dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -127,7 +127,7 @@
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_def_image"
+                            android:src="@drawable/icon_spfg"
                             app:riv_corner_radius="6dp" />
 
 

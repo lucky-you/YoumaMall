@@ -143,7 +143,8 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
 
     @Override
     public void onClickBuyCard(GoodItem goodItem) {
-        ConfirmOrderActivity.start(mContext, goodItem);
+        if (!isLogin())
+            ConfirmOrderActivity.start(mContext, goodItem);
 
     }
 

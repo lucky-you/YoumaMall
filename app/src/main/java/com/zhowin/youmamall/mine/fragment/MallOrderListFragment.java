@@ -1,16 +1,19 @@
 package com.zhowin.youmamall.mine.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeMallOrderFragmentLayoutBinding;
@@ -126,7 +129,17 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
 
     @Override
     public void onConfirmReceipt(int goodId) {
-        confirmReceiptGood(goodId);
+        new CenterHitMessageDialog(mContext, "确认收到货了吗？", new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                confirmReceiptGood(goodId);
+            }
+        }).show();
     }
 
     private void confirmReceiptGood(int goodId) {
