@@ -251,7 +251,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     public void onFLGNItemClick(VipWelfareList item) {
         if (!isLogin())
             if (UserInfo.getUserInfo().getLevel() > 0) {
-                WebViewActivity.start(mContext, item.getName(), item.getUrl());
+                WebViewActivity.start(mContext, item.getName(), item.getUrl(),true);
             } else {
                 showHitLevelDialog();
             }

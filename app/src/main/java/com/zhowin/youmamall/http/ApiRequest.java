@@ -12,8 +12,12 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.HotKeywordList;
 import com.zhowin.youmamall.home.model.MessageCategory;
 import com.zhowin.youmamall.home.model.MessageList;
+import com.zhowin.youmamall.home.model.ResourcesCategory;
+import com.zhowin.youmamall.home.model.ResourcesDetailsInfo;
+import com.zhowin.youmamall.home.model.ResourcesList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
@@ -199,6 +203,17 @@ public interface ApiRequest {
     //设置全部已读
     String SET_ALL_READ_URL = "api/message/read";
 
+    //资源分类
+    String RESOURCES_CATEGORY_URL = "api/resources/category";
+
+    //资源列表
+    String RESOURCES_LIST_URL = "api/resources/list";
+
+    //资源详情
+    String RESOURCES_DETAILS_URL = "api/resources/detail";
+
+    //获取热搜关键字
+    String HOT_SEARCH_KEYWORD_URL = "api/item/hot_keyword";
 
     /**
      * 返回的是自己的用户信息
@@ -511,5 +526,31 @@ public interface ApiRequest {
      */
     @POST(SET_ALL_READ_URL)
     Observable<ApiResponse<Object>> setAllReadMessage(@Header(TOKEN) String token);
+
+    /**
+     * 获取资源分类
+     */
+    @POST(RESOURCES_CATEGORY_URL)
+    Observable<ApiResponse<List<ResourcesCategory>>> getResourcesCategory(@Header(TOKEN) String token);
+
+    /**
+     * 获取资源列表
+     */
+    @FormUrlEncoded
+    @POST(RESOURCES_LIST_URL)
+    Observable<ApiResponse<BaseResponse<ResourcesList>>> getResourcesList(@Header(TOKEN) String token, @Field("category_id") int type, @Field("page") int pageNum, @Field("size") int pageSize);
+
+    /**
+     * 获取资源详情
+     */
+    @FormUrlEncoded
+    @POST(RESOURCES_DETAILS_URL)
+    Observable<ApiResponse<ResourcesDetailsInfo>> getResourcesDetails(@Header(TOKEN) String token, @Field("id") int id);
+
+    /**
+     * 获取热搜关键字
+     */
+    @POST(HOT_SEARCH_KEYWORD_URL)
+    Observable<ApiResponse<List<HotKeywordList>>> getHotKeywordList(@Header(TOKEN) String token);
 
 }

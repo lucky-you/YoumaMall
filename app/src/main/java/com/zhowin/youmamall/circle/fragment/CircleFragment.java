@@ -11,6 +11,7 @@ import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -31,7 +32,6 @@ import java.util.List;
  * desc ：圈子
  */
 public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayoutBinding> implements OnCircleItemClickListener {
-
 
     private CircleFragmentAdapter circleFragmentAdapter;
     private int fragmentIndex;
@@ -73,7 +73,7 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
         HttpRequest.getCircleList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<CircleList>>() {
             @Override
             public void onSuccess(BaseResponse<CircleList> baseResponse) {
-                if (baseResponse != null) {
+                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -87,6 +87,8 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
                     } else {
                         circleFragmentAdapter.loadMoreComplete();
                     }
+                } else {
+                    EmptyViewUtils.bindEmptyView(mContext, circleFragmentAdapter);
                 }
             }
 

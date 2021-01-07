@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/27
- * desc ：
+ * desc ：动态列表
  */
 public class DynamicFragmentAdapter extends BaseQuickAdapter<DynamicList, BaseViewHolder> {
     public DynamicFragmentAdapter(@Nullable List<DynamicList> data) {

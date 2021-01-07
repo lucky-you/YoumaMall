@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:background="@drawable/shape_white_10dp_bg"
@@ -16,12 +16,13 @@
         android:textColor="@color/color_333"
         android:textSize="15sp" />
 
-    <ImageView
+    <com.zhowin.base_library.view.AdjustImageView
         android:id="@+id/ivContent"
-        android:layout_width="280dp"
-        android:layout_height="390dp"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_def_image" />
 
     <View
@@ -40,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/cancel"
+            android:text="关闭"
             android:textColor="#666666"
             android:textSize="15sp" />
 

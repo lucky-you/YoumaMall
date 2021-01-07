@@ -127,7 +127,7 @@ public class OpenAgentActivity extends BaseBindActivity<ActivityOpenAgentBinding
                 if (confirmOrderInfo != null) {
                     String paymentUrl = confirmOrderInfo.getUrl();
                     String paymentTitle = 2 == payType ? "支付宝支付" : "微信支付";
-                    WebViewActivity.start(mContext, paymentTitle, paymentUrl);
+                    WebViewActivity.start(mContext, paymentTitle, paymentUrl, true);
 
                 }
 
@@ -151,7 +151,7 @@ public class OpenAgentActivity extends BaseBindActivity<ActivityOpenAgentBinding
                 if (confirmOrderInfo != null) {
                     String paymentUrl = confirmOrderInfo.getUrl();
                     String paymentTitle = 2 == payType ? "支付宝支付" : "微信支付";
-                    WebViewActivity.start(mContext, paymentTitle, paymentUrl);
+                    WebViewActivity.start(mContext, paymentTitle, paymentUrl, true);
                 }
             }
 

@@ -159,7 +159,7 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
                     case 3://微信支付
                         String paymentUrl = confirmOrderInfo.getUrl();
                         String paymentTitle = 2 == paymentType ? "支付宝支付" : "微信支付";
-                        WebViewActivity.start(mContext, paymentTitle, paymentUrl);
+                        WebViewActivity.start(mContext, paymentTitle, paymentUrl,true);
                         break;
                 }
             }

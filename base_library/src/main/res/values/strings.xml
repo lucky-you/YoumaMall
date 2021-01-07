@@ -6,7 +6,8 @@
     <string name="determine">确定</string>
     <string name="not_have_data">暂无数据</string>
     <string name="select_city">城市选择</string>
-
+    <string name="to_expand_hint">全文</string>
+    <string name="to_shrink_hint">收起</string>
 
     <string name="string_state_ready">READY</string>
     <string name="string_state_preparing">PREPARING</string>

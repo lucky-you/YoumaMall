@@ -17,17 +17,19 @@ import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityWebViewBinding;
 
 /**
- * 网页支付
+ * 网页显示通用
  */
 public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
 
 
     private String payTitle, paymentUrl;
+    private boolean isUrl;
 
-    public static void start(Context context, String title, String url) {
+    public static void start(Context context, String title, String url, boolean isUrl) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(ConstantValue.TITLE, title);
         intent.putExtra(ConstantValue.URL, url);
+        intent.putExtra(ConstantValue.TYPE, isUrl);
         context.startActivity(intent);
     }
 
@@ -40,13 +42,14 @@ public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
     public void initView() {
         payTitle = getIntent().getStringExtra(ConstantValue.TITLE);
         paymentUrl = getIntent().getStringExtra(ConstantValue.URL);
+        isUrl = getIntent().getBooleanExtra(ConstantValue.TYPE, true);
         mBinding.tvTitleView.setTitle(payTitle);
     }
 
     @Override
     public void initData() {
         if (!TextUtils.isEmpty(paymentUrl)) {
-            setUpWebView(mBinding.mWebView, paymentUrl, true);
+            setUpWebView(mBinding.mWebView, paymentUrl, isUrl);
         }
     }
 

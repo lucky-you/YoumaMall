@@ -194,7 +194,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvShopMallAllOrder:
+            case R.id.tvShopMallAllOrder://全部订单
                 MallOrderListActivity.start(mContext, 0);
                 break;
             case R.id.llDFKLayout:
@@ -209,28 +209,45 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             case R.id.llYWCLayout:
                 MallOrderListActivity.start(mContext, 4);
                 break;
-            case R.id.tvReleaseGood:
-                ReleaseGoodActivity.start(mContext, false, new GoodInfo());
+            case R.id.tvOpenStore: //开通店铺
+            case R.id.tvReleaseGood: //发布商品
+                jumpOpenMerchant(0);
                 break;
-            case R.id.llSPLBLayout:
-                ProductListActivity.start(mContext, 1);
+            case R.id.llSPLBLayout://商品列表
+                jumpOpenMerchant(1);
                 break;
-            case R.id.llYSSPLayout:
-                ProductListActivity.start(mContext, 2);
+            case R.id.llYSSPLayout://已售商品
+                jumpOpenMerchant(2);
                 break;
-            case R.id.llXSLSLayout:
-                ProductListActivity.start(mContext, 3);
+            case R.id.llXSLSLayout://销售流水
+                jumpOpenMerchant(3);
                 break;
-            case R.id.llZXDPLayout:
-                showOutLoginDialog(2, "确定要注销吗?");
+            case R.id.llZXDPLayout://注销店铺
+                jumpOpenMerchant(4);
                 break;
-            case R.id.tvOpenStore:
-                if (isOpenMerchant) {
+        }
+    }
+    private void jumpOpenMerchant(int type) {
+        if (isOpenMerchant) {
+            switch (type) {
+                case 0:
                     ReleaseGoodActivity.start(mContext, false, new GoodInfo());
-                } else {
-                    startActivity(DepositActivity.class);
-                }
-                break;
+                    break;
+                case 1:
+                    ProductListActivity.start(mContext, 1);
+                    break;
+                case 2:
+                    ProductListActivity.start(mContext, 2);
+                    break;
+                case 3:
+                    ProductListActivity.start(mContext, 3);
+                    break;
+                case 4:
+                    showOutLoginDialog(2, "确定要注销店铺吗?");
+                    break;
+            }
+        } else {
+            startActivity(DepositActivity.class);
         }
     }
 
@@ -278,7 +295,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         startActivity(ContactServiceActivity.class);
                         break;
                     case 9:
-                        showOutLoginDialog(1, "确定要退出吗?");
+                        showOutLoginDialog(1, "确定要退出登录吗?");
                         break;
                 }
 
@@ -310,7 +327,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         startActivity(ContactServiceActivity.class);
                         break;
                     case 8:
-                        showOutLoginDialog(1, "确定要退出吗?");
+                        showOutLoginDialog(1, "确定要退出登录吗?");
                         break;
                 }
                 break;
@@ -341,7 +358,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         startActivity(ContactServiceActivity.class);
                         break;
                     case 8:
-                        showOutLoginDialog(1, "确定要退出吗?");
+                        showOutLoginDialog(1, "确定要退出登录吗?");
                         break;
                 }
                 break;
@@ -369,7 +386,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         startActivity(ContactServiceActivity.class);
                         break;
                     case 7:
-                        showOutLoginDialog(1, "确定要退出吗?");
+                        showOutLoginDialog(1, "确定要退出登录吗?");
                         break;
                 }
                 break;
@@ -381,7 +398,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         new CenterHitMessageDialog(mContext, title, new OnCenterHitMessageListener() {
             @Override
             public void onNegativeClick(Dialog dialog) {
-
             }
 
             @Override
@@ -405,7 +421,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                     SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
                     startActivity(LoginActivity.class);
                 } else {
-                    ToastUtils.showToast("注销成功");
+                    ToastUtils.showCustomToast(mContext, "注销成功");
                 }
             }
 

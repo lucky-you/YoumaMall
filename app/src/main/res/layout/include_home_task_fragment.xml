@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    >
 
-    <LinearLayout
+    <com.zhowin.base_library.view.RefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoryRecycler"
+                style="@style/RecycleViewStyle"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/resourcesListRecycler"
+                style="@style/RecycleViewStyle"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+    </com.zhowin.base_library.view.RefreshLayout>
 
 
 </layout>

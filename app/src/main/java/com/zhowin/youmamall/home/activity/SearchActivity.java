@@ -21,12 +21,14 @@ import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivitySearchBinding;
 import com.zhowin.youmamall.home.adapter.HomeXPSFAdapter;
 import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
+import com.zhowin.youmamall.home.model.HotKeywordList;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mall.model.GoodItem;
 import com.zhowin.youmamall.mall.model.MallRightList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 搜索
@@ -131,6 +133,23 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
             public void onFail(int errorCode, String errorMsg) {
                 dismissLoadDialog();
                 ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
+    private void getHotKeywordList() {
+        HttpRequest.getHotKeywordList(this, new HttpCallBack<List<HotKeywordList>>() {
+            @Override
+            public void onSuccess(List<HotKeywordList> hotKeywordLists) {
+                if (hotKeywordLists != null && !hotKeywordLists.isEmpty()) {
+
+                }
+
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
             }
         });
     }

@@ -19,8 +19,12 @@ import com.zhowin.youmamall.home.model.ConfirmOrderInfo;
 import com.zhowin.youmamall.home.model.GoodDetailsInfo;
 import com.zhowin.youmamall.home.model.HomeDynamicInfo;
 import com.zhowin.youmamall.home.model.HomePageData;
+import com.zhowin.youmamall.home.model.HotKeywordList;
 import com.zhowin.youmamall.home.model.MessageCategory;
 import com.zhowin.youmamall.home.model.MessageList;
+import com.zhowin.youmamall.home.model.ResourcesCategory;
+import com.zhowin.youmamall.home.model.ResourcesDetailsInfo;
+import com.zhowin.youmamall.home.model.ResourcesList;
 import com.zhowin.youmamall.home.model.UnreadMessageInfo;
 import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mall.model.MallRightList;
@@ -936,9 +940,6 @@ public class HttpRequest {
 
     /**
      * 获取消息分类
-     *
-     * @param activity
-     * @param callBack
      */
     public static void getMessageCategory(LifecycleOwner activity, final HttpCallBack<List<MessageCategory>> callBack) {
         apiRequest.getMessageCategory(UserInfo.getUserToken())
@@ -969,6 +970,90 @@ public class HttpRequest {
 
                     @Override
                     public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 获取资源分类
+     */
+    public static void getResourcesCategory(LifecycleOwner activity, final HttpCallBack<List<ResourcesCategory>> callBack) {
+        apiRequest.getResourcesCategory(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<ResourcesCategory>>() {
+
+                    @Override
+                    public void onSuccess(List<ResourcesCategory> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 热搜关键字
+     */
+    public static void getHotKeywordList(LifecycleOwner activity, final HttpCallBack<List<HotKeywordList>> callBack) {
+        apiRequest.getHotKeywordList(UserInfo.getUserToken())
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<List<HotKeywordList>>() {
+
+                    @Override
+                    public void onSuccess(List<HotKeywordList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 资源详情
+     */
+    public static void getResourcesDetails(LifecycleOwner activity, int itemId, final HttpCallBack<ResourcesDetailsInfo> callBack) {
+        apiRequest.getResourcesDetails(UserInfo.getUserToken(), itemId)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<ResourcesDetailsInfo>() {
+
+                    @Override
+                    public void onSuccess(ResourcesDetailsInfo demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 获取资源列表
+     */
+    public static void getResourcesList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<ResourcesList>> callBack) {
+        apiRequest.getResourcesList(UserInfo.getUserToken(), category_id, page, size)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<BaseResponse<ResourcesList>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<ResourcesList> demo) {
                         callBack.onSuccess(demo);
                     }
 

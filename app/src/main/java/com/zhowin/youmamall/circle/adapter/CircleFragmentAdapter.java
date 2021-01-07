@@ -40,7 +40,6 @@ public class CircleFragmentAdapter extends BaseQuickAdapter<CircleList, BaseView
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CircleList item) {
-
         GlideUtils.loadUserPhotoForLogin(mContext, item.getAvatar(), helper.getView(R.id.civUserHead));
         helper.setText(R.id.tvUserNickName, item.getNickname())
                 .setText(R.id.tvDesc, item.getTitle())

@@ -24,6 +24,9 @@ public class GoodInfo implements Parcelable {
     public GoodInfo() {
     }
 
+    public GoodInfo(String goodName) {
+        this.goodName = goodName;
+    }
 
     protected GoodInfo(Parcel in) {
         goodId = in.readInt();

@@ -57,7 +57,7 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
     private int statusPosition, statusType, goodCategoryPosition, goodCategoryId;
     private List<SelectPickerList> goodCategoryList = new ArrayList<>();
     private GoodInfo goodInfo;
-    private boolean isChangeGoodInfo;
+    private boolean isChangeGoodInfo; //是否是修改商品
 
 
     public static void start(Context context, boolean isChangeGoodInfo, GoodInfo goodInfo) {
@@ -78,6 +78,7 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
         isChangeGoodInfo = getIntent().getBooleanExtra(ConstantValue.TYPE, false);
         goodInfo = getIntent().getParcelableExtra(ConstantValue.CONTNET);
         setOnClick(R.id.tvSelectCategory, R.id.tvSelectStatus, R.id.tvRelease);
+        mBinding.tvTitleView.setTitle(isChangeGoodInfo ? "修改商品信息" : "发布商品");
         getMallLeftList();
         getQiNiuYunBean();
 
@@ -127,9 +128,10 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
             mBinding.tvSelectStatus.setText(goodInfo.getGoodStatusName());
             mBinding.tvSelectCategory.setTextColor(getBaseColor(R.color.color_333));
             mBinding.tvSelectStatus.setTextColor(getBaseColor(R.color.color_333));
-            if (!selectList.isEmpty()) selectList.clear();
+            ArrayList<LocalMedia> selectList = new ArrayList<>();
+            imagePaths = goodInfo.getGoodImage();
             LocalMedia localMedia = new LocalMedia();
-            localMedia.setPath(goodInfo.getGoodImage());
+            localMedia.setPath(imagePaths);
             selectList.add(localMedia);
             postGridImageAdapter.setNewDataList(selectList);
         }
@@ -166,10 +168,14 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
                 selectStatusDialog();
                 break;
             case R.id.tvRelease:
-                if (!selectList.isEmpty()) {
-                    showLoadDialog();
-                    for (int i = 0; i < selectList.size(); i++) {
-                        qinIuUpLoad(selectList.get(i).getPath());
+                if (isChangeGoodInfo) {
+                    releaseOrChangeGood();
+                } else {
+                    if (!selectList.isEmpty()) {
+                        showLoadDialog();
+                        for (int i = 0; i < selectList.size(); i++) {
+                            qinIuUpLoad(selectList.get(i).getPath());
+                        }
                     }
                 }
                 break;

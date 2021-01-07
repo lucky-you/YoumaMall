@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvCategoryTitle"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_margin="4dp"
+    android:background="@drawable/shape_grey_color_4dp_bg"
+    android:gravity="center"
+    android:text="资源分类"
+    android:textSize="14sp">
+
+</TextView>

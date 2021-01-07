@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.mine.activity;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.BitmapUtils;
@@ -96,29 +100,44 @@ public class ShareMaterialActivity extends BaseBindActivity<ActivityShareMateria
         shareMaterialDialog.setOnShareMaterialListener(new OnShareMaterialListener() {
             @Override
             public void onStartShare(View rootView) {
-                startShare(rootView);
+                requestPermission(rootView);
             }
         });
         shareMaterialDialog.show();
     }
 
-    private void startShare(View view) {
-        Bitmap bitmapSrc = BitmapUtils.getCacheBitmapFromView(view);
-        File file = new File(BitmapUtils.bitmapFileToString(bitmapSrc));
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        Uri uri = Uri.fromFile(file);
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, BitmapUtils.bitmapFileToString(bitmapSrc));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("image/*");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        try {
-            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(Intent.createChooser(shareIntent, "分享到"));
-        } catch (android.content.ActivityNotFoundException ex) {
-            ex.printStackTrace();
-        }
+    private void requestPermission(View rootView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionUtils.permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .callback(new PermissionUtils.SimpleCallback() {
+                        @Override
+                        public void onGranted() {
+                            saveQrCodeToAlbum(rootView);
+                        }
 
+                        @Override
+                        public void onDenied() {
+                        }
+                    }).request();
+        }
+    }
+
+    private void saveQrCodeToAlbum(View rootView) {
+        Bitmap bitmapSrc = BitmapUtils.getCacheBitmapFromView(rootView);
+        ThreadUtils.executeBySingle(new ThreadUtils.SimpleTask<File>() {
+            @Override
+            public File doInBackground() throws Throwable {
+                return ImageUtils.save2Album(bitmapSrc, Bitmap.CompressFormat.JPEG);
+            }
+
+            @Override
+            public void onSuccess(File result) {
+                if (result != null) {
+                    com.blankj.utilcode.util.ToastUtils.showLong("保存成功");
+                } else {
+                    com.blankj.utilcode.util.ToastUtils.showLong("保存失败");
+                }
+            }
+        });
     }
 }

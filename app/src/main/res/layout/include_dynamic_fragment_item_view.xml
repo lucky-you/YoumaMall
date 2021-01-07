@@ -34,10 +34,9 @@
             app:layout_constraintLeft_toRightOf="@id/civUserHead"
             app:layout_constraintTop_toTopOf="@id/civUserHead" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <com.zhowin.base_library.view.ExpandableTextView
         android:id="@+id/tvDynamicContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +47,10 @@
         android:gravity="center_vertical"
         android:text="线上结合线下混合式培训社交学习与分享多维度可视化报表，洞察培训效果线上结合。"
         android:textColor="@color/color_333"
-        android:textSize="15sp" />
+        android:textSize="14sp"
+        app:etv_MaxLinesOnShrink="4"
+        app:etv_ToExpandHintColor="@color/color_227BFF"
+        app:etv_ToShrinkHintColor="@color/color_227BFF" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imageRecyclerView"
