@@ -1,13 +1,13 @@
 package com.zhowin.youmamall.main.activity;
 
-import android.text.TextUtils;
 
-import com.zhowin.base_library.model.UserInfo;
+import com.gyf.immersionbar.ImmersionBar;
 import com.zhowin.base_library.utils.ActivityManager;
+import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.SPUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivitySplashBinding;
-import com.zhowin.youmamall.login.activity.LoginActivity;
 
 /**
  * 引导页
@@ -22,17 +22,29 @@ public class SplashActivity extends BaseBindActivity<ActivitySplashBinding> {
 
     @Override
     public void initView() {
-        String userToken = UserInfo.getUserToken();
-        if (TextUtils.isEmpty(userToken)) {
-            startActivity(LoginActivity.class);
-        } else {
+        boolean isStartMain = SPUtils.getBoolean(ConstantValue.START_MAIN, false);
+        if (isStartMain) {
             startActivity(MainActivity.class);
+        } else {
+            startActivity(GuidePageActivity.class);
         }
         ActivityManager.getAppInstance().finishActivity();
+
     }
 
     @Override
     public void initData() {
 
     }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
+                .statusBarColor(R.color.white)
+                .keyboardEnable(true)
+                .statusBarDarkFont(true)
+                .init();
+    }
+
 }

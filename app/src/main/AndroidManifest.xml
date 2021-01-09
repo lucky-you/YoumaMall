@@ -163,7 +163,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".main.activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

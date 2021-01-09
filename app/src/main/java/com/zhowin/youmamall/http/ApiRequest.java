@@ -171,7 +171,6 @@ public interface ApiRequest {
     //未读消息
     String GET_UNREAD_MESSAGE_URL = "api/banner/dynamic";
 
-
     //开通Vip规则
     String OPEN_VIP_RULE_URL = "api/proxy/vip_rule";
 

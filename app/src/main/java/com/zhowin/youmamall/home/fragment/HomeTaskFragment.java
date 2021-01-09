@@ -86,7 +86,8 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 int itemId = resourcesListAdapter.getItem(position).getId();
-                getResourcesDetails(itemId);
+                if (!isLogin())
+                    getResourcesDetails(itemId);
             }
         });
     }

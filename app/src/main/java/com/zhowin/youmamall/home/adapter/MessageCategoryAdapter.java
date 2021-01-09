@@ -38,7 +38,7 @@ public class MessageCategoryAdapter extends BaseQuickAdapter<MessageCategory, Ba
         helper.setText(R.id.tvLeftTitle, item.getName())
                 .setText(R.id.tvLeftContent, item.getContent())
                 .setImageResource(R.id.civLeftImage, leftDrawableId[helper.getAdapterPosition()])
-                .setText(R.id.tvRightTie, DateHelpUtils.getPostDetailTime(item.getCreatetime()));
+                .setText(R.id.tvRightTime, DateHelpUtils.getPostDetailTime(item.getCreatetime()));
         MsgView msvHitMessage = helper.getView(R.id.msvHitMessage);
         msvHitMessage.setVisibility(item.getRead_num() > 0 ? View.VISIBLE : View.GONE);
         msvHitMessage.setText(String.valueOf(item.getRead_num()));

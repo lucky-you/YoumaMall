@@ -96,6 +96,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null) {
+                    System.out.println("size:" + baseResponse.getData().size());
                     mallRightListAdapter.setNewData(baseResponse.getData());
                 }
             }
@@ -112,7 +113,8 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
         mBinding.tvTitleView.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SearchActivity.class);
+                if (!isLogin())
+                    startActivity(SearchActivity.class);
             }
         });
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

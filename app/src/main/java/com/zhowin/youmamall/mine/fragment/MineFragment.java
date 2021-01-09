@@ -164,7 +164,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
             @Override
             public void onFail(int errorCode, String errorMsg) {
-                ToastUtils.showToast(errorMsg);
+//                ToastUtils.showToast(errorMsg);
             }
         });
     }

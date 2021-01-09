@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhowin.base_library.utils.DateHelpUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.mine.model.SalesTurnoverList;
 
@@ -22,6 +23,9 @@ public class SalesTurnoverAdapter extends BaseQuickAdapter<SalesTurnoverList, Ba
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, SalesTurnoverList item) {
+        helper.setText(R.id.tvLeftType, item.getMemo())
+                .setText(R.id.tvLeftTime, DateHelpUtils.getStringDate(item.getCreatetime()))
+                .setText(R.id.tvRightValue, "+" + item.getMoney());
 
     }
 }

@@ -31,8 +31,6 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> implemen
 
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
-    public static MainActivity Instance;
-
 
     @Override
     public int getLayoutId() {
@@ -41,7 +39,6 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> implemen
 
     @Override
     public void initView() {
-        Instance = this;
     }
 
     @Override
@@ -58,21 +55,14 @@ public class MainActivity extends BaseBindActivity<ActivityMainBinding> implemen
         mBinding.commonTabLayout.setOnTabSelectListener(this);
     }
 
-    public void showJumpFragment(int position) {
-        mBinding.commonTabLayout.setCurrentTab(position);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Instance = null;
-    }
 
     @Override
     public void onTabSelect(int position) {
         if (4 == position) {
             if (!isLogin()) {
                 mBinding.commonTabLayout.setCurrentTab(position);
+            } else {
+                mBinding.commonTabLayout.setCurrentTab(0);
             }
         }
     }

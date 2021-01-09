@@ -87,56 +87,29 @@ public class ActivityManager {
     }
 
     /**
-     * 结束指定的Activity上面的所有除了MainActivity
+     * 结束除了MainActivity,和当前Activity以外的其他Activity
      */
     public void finishOtherTopActivity(Class activity) {
         try {
             if (activity != null) {
                 while (true) {
-                    Activity curentActivity = activityStack.lastElement();
-                    if (curentActivity.getClass().getSimpleName().equals(activity.getSimpleName())) {
-                        break;
-                    }
-                    if (curentActivity.getClass().getSimpleName().contains("MainActivity")) {
+                    Activity currentActivity = activityStack.lastElement();
+                    if (currentActivity.getClass().getSimpleName().contains("MainActivity")) {
                         //防止不存在，所有activity全部退出
                         break;
                     }
-                    activityStack.remove(curentActivity);
-                    curentActivity.finish();
+                    if (currentActivity.getClass().getSimpleName().equals(activity.getClass().getSimpleName())) {
+                        break;
+                    } else {
+                        activityStack.remove(currentActivity);
+                        currentActivity.finish();
+                    }
                 }
                 Log.i("TAG", "ActivityManager关闭了：" + activity.getClass().getName());
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
-
-    }
-
-    /**
-     * 结束指定的Activity上面的所有除了MainActivity
-     */
-    public void finishOtherTopActivity(String activity) {
-        try {
-            if (activity != null) {
-                while (true) {
-                    Activity curentActivity = activityStack.lastElement();
-                    if (curentActivity.getClass().getSimpleName().equals(activity)) {
-                        break;
-                    }
-                    if (curentActivity.getClass().getSimpleName().contains("MainActivity")) {
-                        //防止不存在，所有activity全部退出
-                        break;
-                    }
-                    activityStack.remove(curentActivity);
-                    curentActivity.finish();
-                }
-                Log.i("TAG", "ActivityManager关闭了：" + activity.getClass().getName());
-            }
-        } catch (Exception ex) {
-
-        }
-
-
     }
 
 
@@ -156,7 +129,7 @@ public class ActivityManager {
                 }
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 

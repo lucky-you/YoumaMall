@@ -22,5 +22,5 @@ public interface ConstantValue {
     String PASSWORD = "password";
     String SP_TOKEN = "token";
     String USER_INFO = "userInfo";
-
+    String START_MAIN = "start_main";
 }

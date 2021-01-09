@@ -1,5 +1,6 @@
 package com.zhowin.youmamall.home.fragment;
 
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zhowin.base_library.adapter.HomePageAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -62,7 +64,8 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
     @Override
     public void onResume() {
         super.onResume();
-        getUnreadMessageInfo();
+        if (!TextUtils.isEmpty(UserInfo.getUserToken()))
+            getUnreadMessageInfo();
     }
 
     private void setTabSelect(int position, boolean select) {
@@ -77,10 +80,10 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
             setTabSelect(i, false);
         }
         setTabSelect(position, true);
-        if (0 == position) {
-            if (!isLogin())
-                mBinding.noScrollViewPager.setCurrentItem(position);
-        }
+//        if (0 == position) {
+//            if (!isLogin())
+//                mBinding.noScrollViewPager.setCurrentItem(position);
+//        }
     }
 
     @Override
@@ -106,12 +109,9 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
             @Override
             public void onSuccess(UnreadMessageInfo unreadMessageInfo) {
                 if (unreadMessageInfo != null) {
-                    if (!isLogin()) {
-                        mBinding.msvMessage.setVisibility(unreadMessageInfo.getRead_num() > 0 ? View.VISIBLE : View.GONE);
-                        mBinding.msvMessage.setText(String.valueOf(unreadMessageInfo.getRead_num()));
-                    } else {
-                        mBinding.msvMessage.setVisibility(View.GONE);
-                    }
+                    mBinding.msvMessage.setVisibility(unreadMessageInfo.getRead_num() > 0 ? View.VISIBLE : View.GONE);
+                    mBinding.msvMessage.setText(String.valueOf(unreadMessageInfo.getRead_num()));
+
                 }
             }
 

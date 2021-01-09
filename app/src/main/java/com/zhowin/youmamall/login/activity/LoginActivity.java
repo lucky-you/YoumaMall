@@ -13,6 +13,7 @@ import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityLoginBinding;
 import com.zhowin.youmamall.login.fragment.LoginFragment;
 import com.zhowin.youmamall.login.fragment.RegisterFragment;
+import com.zhowin.youmamall.main.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class LoginActivity extends BaseBindActivity<ActivityLoginBinding> {
     @Override
     public void initView() {
         getInstance = this;
-        ActivityManager.getAppInstance().finishAllButCurrentActivity(LoginActivity.class);
+//        ActivityManager.getAppInstance().finishOtherTopActivity(LoginActivity.class);
     }
 
     @Override

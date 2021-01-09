@@ -292,7 +292,7 @@ public class RetrofitFactory {
                     e.printStackTrace();
                 }
             }
-//            System.out.println("request  url:" + request.url().toString());
+            System.out.println("request  url:" + request.url().toString());
             Response response = chain.proceed(chain.request());
             MediaType mediaType = response.body().contentType();
             String content = response.body().string();
