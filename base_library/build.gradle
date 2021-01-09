@@ -69,5 +69,6 @@ dependencies {
     api 'com.youth.banner:banner:2.1.0'
     api 'com.google.android.material:material:1.2.1'
     api 'com.qiniu:qiniu-android-sdk:7.6.4'
+    api 'com.github.tgio:rncryptor-native:0.0.9'
 
 }

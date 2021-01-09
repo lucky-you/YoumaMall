@@ -8,6 +8,7 @@ import java.util.Date;
  * 时间戳
  */
 public class DateHelpUtils {
+
     static SimpleDateFormat mDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -18,6 +19,11 @@ public class DateHelpUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         return format.format(date);
+    }
+
+    public static String getCurrentTime() {
+        long time = System.currentTimeMillis() / 1000;
+        return String.valueOf(time);
     }
 
 

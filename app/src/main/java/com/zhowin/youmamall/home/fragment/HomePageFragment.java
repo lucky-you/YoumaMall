@@ -253,7 +253,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
             if (UserInfo.getUserInfo().getLevel() > 0) {
                 WebViewActivity.start(mContext, item.getName(), item.getUrl(),true);
             } else {
-                showHitLevelDialog();
+                showHitLevelDialog(); //18853729233
             }
     }
 

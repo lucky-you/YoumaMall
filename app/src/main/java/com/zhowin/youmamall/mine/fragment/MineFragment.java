@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
@@ -44,6 +45,8 @@ import com.zhowin.youmamall.mine.model.MineItemConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tgio.rncryptor.RNCryptorNative;
 
 /**
  * author : zho
@@ -227,6 +230,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 break;
         }
     }
+
     private void jumpOpenMerchant(int type) {
         if (isOpenMerchant) {
             switch (type) {
@@ -256,8 +260,16 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         mBinding.tvTitleView.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SettingActivity.class);
+//                startActivity(SettingActivity.class);
+                RNCryptorNative rncryptor = new RNCryptorNative();
+                String paramJson = "AgG3kAHd0QYMFFvp3SaPyv8nmY/9jksX9xDoCcvyUl3CVaIX+y/tgqEITF2i1BpL4rFVrmQqD6nvue4hkULLRyasxNNZsUwHgwIiLz2b9YGpRg==";
+//                String encrypted = new String(rncryptor.encrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD));
+//                Log.e("xy", "encrypted：" + encrypted);
+
+                String decrypted = rncryptor.decrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD);
+                Log.e("xy", "decrypted：" + decrypted);
             }
+
         });
     }
 
