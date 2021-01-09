@@ -140,7 +140,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                                         }
                                     });
                                 }
-//                                showLatestNewDialog(homeDynamicInfo.getNotice());
+                                showLatestNewDialog(homeDynamicInfo.getNotice());
                             }
                         }
                     }

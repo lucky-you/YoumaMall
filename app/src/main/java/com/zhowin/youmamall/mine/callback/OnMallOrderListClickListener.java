@@ -16,4 +16,6 @@ public interface OnMallOrderListClickListener {
 
     void onConfirmReceipt(int goodId);
 
+    void onCopyKey(String keyText);
+
 }

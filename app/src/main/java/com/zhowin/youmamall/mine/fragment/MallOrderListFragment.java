@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.ClipboardUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
@@ -140,6 +141,12 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
                 confirmReceiptGood(goodId);
             }
         }).show();
+    }
+
+    @Override
+    public void onCopyKey(String keyText) {
+        ClipboardUtils.copyText(keyText);
+        ToastUtils.showToast("已复制到粘贴板");
     }
 
     private void confirmReceiptGood(int goodId) {

@@ -22,7 +22,6 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
 
     private int goodId;
 
-
     public static void start(Context context, int goodId) {
         Intent intent = new Intent(context, CardPasswordActivity.class);
         intent.putExtra(ConstantValue.ID, goodId);

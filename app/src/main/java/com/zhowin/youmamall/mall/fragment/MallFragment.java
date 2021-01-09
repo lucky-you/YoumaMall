@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
+import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.widget.GridSpacesItemDecoration;
@@ -75,7 +76,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
                 if (mallLeftLists != null && !mallLeftLists.isEmpty()) {
                     mallLeftListAdapter.setNewData(mallLeftLists);
                     rightCategoryId = mallLeftLists.get(0).getId();
-                    getMallRightList(rightCategoryId);
+                    getMallRightList(true, rightCategoryId);
                 }
             }
 
@@ -87,7 +88,10 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
     }
 
 
-    private void getMallRightList(int categoryId) {
+    private void getMallRightList(boolean isRefresh, int categoryId) {
+        if (isRefresh) {
+            currentPage = 1;
+        }
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_category_id", categoryId);
         map.put("page", currentPage);
@@ -95,9 +99,22 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
         HttpRequest.getMallRightList(this, 1, map, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
-                if (baseResponse != null) {
-                    System.out.println("size:" + baseResponse.getData().size());
-                    mallRightListAdapter.setNewData(baseResponse.getData());
+                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                    currentPage++;
+                    mBinding.refreshLayout.setRefreshing(false);
+                    if (isRefresh) {
+                        mallRightListAdapter.setNewData(baseResponse.getData());
+                    } else {
+                        mallRightListAdapter.addData(baseResponse.getData());
+                    }
+
+                    if (baseResponse.getData().size() < pageNumber) {
+                        mallRightListAdapter.loadMoreEnd(true);
+                    } else {
+                        mallRightListAdapter.loadMoreComplete();
+                    }
+                } else {
+                    EmptyViewUtils.bindEmptyView(mContext, mallRightListAdapter);
                 }
             }
 
@@ -120,7 +137,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
         mBinding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getMallRightList(rightCategoryId);
+                getMallRightList(true, rightCategoryId);
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
@@ -129,9 +146,16 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 mallLeftListAdapter.setCurrentPosition(position);
                 rightCategoryId = mallLeftListAdapter.getItem(position).getId();
-                getMallRightList(rightCategoryId);
+                getMallRightList(true, rightCategoryId);
             }
         });
+
+        mallRightListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getMallRightList(false, rightCategoryId);
+            }
+        }, mBinding.rightRecyclerView);
     }
 
     @Override

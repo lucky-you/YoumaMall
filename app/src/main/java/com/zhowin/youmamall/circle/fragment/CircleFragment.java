@@ -65,7 +65,6 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
         circleFragmentAdapter.setOnCircleItemClickListener(this::onImageItemClick);
     }
 
-
     private void getCircleList(boolean isRefresh) {
         if (isRefresh) {
             currentPage = 1;
@@ -81,7 +80,6 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
                     } else {
                         circleFragmentAdapter.addData(baseResponse.getData());
                     }
-
                     if (baseResponse.getData().size() < pageNumber) {
                         circleFragmentAdapter.loadMoreEnd(true);
                     } else {

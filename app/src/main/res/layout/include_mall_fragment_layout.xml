@@ -38,6 +38,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rightRecyclerView"
                     style="@style/RecycleViewStyle"
+                    android:layout_height="match_parent"
                     android:background="@color/color_f6f6f6" />
             </com.zhowin.base_library.view.RefreshLayout>
 

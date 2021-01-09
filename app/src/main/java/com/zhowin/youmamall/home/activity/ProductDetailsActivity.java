@@ -1,13 +1,17 @@
 package com.zhowin.youmamall.home.activity;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.BitmapUtils;
@@ -77,7 +81,8 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
                     mBinding.tvNumberOfPayments.setText(goodDetailsInfo.getSale() + "人已付款");
                     mBinding.tvProductPrice.setText("¥" + goodDetailsInfo.getPrice());
                     mBinding.tvCommissionPrice.setText("佣金" + goodDetailsInfo.getCommission_money() + "元");
-                    mBinding.tvProductLink.setText(goodDetailsInfo.getContent());
+//                    mBinding.tvProductLink.setText(goodDetailsInfo.getContent());
+                    mBinding.tvProductLink.setText(Html.fromHtml(goodDetailsInfo.getContent()));
                     String goodDescription = goodDetailsInfo.getPay_description();
                     if (!TextUtils.isEmpty(goodDescription)) {
                         SpanUtils.with(mBinding.tvPurchaseNotes)
@@ -121,10 +126,27 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
         shareCodeDialog.setOnShareCodeListener(new OnShareCodeListener() {
             @Override
             public void onSaveImage(View llQrCodeLayout) {
-                SaveToAlbum(llQrCodeLayout);
+                requestPermission(llQrCodeLayout);
             }
         });
     }
+
+    private void requestPermission(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionUtils.permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .callback(new PermissionUtils.SimpleCallback() {
+                        @Override
+                        public void onGranted() {
+                            SaveToAlbum(view);
+                        }
+
+                        @Override
+                        public void onDenied() {
+                        }
+                    }).request();
+        }
+    }
+
 
     private void SaveToAlbum(View llQrCodeLayout) {
         Bitmap bitmapSrc = BitmapUtils.getCacheBitmapFromView(llQrCodeLayout);
@@ -144,6 +166,4 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
             }
         });
     }
-
-
 }

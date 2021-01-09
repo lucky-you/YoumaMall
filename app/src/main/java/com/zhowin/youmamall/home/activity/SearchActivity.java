@@ -20,6 +20,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivitySearchBinding;
 import com.zhowin.youmamall.home.adapter.HomeXPSFAdapter;
+import com.zhowin.youmamall.home.adapter.HotSearchAdapter;
 import com.zhowin.youmamall.home.callback.OnGoodCardItemClickListener;
 import com.zhowin.youmamall.home.model.HotKeywordList;
 import com.zhowin.youmamall.http.HttpRequest;
@@ -36,6 +37,10 @@ import java.util.List;
 public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> implements OnGoodCardItemClickListener {
 
 
+    boolean isHotSearchKey = false;
+
+    private HotSearchAdapter hotSearchAdapter;
+
     private HomeXPSFAdapter homeXPSFAdapter;
     private String keyWords;
 
@@ -47,10 +52,17 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
     @Override
     public void initView() {
         setOnClick(R.id.ivBack, R.id.tvSearch);
+        mBinding.refreshLayout.setEnabled(isHotSearchKey);
     }
 
     @Override
     public void initData() {
+
+        getHotKeywordList();
+
+        hotSearchAdapter = new HotSearchAdapter(new ArrayList<>());
+        mBinding.hotSearchRecycler.setLayoutManager(new GridLayoutManager(mContext, 4));
+        mBinding.hotSearchRecycler.setAdapter(hotSearchAdapter);
 
         homeXPSFAdapter = new HomeXPSFAdapter(new ArrayList<>());
         mBinding.recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
@@ -72,10 +84,18 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
                     ToastUtils.showToast("请输入搜索关键词");
                     return;
                 }
-                KeyboardUtils.hideSoftInput(mContext);
-                getSearchResultGood(true);
+                startSearch();
                 break;
         }
+    }
+
+    private void startSearch() {
+        isHotSearchKey = true;
+        KeyboardUtils.hideSoftInput(mContext);
+        mBinding.clHotSearchLayout.setVisibility(View.GONE);
+        mBinding.recyclerView.setVisibility(View.VISIBLE);
+        mBinding.refreshLayout.setEnabled(isHotSearchKey);
+        getSearchResultGood(true);
     }
 
     @Override
@@ -87,12 +107,43 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
                 mBinding.refreshLayout.setRefreshing(false);
             }
         });
+
+        hotSearchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                keyWords = hotSearchAdapter.getItem(position).getName();
+                mBinding.editKeyWord.setText(keyWords);
+                mBinding.editKeyWord.setSelection(keyWords.length());
+                startSearch();
+            }
+        });
+
         homeXPSFAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 getSearchResultGood(false);
             }
         }, mBinding.recyclerView);
+    }
+
+    /**
+     * 热门搜索
+     */
+    private void getHotKeywordList() {
+        HttpRequest.getHotKeywordList(this, new HttpCallBack<List<HotKeywordList>>() {
+            @Override
+            public void onSuccess(List<HotKeywordList> hotKeywordLists) {
+                if (hotKeywordLists != null && !hotKeywordLists.isEmpty()) {
+                    hotSearchAdapter.setNewData(hotKeywordLists);
+                }
+
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+            }
+        });
     }
 
     /**
@@ -137,22 +188,6 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
         });
     }
 
-    private void getHotKeywordList() {
-        HttpRequest.getHotKeywordList(this, new HttpCallBack<List<HotKeywordList>>() {
-            @Override
-            public void onSuccess(List<HotKeywordList> hotKeywordLists) {
-                if (hotKeywordLists != null && !hotKeywordLists.isEmpty()) {
-
-                }
-
-            }
-
-            @Override
-            public void onFail(int errorCode, String errorMsg) {
-                dismissLoadDialog();
-            }
-        });
-    }
 
     @Override
     public void onClickBuyCard(GoodItem goodItem) {

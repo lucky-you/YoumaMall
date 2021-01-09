@@ -98,7 +98,16 @@ public class MallOrderListAdapter extends BaseQuickAdapter<MallOrderList, BaseVi
                         .setGone(R.id.clCPMYLayout, true)
                         .setText(R.id.tvCPMYText, item.getSecret_key())
                         .setTextColor(R.id.tvOrderStatus, getItemTextColor(R.color.color_227BFF))
-                        .setGone(R.id.tvNowPay, false);
+                        .setGone(R.id.tvNowPay, true)
+                        .setText(R.id.tvNowPay, "复制秘钥")
+                        .getView(R.id.tvNowPay).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onMallOrderListClickListener != null) {
+                            onMallOrderListClickListener.onCopyKey(item.getSecret_key());
+                        }
+                    }
+                });
                 break;
         }
     }
