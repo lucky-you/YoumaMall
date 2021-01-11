@@ -2,12 +2,12 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvTitle"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="30dp"
     android:layout_margin="4dp"
     android:background="@drawable/shape_theme_stroke_4dp_bg"
     android:gravity="center"
-    android:textColor="@color/color_333"
     android:text="资源分类"
+    android:textColor="@color/color_333"
     android:textSize="14sp">
 
 </TextView>

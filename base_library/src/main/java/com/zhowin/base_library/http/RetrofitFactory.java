@@ -134,6 +134,7 @@ public class RetrofitFactory {
                     Request.Builder newRequestBuilder = request.newBuilder();
                     newRequestBuilder.addHeader("token",encryptedToken);
                     RequestBody newRequestBody = RequestBody.create(contentType, encryptedBody);
+
                     newRequestBuilder.post(newRequestBody);
                     request = newRequestBuilder.build();
                 }

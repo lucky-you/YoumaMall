@@ -74,9 +74,13 @@ public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
             mWebView.loadUrl(contentUrl);//url地址
         } else {
             //HTML
-            mWebView.loadDataWithBaseURL(null, contentUrl, "text/html", "utf-8", null);
+            mWebView.loadDataWithBaseURL(null, getNewContent(contentUrl), "text/html", "utf-8", null);
         }
     }
 
 
+    public static String getNewContent(String htmlText) {
+        String htmlContent = "<html><head><meta charset='utf-8' name='viewport' content='width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no'/><style type=\"text/css\">img{ max-width:100%;max-height:100%; -webkit-tap-highlight-color:rgba(0,0,0,0);} video{max-width:100%;background-color:#ffffff;}image{max-width:100%;background-color:#000000;}</style> <script type=\"text/javascript\"> </script> </head> <body> <div> <div id=\"webview_content_wrapper\">" + htmlText + "</div> </div> </body> </html>";
+        return htmlContent;
+    }
 }
