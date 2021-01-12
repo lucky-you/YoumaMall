@@ -1,9 +1,12 @@
 package com.zhowin.youmamall.http;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ApiUtils;
+import com.google.gson.Gson;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import com.zhowin.base_library.http.HttpCallBack;
@@ -11,6 +14,9 @@ import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.qiniu.QiNiuYunBean;
+import com.zhowin.base_library.utils.DateHelpUtils;
+import com.zhowin.base_library.utils.GsonUtils;
+import com.zhowin.base_library.utils.LogUtils;
 import com.zhowin.base_library.utils.RxSchedulers;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.circle.model.CircleList;
@@ -252,7 +258,14 @@ public class HttpRequest {
      * 圈子列表
      */
     public static void getCircleList(LifecycleOwner activity, int pageNum, int pageSize, final HttpCallBack<BaseResponse<CircleList>> callBack) {
-        apiRequest.getCircleList(UserInfo.getUserToken(), pageNum, pageSize)
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_CIRCLE_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", pageNum);
+        paramMap.put("size", pageSize);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getCircleList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<CircleList>>() {

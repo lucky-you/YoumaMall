@@ -27,6 +27,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
+/**
+ * 更换手机号
+ */
 public class ChangeMobileActivity extends BaseBindActivity<ActivityChangeMobileBinding> {
 
     private Disposable mdDisposable;

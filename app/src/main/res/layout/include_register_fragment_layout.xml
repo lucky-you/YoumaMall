@@ -146,7 +146,7 @@
 
                     <TextView
                         android:id="@+id/tvGetVerificationCode"
-                        android:layout_width="100dp"
+                        android:layout_width="110dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:background="@drawable/shape_theme_color_15dp_bg"

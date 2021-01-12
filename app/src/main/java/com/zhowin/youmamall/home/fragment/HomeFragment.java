@@ -84,6 +84,7 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
 //            if (!isLogin())
 //                mBinding.noScrollViewPager.setCurrentItem(position);
 //        }
+
     }
 
     @Override

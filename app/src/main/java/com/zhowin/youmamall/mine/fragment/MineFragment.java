@@ -22,6 +22,7 @@ import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.IncludeMineFragmentLayoutBinding;
+import com.zhowin.youmamall.login.activity.ForgetPasswordActivity;
 import com.zhowin.youmamall.login.activity.LoginActivity;
 import com.zhowin.youmamall.mine.activity.DepositActivity;
 import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
@@ -51,13 +52,13 @@ import tgio.rncryptor.RNCryptorNative;
 /**
  * author : zho
  * date  ：2020/11/26
- * desc ：
+ * desc ：我的界面
  */
 public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     private ColumnListAdapter columnListAdapter;
     private boolean isOpenMerchant;//是否开通店铺
-    private int passwordType, itemType;//密码的状态 , 审核状态
+    private int itemType;// 审核状态
 
     @Override
     public int getLayoutId() {
@@ -146,7 +147,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             public void onSuccess(UserInfo userInfo) {
                 if (userInfo != null) {
                     UserInfo.setUserInfo(userInfo);
-                    passwordType = userInfo.getIs_pay_pwd();
                     GlideUtils.loadUserPhotoForLogin(mContext, userInfo.getAvatar(), mBinding.civUserHead);
                     mBinding.tvUserNickName.setText(userInfo.getNickname());
                     mBinding.ivUserLevel.setVisibility(0 != userInfo.getLevel() ? View.VISIBLE : View.GONE);
@@ -260,16 +260,15 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         mBinding.tvTitleView.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(SettingActivity.class);
-                RNCryptorNative rncryptor = new RNCryptorNative();
-                String paramJson = "AgG3kAHd0QYMFFvp3SaPyv8nmY/9jksX9xDoCcvyUl3CVaIX+y/tgqEITF2i1BpL4rFVrmQqD6nvue4hkULLRyasxNNZsUwHgwIiLz2b9YGpRg==";
-//                String encrypted = new String(rncryptor.encrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD));
-//                Log.e("xy", "encrypted：" + encrypted);
+                startActivity(SettingActivity.class);
 
-                String decrypted = rncryptor.decrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD);
-                Log.e("xy", "decrypted：" + decrypted);
+//                RNCryptorNative rncryptor = new RNCryptorNative();
+//                String paramJson = "" ;
+////                String encrypted = new String(rncryptor.encrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD));
+////                Log.e("xy", "encrypted：" + encrypted);
+//                String decrypted = rncryptor.decrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD);
+//                Log.e("xy", "decrypted：" + decrypted);
             }
-
         });
     }
 
@@ -298,7 +297,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         MyCouponActivity.start(mContext, 1);
                         break;
                     case 6:
-                        SetPasswordActivity.start(mContext, passwordType);
+                        ForgetPasswordActivity.start(mContext, 2);
                         break;
                     case 7:
                         startActivity(FeedbackActivity.class);
@@ -330,7 +329,8 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         MyCouponActivity.start(mContext, 1);
                         break;
                     case 5:
-                        SetPasswordActivity.start(mContext, passwordType);
+                        ForgetPasswordActivity.start(mContext, 2);
+
                         break;
                     case 6:
                         startActivity(FeedbackActivity.class);
@@ -361,7 +361,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         MyCouponActivity.start(mContext, 1);
                         break;
                     case 5:
-                        SetPasswordActivity.start(mContext, passwordType);
+                        ForgetPasswordActivity.start(mContext, 2);
                         break;
                     case 6:
                         startActivity(FeedbackActivity.class);
@@ -389,7 +389,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         MyCouponActivity.start(mContext, 1);
                         break;
                     case 4:
-                        SetPasswordActivity.start(mContext, passwordType);
+                        ForgetPasswordActivity.start(mContext, 2);
                         break;
                     case 5:
                         startActivity(FeedbackActivity.class);
@@ -428,9 +428,9 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
-                UserInfo.setUserInfo(new UserInfo());
                 if (outLoginApp) {
-                    SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
+                    UserInfo.setUserToken("");
+//                    SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
                     startActivity(LoginActivity.class);
                 } else {
                     ToastUtils.showCustomToast(mContext, "注销成功");

@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.login.fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.zhowin.base_library.http.HttpCallBack;
@@ -42,15 +43,19 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
     @Override
     public void initData() {
         boolean isRememberPass = SPUtils.getBoolean(ConstantValue.REMEMBER_PASSWORD, false);
+        String mobile = UserInfo.getUserInfo().getMobile();
+        String password = UserInfo.getUserPassword();
         if (isRememberPass) {
             isRememberPassword = true;
             setRememberPasswordStatus();
-            mBinding.editMobile.setText(UserInfo.getUserInfo().getMobile());
-            mBinding.editMobile.setSelection(UserInfo.getUserInfo().getMobile().length());
-
-            mBinding.editPassword.setText(UserInfo.getUserPassword());
-            mBinding.editPassword.setSelection(UserInfo.getUserPassword().length());
+            mBinding.editMobile.setText(mobile);
+            mBinding.editMobile.setSelection(mobile.length());
+            mBinding.editPassword.setText(password);
+            mBinding.editPassword.setSelection(password.length());
+        } else {
+            isRememberPassword = false;
         }
+        SPUtils.set(ConstantValue.REMEMBER_PASSWORD, isRememberPassword);
     }
 
     @Override
@@ -61,7 +66,7 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
                 setRememberPasswordStatus();
                 break;
             case R.id.tvForgetPassword:
-                startActivity(ForgetPasswordActivity.class);
+                ForgetPasswordActivity.start(mContext, 1);
                 break;
             case R.id.tvLogin:
                 loginMobileAndPassword();
@@ -93,9 +98,9 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
                     UserInfo.setUserInfo(userInfo);
                     JPushInterface.setAlias(mContext, 2, String.valueOf(userInfo.getUser_id()));
                     if (isRememberPassword) {
-                        SPUtils.set(ConstantValue.REMEMBER_PASSWORD, true);
                         UserInfo.setUserPassword(mBinding.editPassword.getText().toString().trim());
                     }
+                    SPUtils.set(ConstantValue.REMEMBER_PASSWORD, isRememberPassword);
                     startActivity(MainActivity.class);
                     ActivityManager.getAppInstance().finishActivity();
                 }

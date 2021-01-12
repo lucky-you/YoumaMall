@@ -22,12 +22,16 @@
     <TextView
         android:id="@+id/tvCardName"
         style="@style/TextViewStyleOf14Sp"
+        android:layout_width="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:text="蔚蓝年卡"
         android:textColor="@color/color_333"
         android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@id/ivLeftImage"
+        app:layout_constraintRight_toLeftOf="@id/tvNumberOfPayments"
         app:layout_constraintTop_toTopOf="@id/ivLeftImage" />
 
 
@@ -47,7 +51,7 @@
         android:id="@+id/tvCommissionPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:text="佣金25.0元"
         android:textColor="@color/color_666"
         android:textSize="12sp"
@@ -58,7 +62,7 @@
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:text="¥95.00"
         android:textColor="@color/color_E83219"
         android:textSize="17sp"

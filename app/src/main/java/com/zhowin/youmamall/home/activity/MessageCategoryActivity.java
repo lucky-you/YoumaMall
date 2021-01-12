@@ -35,7 +35,7 @@ public class MessageCategoryActivity extends BaseBindActivity<ActivityMessageCat
 
     @Override
     public void initView() {
-        getMessageCategory();
+
     }
 
     @Override
@@ -47,6 +47,12 @@ public class MessageCategoryActivity extends BaseBindActivity<ActivityMessageCat
         mBinding.recyclerView.addItemDecoration(new DivideLineItemDecoration(mContext, getBaseColor(R.color.color_f6f6f6), 1));
         mBinding.recyclerView.setAdapter(messageCategoryAdapter);
         messageCategoryAdapter.setOnItemClickListener(this::onItemClick);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMessageCategory();
     }
 
     private void getMessageCategory() {

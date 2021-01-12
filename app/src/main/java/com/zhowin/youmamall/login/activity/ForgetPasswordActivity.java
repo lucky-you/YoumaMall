@@ -1,11 +1,14 @@
 package com.zhowin.youmamall.login.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.PhoneUtils;
@@ -27,12 +30,21 @@ import io.reactivex.functions.Consumer;
 
 
 /**
- * 忘记密码
+ * 忘记密码 和 修改密码 共用
+ * type: 1 忘记密码  2 修改密码
  */
 public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPasswordBinding> {
 
-
     private Disposable mdDisposable;
+    private int classType;
+
+
+    public static void start(Context context, int type) {
+        Intent intent = new Intent(context, ForgetPasswordActivity.class);
+        intent.putExtra(ConstantValue.TYPE, type);
+        context.startActivity(intent);
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -42,7 +54,14 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
     @Override
     public void initView() {
         setOnClick(R.id.tvGetVerificationCode, R.id.tvConfirmSubmission);
-
+        classType = getIntent().getIntExtra(ConstantValue.TYPE, -1);
+        mBinding.tvTitleView.setTitle(1 == classType ? "忘记密码" : "修改密码");
+        if (2 == classType) {
+            String mobile = UserInfo.getUserInfo().getMobile();
+            mBinding.editMobile.setText(PhoneUtils.hitCenterMobilNumber(mobile));
+            mBinding.editMobile.setEnabled(false);
+            mBinding.editMobile.setFocusable(false);
+        }
     }
 
     @Override
@@ -69,9 +88,14 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
     }
 
     private void submitPasswordData() {
-        String mobile = mBinding.editMobile.getText().toString().trim();
-        if (!PhoneUtils.checkPhone(mobile, true)) {
-            return;
+        String mobile;
+        if (1 == classType) {
+            mobile = mBinding.editMobile.getText().toString().trim();
+            if (!PhoneUtils.checkPhone(mobile, true)) {
+                return;
+            }
+        } else {
+            mobile = UserInfo.getUserInfo().getMobile();
         }
         String editPassword = mBinding.editPassword.getText().toString().trim();
         if (TextUtils.isEmpty(editPassword)) {
@@ -97,9 +121,14 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
-                SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
-                startActivity(LoginActivity.class);
-                ActivityManager.getAppInstance().finishActivity();
+                if (1 == classType) {
+                    SPUtils.set(ConstantValue.REMEMBER_PASSWORD, false);
+                    startActivity(LoginActivity.class);
+                    ActivityManager.getAppInstance().finishActivity();
+                } else {
+                    UserInfo.setUserPassword(editPassword);
+                    ToastUtils.showToast("修改成功");
+                }
             }
 
             @Override
@@ -110,10 +139,9 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
         });
     }
 
-
     private void getVerificationCode(String mobile) {
         showLoadDialog();
-        HttpRequest.getVerificationCode(this, "register", mobile, new HttpCallBack<Object>() {
+        HttpRequest.getVerificationCode(this, 1 == classType ? "register" : "resetpwd", mobile, new HttpCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();

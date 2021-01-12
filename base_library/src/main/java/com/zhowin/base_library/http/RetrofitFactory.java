@@ -1,26 +1,21 @@
 package com.zhowin.base_library.http;
 
-import android.content.SyncAdapterType;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.GsonBuilder;
 import com.zhowin.base_library.utils.DateHelpUtils;
+import com.zhowin.base_library.utils.GsonUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import javax.crypto.spec.SecretKeySpec;
-
-import okhttp3.CacheControl;
 import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -30,7 +25,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
-import okio.BufferedSink;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -83,7 +77,7 @@ public class RetrofitFactory {
                 .connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS)//设置请求超时时间
                 .writeTimeout(DEFAULT_TIME, TimeUnit.SECONDS)//设置写入超时时间
                 .addNetworkInterceptor(httpLoggingInterceptor)
-//                .addInterceptor(new EncryptInterceptor())
+                .addInterceptor(new RequestEncryptInterceptor())
                 .addInterceptor(new LogInterceptor())//添加打印拦截器
 //                .addInterceptor(new ResponseDecryptInterceptor())
                 .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
@@ -97,10 +91,14 @@ public class RetrofitFactory {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
+//            Request request = chain.request().newBuilder().addHeader("timestamp", DateHelpUtils.getCurrentTime()).build();
             Request request = chain.request();
             RequestBody requestBody = request.body();
+            String url = request.url().toString();
+            Log.e("xy", "url:" + url + "<---requestBody:" + requestBody.toString().length());
             String method = request.method();
             Charset charset = Charset.forName("UTF-8");
+            Request.Builder builder = null;
             if ("POST".equals(method)) {
                 if (requestBody instanceof FormBody) {
                     MediaType contentType = requestBody.contentType();
@@ -114,32 +112,40 @@ public class RetrofitFactory {
                     //把原来的参数添加到新的构造器，并增加时间参数
                     FormBody.Builder newFormBuilder = new FormBody.Builder();
                     FormBody formBody = (FormBody) requestBody;
+                    HashMap<String, Object> paramMap = new HashMap<>();
                     for (int i = 0; i < formBody.size(); i++) {
-                        newFormBuilder.addEncoded(formBody.encodedName(i), formBody.encodedValue(i));
+//                        newFormBuilder.addEncoded(formBody.encodedName(i), formBody.encodedValue(i));
+                        paramMap.put(formBody.encodedName(i), formBody.encodedValue(i));
                     }
-                    formBody = newFormBuilder
-                            .addEncoded("timestamp", DateHelpUtils.getCurrentTime())
-                            .build();
-                    request = request.newBuilder().post(formBody).build();
+//                    newFormBuilder.add("timestamp", DateHelpUtils.getCurrentTime());
+
+                    paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
                     String token = request.header("token");
-                    RequestBody body = request.body();
-                    Log.e("xy", "添加参数后数据 token:" + token + "\n body:" + body.toString());
+                    String paramJson = GsonUtils.toJson(paramMap);
+                    Log.e("xy", "添加参数后数据 token:" + token + "<--paramJson:" + paramJson);
 
                     //对新的构造器进行加密处理
                     RNCryptorNative rncryptor = new RNCryptorNative();
                     String encryptedToken = new String(rncryptor.encrypt(token, ENCRYPTION_PASSWORD));
-                    String encryptedBody = new String(rncryptor.encrypt(body.toString(), ENCRYPTION_PASSWORD));
+                    String encryptedParam = new String(rncryptor.encrypt(paramJson, ENCRYPTION_PASSWORD));
+                    Log.e("xy", "加密后数据 encryptedToken:" + token + "<--encryptedParam:" + encryptedParam);
 
-                    //构建新的requestBuilder
-                    Request.Builder newRequestBuilder = request.newBuilder();
-                    newRequestBuilder.addHeader("token",encryptedToken);
-                    RequestBody newRequestBody = RequestBody.create(contentType, encryptedBody);
+                    String decrypted = rncryptor.decrypt(encryptedParam, RetrofitFactory.ENCRYPTION_PASSWORD);
+                    Log.e("xy", "解密后数据 decrypted:" + decrypted);
 
-                    newRequestBuilder.post(newRequestBody);
-                    request = newRequestBuilder.build();
+                    newFormBuilder.add("token", token);
+                    newFormBuilder.add("param", encryptedParam);
+
+//                    request = request.newBuilder().post(formBody).build();
+
+                    RequestBody newFormBody = newFormBuilder.build();
+                    builder = request.newBuilder();
+                    builder.post(newFormBody);
+
                 }
             }
-            return chain.proceed(request);
+//            return chain.proceed(request);
+            return chain.proceed(builder.build());
         }
     }
 
@@ -152,80 +158,36 @@ public class RetrofitFactory {
         @NotNull
         @Override
         public Response intercept(@NotNull Chain chain) throws IOException {
-
             Request request = chain.request();
-            Charset charset = Charset.forName("UTF-8");
-            String method = request.method().toLowerCase().trim();
-            HttpUrl url = request.url();
-            /*如果请求方式是Get或者Delete，此时请求数据是拼接在请求地址后面的*/
-            if (method.equals("get") || method.equals("delete")) {
-                /*如果有请求数据 则加密*/
-                if (url.encodedQuery() != null) {
-                    try {
-                        String queryparamNames = request.url().encodedQuery();
-                        RNCryptorNative rncryptor = new RNCryptorNative();
-                        String encrypted = new String(rncryptor.encrypt(queryparamNames, ENCRYPTION_PASSWORD));
-                        //拼接加密后的url，参数字段自己跟后台商量，这里我用param，后台拿到数据先对param进行解密，解密后的数据就是请求的数据
-                        String newUrl = "&param=" + encrypted;
-                        //构建新的请求
-                        request = request.newBuilder().url(newUrl).build();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return chain.proceed(request);
-                    }
-                }
-            } else {
-                //不是Get和Delete请求时，则请求数据在请求体中
-                RequestBody requestBody = request.body();
-                /*判断请求体是否为空  不为空则执行以下操作*/
-                if (requestBody != null) {
-                    MediaType contentType = requestBody.contentType();
-                    if (contentType != null) {
-                        charset = contentType.charset(charset);
-                        /*如果是二进制上传  则不进行加密*/
-                        if (contentType.type().toLowerCase().equals("multipart")) {
-                            return chain.proceed(request);
-                        }
-                    }
-                    /*获取请求的数据*/
-                    try {
-                        String requestToken = request.header("token");
-                        request.url().newBuilder()
-                                .setEncodedQueryParameter("timestamp", DateHelpUtils.getCurrentTime());
-
-                        Buffer buffer = new Buffer();
-                        requestBody.writeTo(buffer);
-                        String requestData = URLDecoder.decode(buffer.readString(charset).trim(), "utf-8");
-
-                        String params = buffer.readString(charset);
-                        System.out.println("加密前数据request参数: " + params + "\n token:" + requestToken);
-                        buffer.clone();
+            RequestBody requestBody = request.body();
+            FormBody.Builder newFormBuilder = new FormBody.Builder();
+            String url = request.url().toString();
+            Log.e("xy", "请求url：" + url);
+            if (requestBody instanceof FormBody) {
+                FormBody formBody = (FormBody) requestBody;
+                for (int i = 0; i < formBody.size(); i++) {
+                    if (TextUtils.equals("param", formBody.name(i))) { //只对param参数做加密
+                        String paramJson = formBody.value(i); //原始的json， 做加密
+                        Log.e("xy", "加密前数据：" + paramJson);
 
                         RNCryptorNative rncryptor = new RNCryptorNative();
-                        String encryptData = new String(rncryptor.encrypt(requestData, ENCRYPTION_PASSWORD));
-                        System.out.println("加密后数据：" + encryptData);
-                        /*构建新的请求体*/
-                        RequestBody newRequestBody = RequestBody.create(contentType, encryptData);
-                        /*构建新的requestBuilder*/
-                        Request.Builder newRequestBuilder = request.newBuilder();
-                        //根据请求方式构建相应的请求
-                        switch (method) {
-                            case "post":
-                                newRequestBuilder.post(newRequestBody);
-                                break;
-                            case "put":
-                                newRequestBuilder.put(newRequestBody);
-                                break;
-                        }
-                        request = newRequestBuilder
-                                .build();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return chain.proceed(request);
+                        String encrypted = new String(rncryptor.encrypt(paramJson, ENCRYPTION_PASSWORD));
+                        Log.e("xy", "加密后数据：" + encrypted);
+
+                        String decrypted = rncryptor.decrypt(encrypted, ENCRYPTION_PASSWORD);
+                        Log.e("xy", "解密后数据：" + decrypted);
+
+                        newFormBuilder.add("param", encrypted); //加密之后添加
+
+                    } else if (TextUtils.equals("token", formBody.name(i))) {//token 不用加密
+                        newFormBuilder.add(formBody.name(i), formBody.value(i));
                     }
                 }
             }
-            return chain.proceed(request);
+            RequestBody newFormBody = newFormBuilder.build();
+            Request.Builder builder = request.newBuilder();
+            builder.post(newFormBody);
+            return chain.proceed(builder.build());
         }
     }
 

@@ -53,7 +53,11 @@ import retrofit2.http.Url;
 public interface ApiRequest {
 
 
+    String HEADER_URL = "/api";
+
     String TOKEN = "token";
+    String PARAM = "param";
+
     //注册
     String REGISTER = "api/user/register";
 
@@ -192,7 +196,6 @@ public interface ApiRequest {
     //我的配置
     String MINE_ITEM_CONFIG_URL = "api/set/config_set";
 
-
     //站内信信息列表
     String GET_MESSAGE_LIST_URL = "api/message/list";
 
@@ -279,8 +282,8 @@ public interface ApiRequest {
      * 圈子列表
      */
     @FormUrlEncoded
-    @POST(GET_CIRCLE_LIST_URL)
-    Observable<ApiResponse<BaseResponse<CircleList>>> getCircleList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<CircleList>>> getCircleList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 发布圈子
