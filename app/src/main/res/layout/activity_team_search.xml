@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/color_FFDE00">
+
+            <ImageView
+                android:id="@+id/ivBackTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/back_black_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editKeyWord"
+                android:layout_width="260dp"
+                android:layout_height="36dp"
+                android:background="@drawable/shape_search_bg"
+                android:hint="请输入您要搜索的手机号"
+                android:inputType="number"
+                android:paddingLeft="16dp"
+                android:textColor="@color/color_333"
+                android:textColorHint="@color/color_999"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSearch"
+                style="@style/TextViewStyleOf14Sp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="搜索"
+                android:textColor="@color/color_333"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.zhowin.base_library.view.RefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                style="@style/RecycleViewStyle" />
+        </com.zhowin.base_library.view.RefreshLayout>
+
+    </LinearLayout>
+
+</layout>

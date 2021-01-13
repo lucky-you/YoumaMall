@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="110dp"
     android:background="@color/white"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
     <ImageView
         android:id="@+id/ivLeftImage"
-        android:layout_width="130dp"
-        android:layout_height="90dp"
+        android:layout_width="116dp"
+        android:layout_height="78dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_def_image"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/tvRightValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
         android:text="百宝箱年卡"
         android:textColor="@color/color_333"
@@ -44,29 +44,42 @@
 
     <TextView
         android:id="@+id/tvXGNRText"
-        android:layout_width="76dp"
-        android:layout_height="30dp"
+        android:layout_width="64dp"
+        android:layout_height="26dp"
         android:background="@drawable/shape_theme_color_4dp_bg"
         android:gravity="center"
         android:text="修改内容"
         android:textColor="@color/color_333"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/tvRightValue"
         app:layout_constraintTop_toBottomOf="@id/tvRightValue" />
 
     <TextView
         android:id="@+id/tvLRKMText"
-        android:layout_width="76dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="14dp"
+        android:layout_width="64dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="10dp"
         android:background="@drawable/shape_stroke_theme_4dp_bg"
         android:gravity="center"
         android:text="录入卡密"
         android:textColor="@color/color_333"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@id/tvXGNRText"
         app:layout_constraintLeft_toRightOf="@id/tvXGNRText" />
+
+    <TextView
+        android:id="@+id/tvQKKMText"
+        android:layout_width="64dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/shape_stroke_theme_4dp_bg"
+        android:gravity="center"
+        android:text="清空卡密"
+        android:textColor="@color/color_333"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvLRKMText"
+        app:layout_constraintLeft_toRightOf="@id/tvLRKMText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

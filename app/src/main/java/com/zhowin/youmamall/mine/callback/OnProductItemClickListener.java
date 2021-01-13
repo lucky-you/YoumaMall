@@ -5,7 +5,7 @@ import com.zhowin.youmamall.mall.model.MallRightList;
 /**
  * author : zho
  * date  ：2020/12/10
- * desc ：
+ * desc ：商品列表的回调
  */
 public interface OnProductItemClickListener {
 
@@ -14,8 +14,9 @@ public interface OnProductItemClickListener {
 
     void onChangeContentClick(MallRightList mallRightList);
 
-    void onItemOffShelf(int itemId,int goodStatus,int position);
+    void onItemOffShelf(int itemId, int goodStatus, int position);
 
-    void onEnterCardSecret(MallRightList mallRightList);
+    void onEnterOrClearCardSecret(boolean isEnter, MallRightList mallRightList);
+
 
 }

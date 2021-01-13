@@ -49,7 +49,7 @@ public class ProductListAdapter extends BaseQuickAdapter<MallRightList, BaseView
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onItemOffShelf(item.getId(),item.getStatus(),helper.getAdapterPosition());
+                    onProductItemClickListener.onItemOffShelf(item.getId(), item.getStatus(), helper.getAdapterPosition());
                 }
             }
         });
@@ -65,7 +65,15 @@ public class ProductListAdapter extends BaseQuickAdapter<MallRightList, BaseView
             @Override
             public void onClick(View v) {
                 if (onProductItemClickListener != null) {
-                    onProductItemClickListener.onEnterCardSecret(item);
+                    onProductItemClickListener.onEnterOrClearCardSecret(true, item);
+                }
+            }
+        });
+        helper.getView(R.id.tvQKKMText).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onProductItemClickListener != null) {
+                    onProductItemClickListener.onEnterOrClearCardSecret(false, item);
                 }
             }
         });

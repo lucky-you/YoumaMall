@@ -136,6 +136,9 @@ public interface ApiRequest {
     // 录入卡密
     String ENTER_CARD_SECRET_URL = "api/merchant/enter";
 
+    //清空卡密
+    String CLEAR_CARD_SECRET_URL = "api/merchant/enter_clear";
+
     //获取保证金信息
     String GET_DEPOSIT_MESSAGE_URL = "api/merchant/is_open_merchant";
 

@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhowin.base_library.utils.DateHelpUtils;
 import com.zhowin.base_library.utils.GlideUtils;
+import com.zhowin.base_library.utils.PhoneUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.mine.model.MyTeamList;
 
@@ -25,8 +26,8 @@ public class MyTeamAdapter extends BaseQuickAdapter<MyTeamList, BaseViewHolder> 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MyTeamList item) {
         GlideUtils.loadUserPhotoForLogin(mContext, item.getAvatar(), helper.getView(R.id.civHeadImage));
-        helper.setText(R.id.tvUserMobile, item.getNickname())
-//                .setText(R.id.tvCreateTime, DateHelpUtils.getStringDate(item.))
+        helper.setText(R.id.tvUserMobile, PhoneUtils.hitCenterMobilNumber(item.getMobile()))
+                .setText(R.id.tvCreateTime, DateHelpUtils.getStringDate(item.getJointime()))
                 .setText(R.id.tvZXNumber, "直营销售" + item.getVolume() + "张");
     }
 }

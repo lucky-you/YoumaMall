@@ -167,17 +167,16 @@ public class RetrofitFactory {
                 for (int i = 0; i < formBody.size(); i++) {
                     if (TextUtils.equals("param", formBody.name(i))) { //只对param参数做加密
                         String paramJson = formBody.value(i); //原始的json， 做加密
-//                        Log.e("xy", "加密前数据：" + paramJson);
+                        Log.e("xy", "加密前数据：" + paramJson);
 
                         RNCryptorNative rncryptor = new RNCryptorNative();
                         String encrypted = new String(rncryptor.encrypt(paramJson, ENCRYPTION_PASSWORD));
-//                        Log.e("xy", "加密后数据：" + encrypted);
+                        Log.e("xy", "加密后数据：" + encrypted);
 
 //                        String decrypted = rncryptor.decrypt(encrypted, ENCRYPTION_PASSWORD);
 //                        Log.e("xy", "解密后数据：" + decrypted);
 
                         newFormBuilder.add("param", encrypted); //加密之后添加
-
                     } else if (TextUtils.equals("token", formBody.name(i))) {//token 不用加密
                         newFormBuilder.add(formBody.name(i), formBody.value(i));
                     }
@@ -211,7 +210,7 @@ public class RetrofitFactory {
                         charset = contentType.charset(charset);
                     }
                     String params = buffer.readString(charset);
-                    System.out.println("request参数: " + params + "\n token:" + request.header("token"));
+//                    System.out.println("request参数: " + params + "\n token:" + request.header("token"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

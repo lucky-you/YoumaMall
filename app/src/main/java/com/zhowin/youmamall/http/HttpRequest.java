@@ -669,7 +669,32 @@ public class HttpRequest {
         paramMap.put("content", content);
         String paramJson = GsonUtils.toJson(paramMap);
 
+        apiRequest.onEnterCardSecret(UserInfo.getUserToken(), paramJson)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<Object>() {
 
+                    @Override
+                    public void onSuccess(Object demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 清空卡密
+     */
+    public static void onClearCardSecret(LifecycleOwner activity, int id, final HttpCallBack<Object> callBack) {
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CLEAR_CARD_SECRET_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", id);
+        String paramJson = GsonUtils.toJson(paramMap);
         apiRequest.onEnterCardSecret(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
@@ -1115,11 +1140,12 @@ public class HttpRequest {
     /**
      * 我的团队
      */
-    public static void getMyTeamList(LifecycleOwner activity, int page, int size, final HttpCallBack<MyTeamInfo> callBack) {
+    public static void getMyTeamList(LifecycleOwner activity, String mobile, int page, int size, final HttpCallBack<MyTeamInfo> callBack) {
 
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("method", ApiRequest.MY_TEAM_LIST_URL);
         paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("mobile", mobile);
         paramMap.put("page", page);
         paramMap.put("size", size);
         String paramJson = GsonUtils.toJson(paramMap);

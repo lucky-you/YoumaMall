@@ -294,9 +294,46 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
     }
 
     @Override
-    public void onEnterCardSecret(MallRightList mallRightList) {
-        CardPasswordActivity.start(mContext, mallRightList.getId());
+    public void onEnterOrClearCardSecret(boolean isEnter, MallRightList mallRightList) {
+        if (isEnter) {
+            CardPasswordActivity.start(mContext, mallRightList.getId());
+        } else {
+            showClearCardSecretDialog(mallRightList.getId());
+        }
     }
+
+    private void showClearCardSecretDialog(int goodId) {
+        String hitTitle = "确定要清空卡密吗？";
+        new CenterHitMessageDialog(mContext, hitTitle, new OnCenterHitMessageListener() {
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                onClearCardSecret(goodId);
+            }
+        }).show();
+    }
+
+
+    private void onClearCardSecret(int goodId) {
+        showLoadDialog();
+        HttpRequest.onClearCardSecret(this, goodId, new HttpCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                dismissLoadDialog();
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                dismissLoadDialog();
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
 
     /**
      * 下架

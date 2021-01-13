@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.ResourceDetailsActivity"></activity>
+        <activity android:name=".mine.activity.TeamSearchActivity"></activity>
+        <activity android:name=".home.activity.ResourceDetailsActivity" />
         <activity
             android:name=".home.activity.MessageCategoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />

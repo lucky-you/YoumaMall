@@ -9,12 +9,13 @@ public class MyTeamList {
 
 
     /**
-     * user_id : 15
-     * level : 0
+     * user_id : 16
+     * level : 4
      * upgrade_str :
-     * avatar :
-     * mobile : 15677187758
-     * nickname : 156****7758
+     * avatar : /motorRider/uploads/image/20201225/1630401608892170
+     * mobile : 17386259367
+     * nickname : 猫猫
+     * jointime : 1608884676
      * volume : 0
      */
 
@@ -24,6 +25,7 @@ public class MyTeamList {
     private String avatar;
     private String mobile;
     private String nickname;
+    private int jointime;
     private int volume;
 
     public int getUser_id() {
@@ -72,6 +74,14 @@ public class MyTeamList {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public int getJointime() {
+        return jointime;
+    }
+
+    public void setJointime(int jointime) {
+        this.jointime = jointime;
     }
 
     public int getVolume() {
