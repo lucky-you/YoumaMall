@@ -1,15 +1,19 @@
 package com.zhowin.youmamall.mine.activity;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
 import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityCardPasswordBinding;
@@ -50,6 +54,7 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
         switch (v.getId()) {
             case R.id.tvCardPasswordLogin:
                 String password = mBinding.editPassword.getText().toString().trim();
+                Log.e("xy", "password:" + password);
                 if (TextUtils.isEmpty(password)) {
                     ToastUtils.showToast("卡密不能为空");
                     return;
@@ -58,6 +63,7 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
                 break;
         }
     }
+
 
     private void onEnterCardSecret(String content) {
         showLoadDialog();
