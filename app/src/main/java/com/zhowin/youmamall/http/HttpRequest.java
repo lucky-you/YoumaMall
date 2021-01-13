@@ -65,7 +65,11 @@ public class HttpRequest {
      * 获取用户信息
      */
     public static void getUserInfoMessage(LifecycleOwner activity, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.getUserInfoMessage(UserInfo.getUserToken())
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_USER_INFO_MESSAGE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.getUserInfoMessage(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<UserInfo>() {
@@ -86,7 +90,11 @@ public class HttpRequest {
      * 获取七牛云的信息
      */
     public static void getQiNiuYunBean(LifecycleOwner activity, final HttpCallBack<QiNiuYunBean> callBack) {
-        apiRequest.getQiNiuYunBean(UserInfo.getUserToken())
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_QI_NIU_TOKEN_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.getQiNiuYunBean(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<QiNiuYunBean>() {
@@ -107,7 +115,15 @@ public class HttpRequest {
      * 获取验证码
      */
     public static void getVerificationCode(LifecycleOwner activity, String event, String mobile, final HttpCallBack<Object> callBack) {
-        apiRequest.getVerificationCode(event, mobile)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.SEND_EMS_CODE);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("event", event);
+        paramMap.put("mobile", mobile);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getVerificationCode(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -128,7 +144,12 @@ public class HttpRequest {
      * 用户注册
      */
     public static void registerFromPhoneNumber(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.registerFromPhoneNumber(map)
+
+        map.put("method", ApiRequest.REGISTER);
+        map.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(map);
+
+        apiRequest.registerFromPhoneNumber(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<UserInfo>() {
@@ -150,7 +171,16 @@ public class HttpRequest {
      * 手机号 + 密码登录
      */
     public static void loginMobileAndPassword(LifecycleOwner activity, String mobile, String password, final HttpCallBack<UserInfo> callBack) {
-        apiRequest.loginMobileAndPassword(mobile, password)
+
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.MOBILE_AND_PASSWORD_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("account", mobile);
+        paramMap.put("password", password);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.loginMobileAndPassword(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<UserInfo>() {
@@ -173,7 +203,11 @@ public class HttpRequest {
      */
     public static void outLoginApp(LifecycleOwner activity, boolean isLogout, final HttpCallBack<Object> callBack) {
         String url = isLogout ? ApiRequest.LOGIN_OUT_URL : ApiRequest.REMOVE_MERCHANT_LIST_URL;
-        apiRequest.outLoginAppOrRemoveMerchant(UserInfo.getUserToken(), url)
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", url);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.outLoginAppOrRemoveMerchant(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -195,7 +229,15 @@ public class HttpRequest {
      * 修改用户信息
      */
     public static void changeUserMessageInfo(LifecycleOwner activity, String avatar, String nickname, String qrCode, final HttpCallBack<Object> callBack) {
-        apiRequest.changeUserMessageInfo(UserInfo.getUserToken(), avatar, nickname, qrCode)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CHANGE_USER_INFO_MESSAGE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("avatar", avatar);
+        paramMap.put("nickname", nickname);
+        paramMap.put("wechat_qrcode", qrCode);
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.changeUserMessageInfo(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -216,7 +258,16 @@ public class HttpRequest {
      * 更换手机号码
      */
     public static void changUserMobile(LifecycleOwner activity, String password, String mobile, String captcha, final HttpCallBack<Object> callBack) {
-        apiRequest.changUserMobile(UserInfo.getUserToken(), password, mobile, captcha)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CHANGE_USER_MOBILE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("password", password);
+        paramMap.put("mobile", mobile);
+        paramMap.put("captcha", captcha);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.changUserMobile(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -237,7 +288,13 @@ public class HttpRequest {
      * 动态列表
      */
     public static void getDynamicList(LifecycleOwner activity, int pageNum, int pageSize, final HttpCallBack<BaseResponse<DynamicList>> callBack) {
-        apiRequest.getDynamicList(UserInfo.getUserToken(), pageNum, pageSize)
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_DYNAMIC_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", pageNum);
+        paramMap.put("size", pageSize);
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.getDynamicList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<DynamicList>>() {
@@ -286,7 +343,16 @@ public class HttpRequest {
      * 发布圈子
      */
     public static void releaseCircleData(LifecycleOwner activity, String name, String content, String images, final HttpCallBack<Object> callBack) {
-        apiRequest.releaseCircleData(UserInfo.getUserToken(), name, content, images)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.RELEASE_CIRCLE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("title", name);
+        paramMap.put("content", content);
+        paramMap.put("images", images);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.releaseCircleData(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -307,7 +373,12 @@ public class HttpRequest {
      * 商城左侧分类
      */
     public static void getMallLeftList(LifecycleOwner activity, final HttpCallBack<List<MallLeftList>> callBack) {
-        apiRequest.getMallLeftList(UserInfo.getUserToken())
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_MALL_LEFT_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMallLeftList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<MallLeftList>>() {
@@ -340,7 +411,10 @@ public class HttpRequest {
                 url = ApiRequest.REPURCHASE_GOOD_LIST_URL;
                 break;
         }
-        apiRequest.getMallRightList(UserInfo.getUserToken(), url, map)
+        map.put("method", url);
+        map.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(map);
+        apiRequest.getMallRightList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
@@ -361,7 +435,14 @@ public class HttpRequest {
      * 商品详情
      */
     public static void getGoodDetails(LifecycleOwner activity, int itemId, final HttpCallBack<GoodDetailsInfo> callBack) {
-        apiRequest.getGoodDetails(UserInfo.getUserToken(), itemId)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_GOOD_DETAILS_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("item_id", itemId);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getGoodDetails(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<GoodDetailsInfo>() {
@@ -382,7 +463,13 @@ public class HttpRequest {
      * 联系客服
      */
     public static void getContactServiceList(LifecycleOwner activity, final HttpCallBack<List<ContactServiceList>> callBack) {
-        apiRequest.getContactServiceList(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CONTACT_SERVICE_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getContactServiceList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<ContactServiceList>>() {
@@ -403,7 +490,16 @@ public class HttpRequest {
      * 设置支付密码
      */
     public static void setPayPassword(LifecycleOwner activity, String password, String pay_password, String pay_password_again, final HttpCallBack<Object> callBack) {
-        apiRequest.setPayPassword(UserInfo.getUserToken(), password, pay_password, pay_password_again)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.SET_PAY_PASSWORD_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("password", password);
+        paramMap.put("pay_password", pay_password);
+        paramMap.put("pay_password_again", pay_password_again);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.setPayPassword(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -424,7 +520,17 @@ public class HttpRequest {
      * 忘记密码/重置密码
      */
     public static void setResetPassword(LifecycleOwner activity, String mobile, String newpassword, String captcha, final HttpCallBack<Object> callBack) {
-        apiRequest.setResetPassword(UserInfo.getUserToken(), mobile, newpassword, captcha)
+
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.FOR_GET_PASSWORD_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("mobile", mobile);
+        paramMap.put("newpassword", newpassword);
+        paramMap.put("captcha", captcha);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.setResetPassword(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -445,7 +551,12 @@ public class HttpRequest {
      * 获取首页信息
      */
     public static void getHomePageDataInfo(LifecycleOwner activity, final HttpCallBack<HomePageData> callBack) {
-        apiRequest.getHomePageDataInfo(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_HOME_PAGE_DATA_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.getHomePageDataInfo(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<HomePageData>() {
@@ -466,7 +577,11 @@ public class HttpRequest {
      * 首页banner 和 福利功能
      */
     public static void getHomeDynamicDataInfo(LifecycleOwner activity, final HttpCallBack<HomeDynamicInfo> callBack) {
-        apiRequest.getHomeDynamicDataInfo(UserInfo.getUserToken())
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_HOME_BANNER_AND_VIP_DATA_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.getHomeDynamicDataInfo(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<HomeDynamicInfo>() {
@@ -487,7 +602,18 @@ public class HttpRequest {
      * 提交订单
      */
     public static void confirmOrder(LifecycleOwner activity, int id, int type, String password, String payOrder, final HttpCallBack<ConfirmOrderInfo> callBack) {
-        apiRequest.confirmOrder(UserInfo.getUserToken(), id, type, password, payOrder)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CONFIRM_ORDER_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", id);
+        paramMap.put("type", type);
+        paramMap.put("pay_password", password);
+        paramMap.put("pay_no", payOrder);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+
+        apiRequest.confirmOrder(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<ConfirmOrderInfo>() {
@@ -509,7 +635,12 @@ public class HttpRequest {
      */
     public static void goodOffOrPutOnShelf(LifecycleOwner activity, boolean isPutOn, int id, final HttpCallBack<Object> callBack) {
         String url = isPutOn ? ApiRequest.PUT_ON_THE_SHELF_URL : ApiRequest.GOOD_OFF_SHELF_URL;
-        apiRequest.goodOffShelf(UserInfo.getUserToken(), url, id)
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", url);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", id);
+        String paramJson = GsonUtils.toJson(paramMap);
+        apiRequest.goodOffShelf(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -530,7 +661,16 @@ public class HttpRequest {
      * 录入卡密
      */
     public static void onEnterCardSecret(LifecycleOwner activity, int id, String content, final HttpCallBack<Object> callBack) {
-        apiRequest.onEnterCardSecret(UserInfo.getUserToken(), id, content)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.ENTER_CARD_SECRET_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", id);
+        paramMap.put("content", content);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+
+        apiRequest.onEnterCardSecret(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -551,7 +691,13 @@ public class HttpRequest {
      * 保证金信息
      */
     public static void getDepositMessage(LifecycleOwner activity, final HttpCallBack<DepositMessage> callBack) {
-        apiRequest.getDepositMessage(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_DEPOSIT_MESSAGE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getDepositMessage(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<DepositMessage>() {
@@ -572,7 +718,15 @@ public class HttpRequest {
      * 立即入住
      */
     public static void startDepositPayment(LifecycleOwner activity, int type, String password, final HttpCallBack<ConfirmOrderInfo> callBack) {
-        apiRequest.startDepositPayment(UserInfo.getUserToken(), type, password)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.START_PAYMENT_DEPOSIT_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("type", type);
+        paramMap.put("pay_password", password);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.startDepositPayment(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<ConfirmOrderInfo>() {
@@ -594,7 +748,15 @@ public class HttpRequest {
      */
     public static void getAccountTurnoverList(LifecycleOwner activity, boolean isWithdraw, int page, int size, final HttpCallBack<BaseResponse<AccountTurnoverList>> callBack) {
         String url = isWithdraw ? ApiRequest.WITHDRAWALS_RECORD_LIST_URL : ApiRequest.ACCOUNT_TURNOVER_LIST_URL;
-        apiRequest.getAccountTurnoverList(UserInfo.getUserToken(), url, page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", url);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getAccountTurnoverList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<AccountTurnoverList>>() {
@@ -615,7 +777,12 @@ public class HttpRequest {
      * 发布 修改 商品
      */
     public static void releaseOrChangeGood(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<Object> callBack) {
-        apiRequest.releaseOrChangeGood(UserInfo.getUserToken(), map)
+
+        map.put("method", ApiRequest.RELEASE_GOOD_URL);
+        map.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(map);
+
+        apiRequest.releaseOrChangeGood(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -636,7 +803,15 @@ public class HttpRequest {
      * 获取商品列表
      */
     public static void getGoodList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<MallRightList>> callBack) {
-        apiRequest.getGoodList(UserInfo.getUserToken(), page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_USER_GOOD_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getGoodList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallRightList>>() {
@@ -657,7 +832,15 @@ public class HttpRequest {
      * 已售商品列表
      */
     public static void getSoldGoodList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<SoldGoodList>> callBack) {
-        apiRequest.getSoldGoodList(UserInfo.getUserToken(), page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_SOLD_GOOD_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getSoldGoodList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<SoldGoodList>>() {
@@ -678,7 +861,17 @@ public class HttpRequest {
      * 出售流水
      */
     public static void getSalesTurnoverList(LifecycleOwner activity, int page, int size, final HttpCallBack<BaseResponse<SalesTurnoverList>> callBack) {
-        apiRequest.getSalesTurnoverList(UserInfo.getUserToken(), page, size)
+
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_SALES_TURNOVER_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+
+        apiRequest.getSalesTurnoverList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<SalesTurnoverList>>() {
@@ -699,7 +892,16 @@ public class HttpRequest {
      * 订单列表
      */
     public static void getMallOrderList(LifecycleOwner activity, int status, int page, int size, final HttpCallBack<BaseResponse<MallOrderList>> callBack) {
-        apiRequest.getMallOrderList(UserInfo.getUserToken(), status, page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_MALL_ORDER_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("status", status);
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMallOrderList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MallOrderList>>() {
@@ -720,7 +922,15 @@ public class HttpRequest {
      * 确认收货
      */
     public static void goodConfirmReceipt(LifecycleOwner activity, int goodId, final HttpCallBack<Object> callBack) {
-        apiRequest.goodConfirmReceipt(UserInfo.getUserToken(), goodId)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.CONFIRM_RECEIPT_GOOD_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", goodId);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+
+        apiRequest.goodConfirmReceipt(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -741,7 +951,12 @@ public class HttpRequest {
      * 分享素材
      */
     public static void getShareMaterial(LifecycleOwner activity, final HttpCallBack<List<ShareMaterialList>> callBack) {
-        apiRequest.getShareMaterial(UserInfo.getUserToken())
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_SHARE_MATER_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getShareMaterial(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<ShareMaterialList>>() {
@@ -763,7 +978,12 @@ public class HttpRequest {
      * 申请提现
      */
     public static void applyWithdraw(LifecycleOwner activity, HashMap<String, Object> map, final HttpCallBack<Object> callBack) {
-        apiRequest.applyWithdraw(UserInfo.getUserToken(), map)
+
+        map.put("method", ApiRequest.APPLY_WITHDRAW_LIST_URL);
+        map.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(map);
+
+        apiRequest.applyWithdraw(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -785,7 +1005,13 @@ public class HttpRequest {
      * 获取未读消息
      */
     public static void getUnreadMessageInfo(LifecycleOwner activity, final HttpCallBack<UnreadMessageInfo> callBack) {
-        apiRequest.getUnreadMessageInfo(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_UNREAD_MESSAGE_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getUnreadMessageInfo(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<UnreadMessageInfo>() {
@@ -807,7 +1033,12 @@ public class HttpRequest {
      */
     public static void getVipOrAgentRule(LifecycleOwner activity, boolean isOpenVIP, final HttpCallBack<List<AgentList>> callBack) {
         String url = isOpenVIP ? ApiRequest.OPEN_VIP_RULE_URL : ApiRequest.OPEN_AGENT_RULE_URL;
-        apiRequest.getVipOrAgentRule(UserInfo.getUserToken(), url)
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", url);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getVipOrAgentRule(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<AgentList>>() {
@@ -828,7 +1059,14 @@ public class HttpRequest {
      * 开通vip
      */
     public static void openVIP(LifecycleOwner activity, int type, final HttpCallBack<ConfirmOrderInfo> callBack) {
-        apiRequest.openVIP(UserInfo.getUserToken(), type)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.OPEN_VIP_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("type", type);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.openVIP(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<ConfirmOrderInfo>() {
@@ -849,7 +1087,15 @@ public class HttpRequest {
      * 开通代理
      */
     public static void openAgent(LifecycleOwner activity, int type, int itemId, final HttpCallBack<ConfirmOrderInfo> callBack) {
-        apiRequest.openAgent(UserInfo.getUserToken(), type, itemId)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.OPEN_AGENT_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("type", type);
+        paramMap.put("itemId", itemId);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.openAgent(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<ConfirmOrderInfo>() {
@@ -870,7 +1116,15 @@ public class HttpRequest {
      * 我的团队
      */
     public static void getMyTeamList(LifecycleOwner activity, int page, int size, final HttpCallBack<MyTeamInfo> callBack) {
-        apiRequest.getMyTeamList(UserInfo.getUserToken(), page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.MY_TEAM_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMyTeamList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<MyTeamInfo>() {
@@ -891,7 +1145,15 @@ public class HttpRequest {
      * 意见反馈
      */
     public static void submitFeedback(LifecycleOwner activity, String content, String contact, final HttpCallBack<Object> callBack) {
-        apiRequest.submitFeedback(UserInfo.getUserToken(), content, contact)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.FEEDBACK_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("content", content);
+        paramMap.put("contact", contact);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.submitFeedback(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -912,7 +1174,13 @@ public class HttpRequest {
      * 我的界面配置
      */
     public static void getMineItemConfig(LifecycleOwner activity, final HttpCallBack<MineItemConfig> callBack) {
-        apiRequest.getMineItemConfig(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.MINE_ITEM_CONFIG_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMineItemConfig(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<MineItemConfig>() {
@@ -934,7 +1202,16 @@ public class HttpRequest {
      * 获取信息列表
      */
     public static void getMessageList(LifecycleOwner activity, int type, int page, int size, final HttpCallBack<BaseResponse<MessageList>> callBack) {
-        apiRequest.getMessageList(UserInfo.getUserToken(), type, page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.GET_MESSAGE_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("type", type);
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMessageList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<MessageList>>() {
@@ -955,7 +1232,13 @@ public class HttpRequest {
      * 获取消息分类
      */
     public static void getMessageCategory(LifecycleOwner activity, final HttpCallBack<List<MessageCategory>> callBack) {
-        apiRequest.getMessageCategory(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.MESSAGE_CATEGORY_LIST);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getMessageCategory(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<MessageCategory>>() {
@@ -976,7 +1259,13 @@ public class HttpRequest {
      * 设置全部已读
      */
     public static void setAllReadMessage(LifecycleOwner activity, final HttpCallBack<Object> callBack) {
-        apiRequest.setAllReadMessage(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.SET_ALL_READ_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.setAllReadMessage(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<Object>() {
@@ -997,7 +1286,13 @@ public class HttpRequest {
      * 获取资源分类
      */
     public static void getResourcesCategory(LifecycleOwner activity, final HttpCallBack<List<ResourcesCategory>> callBack) {
-        apiRequest.getResourcesCategory(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.RESOURCES_CATEGORY_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getResourcesCategory(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<ResourcesCategory>>() {
@@ -1018,7 +1313,13 @@ public class HttpRequest {
      * 热搜关键字
      */
     public static void getHotKeywordList(LifecycleOwner activity, final HttpCallBack<List<HotKeywordList>> callBack) {
-        apiRequest.getHotKeywordList(UserInfo.getUserToken())
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.HOT_SEARCH_KEYWORD_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getHotKeywordList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<List<HotKeywordList>>() {
@@ -1039,7 +1340,14 @@ public class HttpRequest {
      * 资源详情
      */
     public static void getResourcesDetails(LifecycleOwner activity, int itemId, final HttpCallBack<ResourcesDetailsInfo> callBack) {
-        apiRequest.getResourcesDetails(UserInfo.getUserToken(), itemId)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.RESOURCES_DETAILS_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", itemId);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getResourcesDetails(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<ResourcesDetailsInfo>() {
@@ -1060,13 +1368,53 @@ public class HttpRequest {
      * 获取资源列表
      */
     public static void getResourcesList(LifecycleOwner activity, int category_id, int page, int size, final HttpCallBack<BaseResponse<ResourcesList>> callBack) {
-        apiRequest.getResourcesList(UserInfo.getUserToken(), category_id, page, size)
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.RESOURCES_LIST_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("category_id", category_id);
+        paramMap.put("page", page);
+        paramMap.put("size", size);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.getResourcesList(UserInfo.getUserToken(), paramJson)
                 .compose(RxSchedulers.io_main())
                 .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
                 .subscribe(new ApiObserver<BaseResponse<ResourcesList>>() {
 
                     @Override
                     public void onSuccess(BaseResponse<ResourcesList> demo) {
+                        callBack.onSuccess(demo);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, String errorMsg) {
+                        callBack.onFail(errorCode, errorMsg);
+                    }
+                });
+    }
+
+    /**
+     * 资源付费
+     */
+
+    public static void startResourcesPayment(LifecycleOwner activity, int id, int type, String password, final HttpCallBack<ConfirmOrderInfo> callBack) {
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("method", ApiRequest.RESOURCE_PAYMENT_URL);
+        paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        paramMap.put("id", id);
+        paramMap.put("type", type);
+        paramMap.put("pay_password", password);
+        String paramJson = GsonUtils.toJson(paramMap);
+
+        apiRequest.confirmOrder(UserInfo.getUserToken(), paramJson)
+                .compose(RxSchedulers.io_main())
+                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(activity)))
+                .subscribe(new ApiObserver<ConfirmOrderInfo>() {
+
+                    @Override
+                    public void onSuccess(ConfirmOrderInfo demo) {
                         callBack.onSuccess(demo);
                     }
 

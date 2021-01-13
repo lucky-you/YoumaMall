@@ -67,7 +67,6 @@ public class DepositActivity extends BaseBindActivity<ActivityDepositBinding> {
         }
     }
 
-
     private void getDepositMessage() {
         showLoadDialog();
         HttpRequest.getDepositMessage(this, new HttpCallBack<DepositMessage>() {

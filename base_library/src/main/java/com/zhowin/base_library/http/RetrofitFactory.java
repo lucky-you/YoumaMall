@@ -79,7 +79,6 @@ public class RetrofitFactory {
                 .addNetworkInterceptor(httpLoggingInterceptor)
                 .addInterceptor(new RequestEncryptInterceptor())
                 .addInterceptor(new LogInterceptor())//添加打印拦截器
-//                .addInterceptor(new ResponseDecryptInterceptor())
                 .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
                 .build();
     }
@@ -168,14 +167,14 @@ public class RetrofitFactory {
                 for (int i = 0; i < formBody.size(); i++) {
                     if (TextUtils.equals("param", formBody.name(i))) { //只对param参数做加密
                         String paramJson = formBody.value(i); //原始的json， 做加密
-                        Log.e("xy", "加密前数据：" + paramJson);
+//                        Log.e("xy", "加密前数据：" + paramJson);
 
                         RNCryptorNative rncryptor = new RNCryptorNative();
                         String encrypted = new String(rncryptor.encrypt(paramJson, ENCRYPTION_PASSWORD));
-                        Log.e("xy", "加密后数据：" + encrypted);
+//                        Log.e("xy", "加密后数据：" + encrypted);
 
-                        String decrypted = rncryptor.decrypt(encrypted, ENCRYPTION_PASSWORD);
-                        Log.e("xy", "解密后数据：" + decrypted);
+//                        String decrypted = rncryptor.decrypt(encrypted, ENCRYPTION_PASSWORD);
+//                        Log.e("xy", "解密后数据：" + decrypted);
 
                         newFormBuilder.add("param", encrypted); //加密之后添加
 
@@ -191,45 +190,7 @@ public class RetrofitFactory {
         }
     }
 
-    /**
-     * 解密
-     */
-    private class ResponseDecryptInterceptor implements Interceptor {
 
-        @NotNull
-        @Override
-        public Response intercept(@NotNull Chain chain) throws IOException {
-            Request request = chain.request();
-            Response response = chain.proceed(request);
-            ResponseBody responseBody = response.body();
-            if (responseBody != null) {
-                //开始解密
-                try {
-                    BufferedSource source = responseBody.source();
-                    source.request(Long.MAX_VALUE);
-                    Buffer buffer = source.buffer();
-                    Charset charset = Charset.forName("UTF-8");
-                    MediaType contentType = responseBody.contentType();
-                    if (contentType != null) {
-                        charset = contentType.charset(charset);
-                    }
-                    String bodyString = buffer.clone().readString(charset);
-//                    System.out.println("bodyString:" + bodyString);
-                    RNCryptorNative rncryptor = new RNCryptorNative();
-                    String decrypted = rncryptor.decrypt(bodyString, RetrofitFactory.ENCRYPTION_PASSWORD);
-                    System.out.println("解密后：decrypted:" + decrypted);
-                    /*将解密后的明文返回*/
-                    ResponseBody newResponseBody = ResponseBody.create(contentType, decrypted.trim());
-                    response = response.newBuilder().body(newResponseBody).build();
-                } catch (Exception e) {
-                    return response;
-                }
-            } else {
-                System.out.println("响应体为空");
-            }
-            return response;
-        }
-    }
 
     /**
      * 日志

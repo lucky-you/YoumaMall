@@ -131,6 +131,7 @@
                     android:paddingBottom="6dp"
                     android:text="https://lanzoui.com/iKjHrh5yyfa"
                     android:textColor="@color/color_333"
+                    android:textIsSelectable="true"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"

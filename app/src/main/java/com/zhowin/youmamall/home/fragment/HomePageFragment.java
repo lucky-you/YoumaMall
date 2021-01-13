@@ -16,6 +16,8 @@ import com.zhowin.base_library.http.ApiResponse;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.http.RetrofitFactory;
 import com.zhowin.base_library.model.UserInfo;
+import com.zhowin.base_library.utils.DateHelpUtils;
+import com.zhowin.base_library.utils.GsonUtils;
 import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.R;
@@ -44,6 +46,7 @@ import com.zhowin.youmamall.mall.model.MallLeftList;
 import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -95,8 +98,19 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
 
     private void getHomeDynamic() {
-        Observable<ApiResponse<HomePageData>> homePageData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomePageDataInfo(UserInfo.getUserToken());
-        Observable<ApiResponse<HomeDynamicInfo>> homeDynamicData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomeDynamicDataInfo(UserInfo.getUserToken());
+        HashMap<String, Object> paramHomeMap = new HashMap<>();
+        paramHomeMap.put("method", ApiRequest.GET_HOME_PAGE_DATA_LIST_URL);
+        paramHomeMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramHomeJson = GsonUtils.toJson(paramHomeMap);
+
+        //banner
+        HashMap<String, Object> paramBannerMap = new HashMap<>();
+        paramBannerMap.put("method", ApiRequest.GET_HOME_BANNER_AND_VIP_DATA_URL);
+        paramBannerMap.put("timestamp", DateHelpUtils.getCurrentTime());
+        String paramBannerJson = GsonUtils.toJson(paramBannerMap);
+
+        Observable<ApiResponse<HomePageData>> homePageData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomePageDataInfo(UserInfo.getUserToken(), paramHomeJson);
+        Observable<ApiResponse<HomeDynamicInfo>> homeDynamicData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomeDynamicDataInfo(UserInfo.getUserToken(), paramBannerJson);
         if (homePageLists.isEmpty()) homePageLists.clear();
         Observable.merge(homePageData, homeDynamicData)
                 .subscribeOn(Schedulers.io())
@@ -251,9 +265,9 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
     public void onFLGNItemClick(VipWelfareList item) {
         if (!isLogin())
             if (UserInfo.getUserInfo().getLevel() > 0) {
-                WebViewActivity.start(mContext, item.getName(), item.getUrl(),true);
+                WebViewActivity.start(mContext, item.getName(), item.getUrl(), true);
             } else {
-                showHitLevelDialog(); //18853729233
+                showHitLevelDialog();
             }
     }
 

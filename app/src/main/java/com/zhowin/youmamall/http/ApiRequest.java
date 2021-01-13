@@ -217,66 +217,71 @@ public interface ApiRequest {
     //获取热搜关键字
     String HOT_SEARCH_KEYWORD_URL = "api/item/hot_keyword";
 
+    //资源付费
+    String RESOURCE_PAYMENT_URL = "api/resources/apply_pay";
+
     /**
      * 返回的是自己的用户信息
      */
-    @POST(GET_USER_INFO_MESSAGE_URL)
-    Observable<ApiResponse<UserInfo>> getUserInfoMessage(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<UserInfo>> getUserInfoMessage(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 七牛云的信息
      */
-    @POST(GET_QI_NIU_TOKEN_URL)
-    Observable<ApiResponse<QiNiuYunBean>> getQiNiuYunBean(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<QiNiuYunBean>> getQiNiuYunBean(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 手机号码+验证码注册
      */
     @FormUrlEncoded
-    @POST(REGISTER)
-    Observable<ApiResponse<UserInfo>> registerFromPhoneNumber(@FieldMap HashMap<String, Object> map);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<UserInfo>> registerFromPhoneNumber(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 手机号 + 密码 登录
      */
     @FormUrlEncoded
-    @POST(MOBILE_AND_PASSWORD_URL)
-    Observable<ApiResponse<UserInfo>> loginMobileAndPassword(@Field("account") String phone, @Field("password") String password);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<UserInfo>> loginMobileAndPassword(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取短信验证码
      */
     @FormUrlEncoded
-    @POST(SEND_EMS_CODE)
-    Observable<ApiResponse<Object>> getVerificationCode(@Field("event") String event, @Field("mobile") String mobile);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> getVerificationCode(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 退出登录
      */
-    @POST
-    Observable<ApiResponse<Object>> outLoginAppOrRemoveMerchant(@Header(TOKEN) String token, @Url String url);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> outLoginAppOrRemoveMerchant(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 修改手机号码
      */
     @FormUrlEncoded
-    @POST(CHANGE_USER_MOBILE_URL)
-    Observable<ApiResponse<Object>> changUserMobile(@Header(TOKEN) String token, @Field("password") String password, @Field("mobile") String mobile, @Field("captcha") String captcha);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> changUserMobile(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 修改用户信息
      */
     @FormUrlEncoded
-    @POST(CHANGE_USER_INFO_MESSAGE_URL)
-    Observable<ApiResponse<Object>> changeUserMessageInfo(@Header(TOKEN) String token, @Field("avatar") String avatar, @Field("nickname") String nickname, @Field("wechat_qrcode") String qrCode);
-
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> changeUserMessageInfo(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取动态
      */
     @FormUrlEncoded
-    @POST(GET_DYNAMIC_LIST_URL)
-    Observable<ApiResponse<BaseResponse<DynamicList>>> getDynamicList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<DynamicList>>> getDynamicList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 圈子列表
@@ -289,232 +294,239 @@ public interface ApiRequest {
      * 发布圈子
      */
     @FormUrlEncoded
-    @POST(RELEASE_CIRCLE_URL)
-    Observable<ApiResponse<Object>> releaseCircleData(@Header(TOKEN) String token, @Field("title") String name, @Field("content") String content, @Field("images") String images);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> releaseCircleData(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 商城左侧分类
      */
-    @POST(GET_MALL_LEFT_LIST_URL)
-    Observable<ApiResponse<List<MallLeftList>>> getMallLeftList(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<MallLeftList>>> getMallLeftList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 商城右侧列表
      */
     @FormUrlEncoded
-    @POST
-    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Url String url, @FieldMap HashMap<String, Object> map);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getMallRightList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 商品详情
      */
     @FormUrlEncoded
-    @POST(GET_GOOD_DETAILS_URL)
-    Observable<ApiResponse<GoodDetailsInfo>> getGoodDetails(@Header(TOKEN) String token, @Field("item_id") int item_id);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<GoodDetailsInfo>> getGoodDetails(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 联系客服
      */
-    @POST(CONTACT_SERVICE_LIST_URL)
-    Observable<ApiResponse<List<ContactServiceList>>> getContactServiceList(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<ContactServiceList>>> getContactServiceList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 设置支付密码
      */
     @FormUrlEncoded
-    @POST(SET_PAY_PASSWORD_URL)
-    Observable<ApiResponse<Object>> setPayPassword(@Header(TOKEN) String token, @Field("password") String password, @Field("pay_password") String pay_password, @Field("pay_password_again") String pay_password_again);
-
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> setPayPassword(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 重置密码
      */
     @FormUrlEncoded
-    @POST(FOR_GET_PASSWORD_URL)
-    Observable<ApiResponse<Object>> setResetPassword(@Header(TOKEN) String token, @Field("mobile") String mobile, @Field("newpassword") String newpassword, @Field("captcha") String captcha);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> setResetPassword(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 首页商品数据
      */
-
-    @POST(GET_HOME_PAGE_DATA_LIST_URL)
-    Observable<ApiResponse<HomePageData>> getHomePageDataInfo(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<HomePageData>> getHomePageDataInfo(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 首页banner、动态，福利数据
      */
-    @POST(GET_HOME_BANNER_AND_VIP_DATA_URL)
-    Observable<ApiResponse<HomeDynamicInfo>> getHomeDynamicDataInfo(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<HomeDynamicInfo>> getHomeDynamicDataInfo(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 提交订单
      */
     @FormUrlEncoded
-    @POST(CONFIRM_ORDER_URL)
-    Observable<ApiResponse<ConfirmOrderInfo>> confirmOrder(@Header(TOKEN) String token, @Field("id") int id, @Field("type") int type, @Field("pay_password") String pay_password, @Field("pay_no") String pay_no);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> confirmOrder(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 商品的下架
      */
     @FormUrlEncoded
-    @POST
-    Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Url String url, @Field("id") int id);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> goodOffShelf(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 录入卡密
      */
     @FormUrlEncoded
-    @POST(ENTER_CARD_SECRET_URL)
-    Observable<ApiResponse<Object>> onEnterCardSecret(@Header(TOKEN) String token, @Field("id") int id, @Field("content") String content);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> onEnterCardSecret(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 获取保证金
      */
-    @POST(GET_DEPOSIT_MESSAGE_URL)
-    Observable<ApiResponse<DepositMessage>> getDepositMessage(@Header(TOKEN) String token);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<DepositMessage>> getDepositMessage(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 立即入住
      */
     @FormUrlEncoded
-    @POST(START_PAYMENT_DEPOSIT_URL)
-    Observable<ApiResponse<ConfirmOrderInfo>> startDepositPayment(@Header(TOKEN) String token, @Field("type") int type, @Field("pay_password") String pay_password);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> startDepositPayment(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 账号流水
      */
     @FormUrlEncoded
-    @POST
-    Observable<ApiResponse<BaseResponse<AccountTurnoverList>>> getAccountTurnoverList(@Header(TOKEN) String token, @Url String url, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<AccountTurnoverList>>> getAccountTurnoverList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 发布、修改商品
      */
     @FormUrlEncoded
-    @POST(RELEASE_GOOD_URL)
-    Observable<ApiResponse<Object>> releaseOrChangeGood(@Header(TOKEN) String token, @FieldMap HashMap<String, Object> map);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> releaseOrChangeGood(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 用户商品列表
      */
     @FormUrlEncoded
-    @POST(GET_USER_GOOD_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MallRightList>>> getGoodList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<MallRightList>>> getGoodList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 订单列表
      */
     @FormUrlEncoded
-    @POST(GET_MALL_ORDER_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MallOrderList>>> getMallOrderList(@Header(TOKEN) String token, @Field("status") int status, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<MallOrderList>>> getMallOrderList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 确认收货
      */
     @FormUrlEncoded
-    @POST(CONFIRM_RECEIPT_GOOD_URL)
-    Observable<ApiResponse<Object>> goodConfirmReceipt(@Header(TOKEN) String token, @Field("id") int goodId);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> goodConfirmReceipt(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 已售商品列表
      */
     @FormUrlEncoded
-    @POST(GET_SOLD_GOOD_LIST_URL)
-    Observable<ApiResponse<BaseResponse<SoldGoodList>>> getSoldGoodList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<SoldGoodList>>> getSoldGoodList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 出售流水
      */
     @FormUrlEncoded
-    @POST(GET_SALES_TURNOVER_LIST_URL)
-    Observable<ApiResponse<BaseResponse<SalesTurnoverList>>> getSalesTurnoverList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<SalesTurnoverList>>> getSalesTurnoverList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 获取分享素材
      */
-    @POST(GET_SHARE_MATER_LIST_URL)
-    Observable<ApiResponse<List<ShareMaterialList>>> getShareMaterial(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<ShareMaterialList>>> getShareMaterial(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 申请提现
      */
     @FormUrlEncoded
-    @POST(APPLY_WITHDRAW_LIST_URL)
-    Observable<ApiResponse<Object>> applyWithdraw(@Header(TOKEN) String token, @FieldMap HashMap<String, Object> map);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> applyWithdraw(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 未读消息与动态
      */
-    @POST(GET_UNREAD_MESSAGE_URL)
-    Observable<ApiResponse<UnreadMessageInfo>> getUnreadMessageInfo(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<UnreadMessageInfo>> getUnreadMessageInfo(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 开通vip / 代理 的规则
      */
-    @POST
-    Observable<ApiResponse<List<AgentList>>> getVipOrAgentRule(@Header(TOKEN) String token, @Url String url);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<AgentList>>> getVipOrAgentRule(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 开通vip
      */
     @FormUrlEncoded
-    @POST(OPEN_VIP_URL)
-    Observable<ApiResponse<ConfirmOrderInfo>> openVIP(@Header(TOKEN) String token, @Field("type") int type);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> openVIP(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 开通代理
      */
     @FormUrlEncoded
-    @POST(OPEN_AGENT_URL)
-    Observable<ApiResponse<ConfirmOrderInfo>> openAgent(@Header(TOKEN) String token, @Field("type") int type, @Field("id") int id);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<ConfirmOrderInfo>> openAgent(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 我的团队
      */
     @FormUrlEncoded
-    @POST(MY_TEAM_LIST_URL)
-    Observable<ApiResponse<MyTeamInfo>> getMyTeamList(@Header(TOKEN) String token, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<MyTeamInfo>> getMyTeamList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 意见反馈
      */
     @FormUrlEncoded
-    @POST(FEEDBACK_URL)
-    Observable<ApiResponse<Object>> submitFeedback(@Header(TOKEN) String token, @Field("content") String content, @Field("contact") String contact);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> submitFeedback(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 我的界面配置
      */
-    @POST(MINE_ITEM_CONFIG_URL)
-    Observable<ApiResponse<MineItemConfig>> getMineItemConfig(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<MineItemConfig>> getMineItemConfig(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 获取信息列表
      */
     @FormUrlEncoded
-    @POST(GET_MESSAGE_LIST_URL)
-    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field("type") int type, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<MessageList>>> getMessageList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
 
     /**
      * 消息分类
      */
-    @POST(MESSAGE_CATEGORY_LIST)
-    Observable<ApiResponse<List<MessageCategory>>> getMessageCategory(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<MessageCategory>>> getMessageCategory(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 下载图片
@@ -526,33 +538,42 @@ public interface ApiRequest {
     /**
      * 设置全部已读
      */
-    @POST(SET_ALL_READ_URL)
-    Observable<ApiResponse<Object>> setAllReadMessage(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<Object>> setAllReadMessage(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取资源分类
      */
-    @POST(RESOURCES_CATEGORY_URL)
-    Observable<ApiResponse<List<ResourcesCategory>>> getResourcesCategory(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<ResourcesCategory>>> getResourcesCategory(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取资源列表
      */
     @FormUrlEncoded
-    @POST(RESOURCES_LIST_URL)
-    Observable<ApiResponse<BaseResponse<ResourcesList>>> getResourcesList(@Header(TOKEN) String token, @Field("category_id") int type, @Field("page") int pageNum, @Field("size") int pageSize);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<BaseResponse<ResourcesList>>> getResourcesList(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取资源详情
      */
     @FormUrlEncoded
-    @POST(RESOURCES_DETAILS_URL)
-    Observable<ApiResponse<ResourcesDetailsInfo>> getResourcesDetails(@Header(TOKEN) String token, @Field("id") int id);
+    @POST(HEADER_URL)
+    Observable<ApiResponse<ResourcesDetailsInfo>> getResourcesDetails(@Header(TOKEN) String token, @Field(PARAM) String param);
 
     /**
      * 获取热搜关键字
      */
-    @POST(HOT_SEARCH_KEYWORD_URL)
-    Observable<ApiResponse<List<HotKeywordList>>> getHotKeywordList(@Header(TOKEN) String token);
+    @FormUrlEncoded
+    @POST(HEADER_URL)
+    Observable<ApiResponse<List<HotKeywordList>>> getHotKeywordList(@Header(TOKEN) String token, @Field(PARAM) String param);
+
+
+    /**
+     *
+     */
+
 
 }

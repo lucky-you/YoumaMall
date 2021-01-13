@@ -1,5 +1,6 @@
 package com.zhowin.youmamall.home.fragment;
 
+import android.app.Dialog;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -7,13 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
+import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
 import com.zhowin.youmamall.databinding.IncludeHomeTaskFragmentBinding;
+import com.zhowin.youmamall.home.activity.ColumnListActivity;
+import com.zhowin.youmamall.home.activity.ResourceDetailsActivity;
 import com.zhowin.youmamall.home.activity.WebViewActivity;
 import com.zhowin.youmamall.home.adapter.ResourcesCategoryAdapter;
 import com.zhowin.youmamall.home.adapter.ResourcesListAdapter;
@@ -21,6 +27,7 @@ import com.zhowin.youmamall.home.model.ResourcesCategory;
 import com.zhowin.youmamall.home.model.ResourcesDetailsInfo;
 import com.zhowin.youmamall.home.model.ResourcesList;
 import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,27 +94,28 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 int itemId = resourcesListAdapter.getItem(position).getId();
                 if (!isLogin())
-                    getResourcesDetails(itemId);
+                    if (UserInfo.getUserInfo().getLevel() > 0) {
+                        ResourceDetailsActivity.start(mContext, itemId);
+                    } else {
+                        showHitLevelDialog();
+                    }
             }
         });
     }
 
-    private void getResourcesDetails(int itemId) {
-        HttpRequest.getResourcesDetails(this, itemId, new HttpCallBack<ResourcesDetailsInfo>() {
+    private void showHitLevelDialog() {
+        new CenterHitMessageDialog(mContext, "您当前非会员,是否开通会员?", new OnCenterHitMessageListener() {
             @Override
-            public void onSuccess(ResourcesDetailsInfo resourcesDetailsInfo) {
-                if (resourcesDetailsInfo != null) {
-                    String title = resourcesDetailsInfo.getTitle();
-                    String url = resourcesDetailsInfo.getContent();
-                    WebViewActivity.start(mContext, title, url, false);
-                }
+            public void onNegativeClick(Dialog dialog) {
             }
 
             @Override
-            public void onFail(int errorCode, String errorMsg) {
-                ToastUtils.showToast(errorMsg);
+            public void onPositiveClick(Dialog dialog) {
+                OpenAgentActivity.start(mContext, 2);
             }
-        });
+        }).setNegativeButton("我再想想")
+                .setPositiveButton("立即开通")
+                .show();
     }
 
     private void getResourcesCategory() {
@@ -119,7 +127,6 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
                     resourcesCategoryAdapter.setNewData(resourcesCategories);
                     getResourcesList(categoryId, true);
                 }
-
             }
 
             @Override

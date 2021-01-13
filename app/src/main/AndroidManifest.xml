@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".home.activity.ResourceDetailsActivity"></activity>
         <activity
             android:name=".home.activity.MessageCategoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
@@ -112,9 +113,7 @@
             android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
-            android:value="portrait|landscape" />
-
-        <!--        极光开始-->
+            android:value="portrait|landscape" /> <!-- 极光开始 -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
         <service
             android:name=".receiver.JPService"
@@ -124,9 +123,7 @@
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-
-        <!-- Required since 3.0.7 -->
+        </service> <!-- Required since 3.0.7 -->
         <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
         <receiver
             android:name=".receiver.JPushReceiver"
@@ -134,6 +131,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
@@ -148,10 +146,7 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-        <!--     极光结束-->
-
-
+        </service> <!-- 极光结束 -->
         <activity android:name=".main.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
