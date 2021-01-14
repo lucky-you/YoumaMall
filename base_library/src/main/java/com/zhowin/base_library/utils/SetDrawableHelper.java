@@ -34,6 +34,15 @@ public class SetDrawableHelper {
         rtvTag.setCompoundDrawables(null, null, drawableRed, null);
     }
 
+    public static void setTopDrawable(Context mContext, TextView rtvTag, boolean isCheck,
+                                      int radius, int checkDrawableId, int unCheckDrawableId) {
+        Drawable drawableRed;
+        drawableRed = mContext.getResources().getDrawable(isCheck ? checkDrawableId : unCheckDrawableId);
+        drawableRed.setBounds(0, 0, drawableRed.getMinimumWidth(), drawableRed.getMinimumHeight());
+        rtvTag.setCompoundDrawablePadding(SizeUtils.dp2px(radius));
+        rtvTag.setCompoundDrawables(null, drawableRed, null, null);
+    }
+
     public static void setBottomDrawable(Context mContext, TextView rtvTag, boolean isCheck,
                                          int radius, int checkDrawableId, int unCheckDrawableId) {
         Drawable drawableRed;
