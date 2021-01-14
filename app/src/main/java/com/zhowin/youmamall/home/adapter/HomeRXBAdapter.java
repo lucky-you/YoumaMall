@@ -33,7 +33,6 @@ public class HomeRXBAdapter extends BaseQuickAdapter<MallRightList, BaseViewHold
         this.onGoodCardItemClickListener = onGoodCardItemClickListener;
     }
 
-
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MallRightList item) {
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivLeftImage));

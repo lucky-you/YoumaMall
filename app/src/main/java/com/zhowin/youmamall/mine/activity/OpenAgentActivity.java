@@ -108,7 +108,7 @@ public class OpenAgentActivity extends BaseBindActivity<ActivityOpenAgentBinding
                     ToastUtils.showToast("请选择支付方式");
                     return;
                 }
-                if (1 == payType) {
+                if (1 == classType) {
                     openAgent();
                 } else {
                     openVIP();
@@ -117,7 +117,9 @@ public class OpenAgentActivity extends BaseBindActivity<ActivityOpenAgentBinding
         }
     }
 
-
+    /**
+     * 开通VIP
+     */
     private void openVIP() {
         showLoadDialog();
         HttpRequest.openVIP(this, payType, new HttpCallBack<ConfirmOrderInfo>() {
@@ -142,6 +144,9 @@ public class OpenAgentActivity extends BaseBindActivity<ActivityOpenAgentBinding
 
     }
 
+    /**
+     * 开通代理
+     */
     private void openAgent() {
         showLoadDialog();
         HttpRequest.openAgent(this, payType, selectItemId, new HttpCallBack<ConfirmOrderInfo>() {

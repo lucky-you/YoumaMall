@@ -145,7 +145,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                                 }
                                 slideshowList = homeDynamicInfo.getSlide_list();
                                 if (slideshowList != null && !slideshowList.isEmpty()) {
-                                    BannerImageAdapter bannerAdapter = new BannerImageAdapter(bannerList, 2);
+                                    BannerImageAdapter bannerAdapter = new BannerImageAdapter(slideshowList, 2);
                                     mBinding.leftSlideshow.setAdapter(bannerAdapter).start();
                                     bannerAdapter.setOnBannerItemClickListener(new OnBannerItemClickListener() {
                                         @Override

@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.mine.dialog;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.zhowin.base_library.base.BaseDialogView;
 import com.zhowin.base_library.utils.GlideUtils;
 import com.zhowin.youmamall.R;
+import com.zhowin.youmamall.home.utils.QRCodeUtils;
 import com.zhowin.youmamall.mine.callback.OnShareMaterialListener;
 
 /**
@@ -20,7 +22,7 @@ import com.zhowin.youmamall.mine.callback.OnShareMaterialListener;
 public class ShareMaterialDialog extends BaseDialogView {
 
 
-    private ImageView ivContent;
+    private ImageView ivContent, ivQrImage;
     private OnShareMaterialListener onShareMaterialListener;
 
     public ShareMaterialDialog(@NonNull Context context) {
@@ -35,13 +37,16 @@ public class ShareMaterialDialog extends BaseDialogView {
     @Override
     public void initView() {
         ivContent = get(R.id.ivContent);
+        ivQrImage = get(R.id.ivQrImage);
         get(R.id.tvCancel).setOnClickListener(this::onViewClick);
         get(R.id.tvDetermine).setOnClickListener(this::onViewClick);
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(String imageUrl, String qrCodeUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             GlideUtils.loadObjectImage(mContext, imageUrl, ivContent);
+            Bitmap qrBitmap = QRCodeUtils.createQRCode(qrCodeUrl);
+            ivQrImage.setImageBitmap(qrBitmap);
         }
     }
 
@@ -60,7 +65,7 @@ public class ShareMaterialDialog extends BaseDialogView {
             case R.id.tvCancel:
                 break;
             case R.id.tvDetermine:
-                if (onShareMaterialListener!=null){
+                if (onShareMaterialListener != null) {
                     onShareMaterialListener.onStartShare(ivContent);
                 }
                 break;

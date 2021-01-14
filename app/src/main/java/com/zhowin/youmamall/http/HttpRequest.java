@@ -1117,7 +1117,7 @@ public class HttpRequest {
         paramMap.put("method", ApiRequest.OPEN_AGENT_URL);
         paramMap.put("timestamp", DateHelpUtils.getCurrentTime());
         paramMap.put("type", type);
-        paramMap.put("itemId", itemId);
+        paramMap.put("id", itemId);
         String paramJson = GsonUtils.toJson(paramMap);
 
         apiRequest.openAgent(UserInfo.getUserToken(), paramJson)

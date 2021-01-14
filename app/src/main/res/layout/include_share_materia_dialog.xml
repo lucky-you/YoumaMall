@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="280dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -16,14 +17,37 @@
         android:textColor="@color/color_333"
         android:textSize="15sp" />
 
-    <com.zhowin.base_library.view.AdjustImageView
-        android:id="@+id/ivContent"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_def_image" />
+        android:layout_gravity="center_horizontal">
+
+        <com.zhowin.base_library.view.AdjustImageView
+            android:id="@+id/ivContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_def_image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/ivQrImage"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="30dp"
+            android:src="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <View
         style="@style/DivideLineStyle"
@@ -57,7 +81,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="去分享"
+            android:text="保存到相册"
             android:textColor="#333333"
             android:textSize="15sp" />
 

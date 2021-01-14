@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
+import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.BitmapUtils;
 import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.base_library.utils.ToastUtils;
@@ -26,10 +28,12 @@ import com.zhowin.base_library.widget.GridSpacingItemDecoration;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityShareMaterialBinding;
+import com.zhowin.youmamall.home.utils.QRCodeUtils;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.adapter.ShareMaterialAdapter;
 import com.zhowin.youmamall.mine.callback.OnShareMaterialListener;
 import com.zhowin.youmamall.mine.dialog.ShareMaterialDialog;
+import com.zhowin.youmamall.mine.model.MineItemConfig;
 import com.zhowin.youmamall.mine.model.ShareMaterialList;
 
 import java.io.File;
@@ -44,6 +48,7 @@ public class ShareMaterialActivity extends BaseBindActivity<ActivityShareMateria
 
 
     private ShareMaterialAdapter shareMaterialAdapter;
+    private String shareUrlHttp, shareUrl;
 
     @Override
     public int getLayoutId() {
@@ -53,6 +58,7 @@ public class ShareMaterialActivity extends BaseBindActivity<ActivityShareMateria
     @Override
     public void initView() {
         getShareMaterial();
+        getMineItemConfig();
     }
 
     @Override
@@ -92,11 +98,32 @@ public class ShareMaterialActivity extends BaseBindActivity<ActivityShareMateria
         });
     }
 
+    private void getMineItemConfig() {
+        HttpRequest.getMineItemConfig(this, new HttpCallBack<MineItemConfig>() {
+            @Override
+            public void onSuccess(MineItemConfig mineItemConfig) {
+                if (mineItemConfig != null) {
+                    shareUrlHttp = mineItemConfig.getH5_domain();
+                    if (!TextUtils.isEmpty(shareUrlHttp)) {
+                        shareUrl = shareUrlHttp + "/reg.html?invitation_code=" + UserInfo.getUserInfo().getInvitation_code();
+                        if (!TextUtils.isEmpty(shareUrl))
+                            shareMaterialAdapter.setShareUrl(shareUrl);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int errorCode, String errorMsg) {
+                ToastUtils.showToast(errorMsg);
+            }
+        });
+    }
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         String imageUrl = shareMaterialAdapter.getItem(position).getImage();
         ShareMaterialDialog shareMaterialDialog = new ShareMaterialDialog(mContext);
-        shareMaterialDialog.setImageUrl(imageUrl);
+        shareMaterialDialog.setImageUrl(imageUrl,shareUrl);
         shareMaterialDialog.setOnShareMaterialListener(new OnShareMaterialListener() {
             @Override
             public void onStartShare(View rootView) {
