@@ -12,12 +12,15 @@ import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.ActivityManager;
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.base_library.utils.SplitUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityCardPasswordBinding;
 import com.zhowin.youmamall.http.HttpRequest;
+
+import java.util.List;
 
 /**
  * 卡密
@@ -54,9 +57,14 @@ public class CardPasswordActivity extends BaseBindActivity<ActivityCardPasswordB
         switch (v.getId()) {
             case R.id.tvCardPasswordLogin:
                 String password = mBinding.editPassword.getText().toString().trim();
-                Log.e("xy", "password:" + password);
                 if (TextUtils.isEmpty(password)) {
                     ToastUtils.showToast("卡密不能为空");
+                    return;
+                }
+                List<String> textList = SplitUtils.spiltCode(password, "\n");
+//                Log.e("xy", "password:" + password + "--size:" + textList.size());
+                if (textList.size() > 50) {
+                    ToastUtils.showToast("单次最多录入50个卡密");
                     return;
                 }
                 onEnterCardSecret(password);
