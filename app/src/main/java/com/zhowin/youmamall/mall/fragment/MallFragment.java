@@ -165,6 +165,6 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId);
+        ProductDetailsActivity.start(mContext, itemId,false);
     }
 }

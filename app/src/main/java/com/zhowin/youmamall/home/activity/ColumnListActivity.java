@@ -38,12 +38,15 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
     private String categoryTitle;
     private int categoryType, categoryId;
     private HomeXPSFAdapter homeXPSFAdapter;
+    private boolean isHideShareButton;
 
-    public static void start(Context context, int type, String categoryTitle, int categoryId) {
+
+    public static void start(Context context, int type, String categoryTitle, int categoryId, boolean isHideShare) {
         Intent intent = new Intent(context, ColumnListActivity.class);
         intent.putExtra(ConstantValue.INDEX, type);
         intent.putExtra(ConstantValue.TITLE, categoryTitle);
         intent.putExtra(ConstantValue.ID, categoryId);
+        intent.putExtra(ConstantValue.TYPE, isHideShare);
         context.startActivity(intent);
     }
 
@@ -57,6 +60,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
         categoryType = getIntent().getIntExtra(ConstantValue.INDEX, -1);
         categoryTitle = getIntent().getStringExtra(ConstantValue.TITLE);
         categoryId = getIntent().getIntExtra(ConstantValue.ID, -1);
+        isHideShareButton = getIntent().getBooleanExtra(ConstantValue.TYPE, false);
         mBinding.tvTitleView.setTitle(categoryTitle);
         getColumnDataList(true);
     }
@@ -150,6 +154,6 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId);
+        ProductDetailsActivity.start(mContext, itemId, isHideShareButton);
     }
 }

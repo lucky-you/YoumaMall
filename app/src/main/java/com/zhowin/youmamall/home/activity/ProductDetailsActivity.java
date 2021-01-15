@@ -39,10 +39,12 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     private String categoryName;
     private GoodItem goodItem = new GoodItem();
     private GoodDetailsInfo goodDetail;
+    private boolean isHideShareButton;
 
-    public static void start(Context context, int goodId) {
+    public static void start(Context context, int goodId, boolean isHideShare) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
         intent.putExtra(ConstantValue.ID, goodId);
+        intent.putExtra(ConstantValue.TYPE, isHideShare);
         context.startActivity(intent);
     }
 
@@ -54,7 +56,9 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     @Override
     public void initView() {
         goodId = getIntent().getIntExtra(ConstantValue.ID, -1);
+        isHideShareButton = getIntent().getBooleanExtra(ConstantValue.TYPE, false);
         setOnClick(R.id.tvBuyNow, R.id.tvShareCode, R.id.llShopMallLayout, R.id.llShareCodeLayout);
+        mBinding.tvShareCode.setVisibility(isHideShareButton ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -105,7 +109,7 @@ public class ProductDetailsActivity extends BaseBindActivity<ActivityProductDeta
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llShopMallLayout:
-                ColumnListActivity.start(mContext, 1, categoryName, categoryId);
+                ColumnListActivity.start(mContext, 1, categoryName, categoryId, false);
                 break;
             case R.id.tvShareCode:
             case R.id.llShareCodeLayout:

@@ -150,7 +150,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                                     bannerAdapter.setOnBannerItemClickListener(new OnBannerItemClickListener() {
                                         @Override
                                         public void onBannerClick(BannerList bannerList) {
-                                            ProductDetailsActivity.start(mContext, bannerList.getId());
+                                            ProductDetailsActivity.start(mContext, bannerList.getId(), false);
                                         }
                                     });
                                 }
@@ -203,18 +203,18 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
             case R.id.rivImageOne:
                 if (!isLogin())
                     if (UserInfo.getUserInfo().getLevel() > 0) {
-                        ColumnListActivity.start(mContext, 2, "福利中心", 0);
+                        ColumnListActivity.start(mContext, 2, "福利中心", 0, true);
                     } else {
                         showHitLevelDialog();
                     }
                 break;
             case R.id.rivImageTwo:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 1, "热销商品", 0);
+                    ColumnListActivity.start(mContext, 1, "热销商品", 0, false);
                 break;
             case R.id.rivImageThree:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 3, "复购商品", 0);
+                    ColumnListActivity.start(mContext, 3, "复购商品", 0, false);
                 break;
         }
     }
@@ -232,7 +232,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String categoryTitle = homeCategoryListAdapter.getItem(position).getName();
                 int categoryId = homeCategoryListAdapter.getItem(position).getId();
-                ColumnListActivity.start(mContext, 1, categoryTitle, categoryId);
+                ColumnListActivity.start(mContext, 1, categoryTitle, categoryId, false);
             }
         });
     }
@@ -245,7 +245,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId);
+        ProductDetailsActivity.start(mContext, itemId, false);
     }
 
     @Override
@@ -253,10 +253,10 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 //        MainActivity.Instance.showJumpFragment(1);
         switch (position) {
             case 0:
-                ColumnListActivity.start(mContext, 1, "热销商品", 0);
+                ColumnListActivity.start(mContext, 1, "热销商品", 0, false);
                 break;
             case 1:
-                ColumnListActivity.start(mContext, 3, "新品首发", 0);
+                ColumnListActivity.start(mContext, 3, "新品首发", 0, false);
                 break;
         }
     }

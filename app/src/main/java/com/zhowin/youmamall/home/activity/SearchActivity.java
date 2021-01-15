@@ -196,6 +196,6 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId);
+        ProductDetailsActivity.start(mContext, itemId,false);
     }
 }

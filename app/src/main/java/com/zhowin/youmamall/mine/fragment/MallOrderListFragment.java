@@ -125,7 +125,7 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
 
     @Override
     public void onGoodDetails(int goodId) {
-        ProductDetailsActivity.start(mContext, goodId);
+        ProductDetailsActivity.start(mContext, goodId,false);
     }
 
     @Override

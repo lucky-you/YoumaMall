@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/12/1
- * desc ：
+ * desc ：已售商品
  */
 public class GoodSoldListAdapter extends BaseQuickAdapter<SoldGoodList, BaseViewHolder> {
     public GoodSoldListAdapter(@Nullable List<SoldGoodList> data) {
@@ -36,7 +36,7 @@ public class GoodSoldListAdapter extends BaseQuickAdapter<SoldGoodList, BaseView
                 .getView(R.id.clSoldGoodRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProductDetailsActivity.start(mContext, item.getItem_id());
+                ProductDetailsActivity.start(mContext, item.getItem_id(),false);
             }
         });
     }
