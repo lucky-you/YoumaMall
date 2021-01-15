@@ -261,13 +261,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
             @Override
             public void onClick(View v) {
                 startActivity(SettingActivity.class);
-
-//                RNCryptorNative rncryptor = new RNCryptorNative();
-//                String paramJson = "" ;
-////                String encrypted = new String(rncryptor.encrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD));
-////                Log.e("xy", "encrypted：" + encrypted);
-//                String decrypted = rncryptor.decrypt(paramJson, RetrofitFactory.ENCRYPTION_PASSWORD);
-//                Log.e("xy", "decrypted：" + decrypted);
             }
         });
     }
