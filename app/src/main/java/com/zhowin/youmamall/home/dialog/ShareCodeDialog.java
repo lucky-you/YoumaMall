@@ -85,13 +85,13 @@ public class ShareCodeDialog extends BaseDialogView {
                     int imageWidth = resource.getIntrinsicWidth();
                     int imageHeight = resource.getIntrinsicHeight();
                     int height = ScreenUtils.getScreenWidth() + imageHeight / imageWidth;
-                    Log.e("xy", "screenWidth:" + screenWidth + "--imageWidth:" + imageWidth + "--imageHeight:" + imageHeight);
+//                    Log.e("xy", "screenWidth:" + screenWidth + "--imageWidth:" + imageWidth + "--imageHeight:" + imageHeight);
                     ViewGroup.LayoutParams para = ivContent.getLayoutParams();
                     int newWidth = SizeUtils.dp2px(280);
                     int newHeight = height;
                     para.width = newWidth;
                     para.height = newHeight;
-                    Log.e("xy", "height:" + height + "--newWidth:" + newWidth + "--newHeight:" + newHeight);
+//                    Log.e("xy", "height:" + height + "--newWidth:" + newWidth + "--newHeight:" + newHeight);
                     ivContent.setLayoutParams(para);
                     ivContent.setScaleType(ImageView.ScaleType.FIT_XY);
                     ivContent.setImageDrawable(resource);

@@ -19,6 +19,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clShareRootLayout"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">

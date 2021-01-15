@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_share_code_bg"
                 android:padding="4dp"
-                android:text="粉丝时代-我们为粉而来\n原创品牌-敢于谁争锋"
+                android:text="粉丝时代-我们为粉而来\n原创品牌-敢问谁与争锋"
                 android:textColor="@color/color_white"
                 android:textSize="11sp"
                 app:layout_constraintBottom_toTopOf="@id/tvProductPrice"

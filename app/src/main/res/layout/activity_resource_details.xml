@@ -16,6 +16,57 @@
             app:mBackgroundColor="@color/color_FFDE00"
             app:mLeftSrc="@mipmap/back_black_icon" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLinkLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
+            android:minHeight="48dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvLinkUrl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="3"
+                android:text="撒娇娇回复很商发时代光华更好地嘎哈个哈迪斯噶方大化工沙发"
+                android:textColor="@color/color_333"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/tvCopyLink"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCopyLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="复制链接"
+                android:textColor="@color/color_227BFF"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <View
+                style="@style/DivideLineStyle"
+                android:layout_width="0dp"
+                android:layout_marginTop="6dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLinkUrl" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <WebView
             android:id="@+id/mWebView"
             android:layout_width="match_parent"

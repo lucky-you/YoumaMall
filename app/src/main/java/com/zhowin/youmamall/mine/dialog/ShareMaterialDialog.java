@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.zhowin.base_library.base.BaseDialogView;
 import com.zhowin.base_library.utils.GlideUtils;
@@ -22,6 +23,7 @@ import com.zhowin.youmamall.mine.callback.OnShareMaterialListener;
 public class ShareMaterialDialog extends BaseDialogView {
 
 
+    private ConstraintLayout clShareRootLayout;
     private ImageView ivContent, ivQrImage;
     private OnShareMaterialListener onShareMaterialListener;
 
@@ -36,6 +38,7 @@ public class ShareMaterialDialog extends BaseDialogView {
 
     @Override
     public void initView() {
+        clShareRootLayout = get(R.id.clShareRootLayout);
         ivContent = get(R.id.ivContent);
         ivQrImage = get(R.id.ivQrImage);
         get(R.id.tvCancel).setOnClickListener(this::onViewClick);
@@ -66,7 +69,7 @@ public class ShareMaterialDialog extends BaseDialogView {
                 break;
             case R.id.tvDetermine:
                 if (onShareMaterialListener != null) {
-                    onShareMaterialListener.onStartShare(ivContent);
+                    onShareMaterialListener.onStartShare(clShareRootLayout);
                 }
                 break;
         }

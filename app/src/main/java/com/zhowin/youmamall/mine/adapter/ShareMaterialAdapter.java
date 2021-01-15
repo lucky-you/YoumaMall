@@ -39,7 +39,7 @@ public class ShareMaterialAdapter extends BaseQuickAdapter<ShareMaterialList, Ba
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ShareMaterialList item) {
-        Log.e("xy", "imageUrl:" + item.getImage() + "--shareUrl:" + shareUrl);
+//        Log.e("xy", "imageUrl:" + item.getImage() + "--shareUrl:" + shareUrl);
         Bitmap qrBitmap = QRCodeUtils.createQRCode(shareUrl);
         ImageView ivQrImage = helper.getView(R.id.ivQrImage);
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivTopQrCode));
