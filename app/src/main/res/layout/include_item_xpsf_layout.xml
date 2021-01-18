@@ -10,13 +10,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="170dp"
-        android:layout_height="150dp">
+        android:layout_height="240dp">
 
-        <ImageView
+        <com.zhowin.base_library.view.AdjustImageView
             android:id="@+id/ivCardImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_def_image" />
 
         <TextView

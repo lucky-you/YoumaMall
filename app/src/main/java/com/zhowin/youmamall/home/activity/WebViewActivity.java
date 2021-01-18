@@ -3,18 +3,24 @@ package com.zhowin.youmamall.home.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.zhowin.base_library.utils.ConstantValue;
+import com.zhowin.youmamall.BuildConfig;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.databinding.ActivityWebViewBinding;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 网页显示通用
@@ -44,6 +50,7 @@ public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
         paymentUrl = getIntent().getStringExtra(ConstantValue.URL);
         isUrl = getIntent().getBooleanExtra(ConstantValue.TYPE, true);
         mBinding.tvTitleView.setTitle(payTitle);
+        System.out.println("paymentUrl:" + paymentUrl);
     }
 
     @Override
@@ -67,7 +74,43 @@ public class WebViewActivity extends BaseBindActivity<ActivityWebViewBinding> {
         webSettings.setDefaultTextEncodingName("UTF-8");
         mWebView.requestFocus(View.FOCUS_DOWN);
         mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setWebViewClient(new WebViewClient() {
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                try {
+                    if (url.startsWith("weixin://wap/pay?")) { //微信
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        Intent weChatIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                        weChatIntent.addCategory("android.intent.category.BROWSABLE");
+                        weChatIntent.setComponent(null);
+                        startActivity(weChatIntent);
+                        return true;
+                    } else if (url.startsWith("https://wx.tenpay.com")) {
+                        Map<String, String> extraHeaders = new HashMap<String, String>();
+                        extraHeaders.put("Referer", BuildConfig.API_HOST);
+                        view.loadUrl(url, extraHeaders);
+                        return true;
+                    }
+                    if (url.startsWith("alipays:") || url.contains("platformapi/startapp") || url.contains("payments/alipay")) {//支付宝
+                        try {
+                            Intent aliIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                            aliIntent.addCategory("android.intent.category.BROWSABLE");
+                            aliIntent.setComponent(null);
+                            startActivity(aliIntent);
+                        } catch (Exception e) {
+                        }
+                        return true;
+                    }
+                } catch (Exception e) { // 防止crash
+                    return true;// 没有安装该app时，返回true，表示拦截自定义链接，但不跳转，避免弹出上面的错误页面
+                }
+                view.loadUrl(url);
+                return true;
+
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         if (isUrl) {

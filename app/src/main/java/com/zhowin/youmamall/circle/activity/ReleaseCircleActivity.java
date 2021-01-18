@@ -55,7 +55,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
         SpanUtils.with(mBinding.tvHitMessage)
                 .appendLine("必看:").setBold()
                 .appendLine()
-                .appendLine("1.禁止发布色情内容、酷咔相关产品内容，以上内容直接永久冻结账号，永不解封；")
+                .appendLine("1.禁止发布色情内容、忧码相关产品内容，以上内容直接永久冻结账号，永不解封；")
                 .appendLine()
                 .appendLine("2.发布的文案内容不能存在特殊表情符号，否则会发送失败。")
                 .create();

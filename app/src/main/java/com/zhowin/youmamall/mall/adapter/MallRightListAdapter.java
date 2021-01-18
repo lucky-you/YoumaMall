@@ -21,6 +21,7 @@ import java.util.List;
  * desc ：
  */
 public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseViewHolder> {
+
     public MallRightListAdapter(@Nullable List<MallRightList> data) {
         super(R.layout.include_mall_right_item_view, data);
     }

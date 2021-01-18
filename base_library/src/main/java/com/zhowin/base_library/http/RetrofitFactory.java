@@ -161,7 +161,7 @@ public class RetrofitFactory {
             RequestBody requestBody = request.body();
             FormBody.Builder newFormBuilder = new FormBody.Builder();
             String url = request.url().toString();
-            Log.e("xy", "请求url：" + url);
+//            Log.e("xy", "请求url：" + url);
             if (requestBody instanceof FormBody) {
                 FormBody formBody = (FormBody) requestBody;
                 for (int i = 0; i < formBody.size(); i++) {
@@ -215,7 +215,7 @@ public class RetrofitFactory {
                     e.printStackTrace();
                 }
             }
-            System.out.println("request  url:" + request.url().toString());
+//            System.out.println("request  url:" + request.url().toString());
             Response response = chain.proceed(chain.request());
             MediaType mediaType = response.body().contentType();
             String content = response.body().string();

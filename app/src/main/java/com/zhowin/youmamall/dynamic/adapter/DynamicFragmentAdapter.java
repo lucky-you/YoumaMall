@@ -40,7 +40,7 @@ public class DynamicFragmentAdapter extends BaseQuickAdapter<DynamicList, BaseVi
     protected void convert(@NonNull BaseViewHolder helper, DynamicList item) {
 
         GlideUtils.loadUserPhotoForLogin(mContext, item.getAvatar(), helper.getView(R.id.civUserHead));
-        helper.setText(R.id.tvDynamicTitle, item.getNickname())
+        helper.setText(R.id.tvDynamicTitle, item.getTitle())
                 .setText(R.id.tvDynamicContent, item.getContent())
                 .setText(R.id.tvCreateTime, DateHelpUtils.getPostDetailTime(item.getCreatetime()))
                 .setGone(R.id.tvSavePhoto, item.getImages() != null && !item.getImages().isEmpty());

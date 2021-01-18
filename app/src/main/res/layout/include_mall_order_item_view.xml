@@ -63,12 +63,14 @@
         <TextView
             android:id="@+id/tvCardName"
             style="@style/TextViewStyleOf14Sp"
+            android:layout_width="0dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="14dp"
-            android:text="蔚蓝年卡"
+            android:text="蔚蓝蔚蓝年"
             android:textColor="@color/color_333"
             android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@id/ivLeftImage"
+            app:layout_constraintRight_toLeftOf="@id/tvNumberOfPayments"
             app:layout_constraintTop_toTopOf="@id/ivLeftImage" />
 
 

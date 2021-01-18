@@ -18,12 +18,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius="4dp" />
 
-    <ImageView
+    <com.zhowin.base_library.view.AdjustImageView
         android:id="@+id/ivIconImage"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
         android:layout_marginTop="12dp"
-        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/icon_wx_circle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
