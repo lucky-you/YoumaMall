@@ -41,7 +41,7 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
 
     private ResourcesCategoryAdapter resourcesCategoryAdapter;
     private ResourcesListAdapter resourcesListAdapter;
-    private int categoryId;
+    private int categoryId=0;
 
     @Override
     public int getLayoutId() {
@@ -123,7 +123,7 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
             @Override
             public void onSuccess(List<ResourcesCategory> resourcesCategories) {
                 if (resourcesCategories != null && !resourcesCategories.isEmpty()) {
-                    categoryId = resourcesCategories.get(0).getId();
+//                    categoryId = resourcesCategories.get(0).getId();
                     resourcesCategoryAdapter.setNewData(resourcesCategories);
                     getResourcesList(categoryId, true);
                 }

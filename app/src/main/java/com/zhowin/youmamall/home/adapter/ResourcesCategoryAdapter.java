@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ResourcesCategoryAdapter extends BaseQuickAdapter<ResourcesCategory, BaseViewHolder> {
 
-    private int currentPosition = 0;
+    private int currentPosition = -1;
 
     public ResourcesCategoryAdapter(@Nullable List<ResourcesCategory> data) {
         super(R.layout.include_resources_category_item_view, data);

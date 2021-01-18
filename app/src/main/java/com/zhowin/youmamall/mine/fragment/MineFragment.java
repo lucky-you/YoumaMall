@@ -302,7 +302,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         showOutLoginDialog(1, "确定要退出登录吗?");
                         break;
                 }
-
                 break;
             case 2: //放开账号升级
                 switch (position) {
@@ -323,7 +322,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         break;
                     case 5:
                         ForgetPasswordActivity.start(mContext, 2);
-
                         break;
                     case 6:
                         startActivity(FeedbackActivity.class);
