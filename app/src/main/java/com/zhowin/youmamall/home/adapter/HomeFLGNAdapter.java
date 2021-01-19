@@ -7,11 +7,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.zhowin.base_library.utils.GlideUtils;
+import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.home.callback.OnHomeSeeMoreListener;
 import com.zhowin.youmamall.home.model.VipWelfareList;
@@ -38,7 +40,7 @@ public class HomeFLGNAdapter extends BaseQuickAdapter<VipWelfareList, BaseViewHo
     protected void convert(@NonNull BaseViewHolder helper, VipWelfareList item) {
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivIconImage));
         helper.setText(R.id.tvIconName, item.getName());
-        RoundedImageView rivBackground = helper.getView(R.id.rivBackground);
+        CardView rivBackground = helper.getView(R.id.clFLRootLayout);
         String colorText = item.getColour();
         int color;
         if (colorText.startsWith("#")) {
@@ -46,7 +48,8 @@ public class HomeFLGNAdapter extends BaseQuickAdapter<VipWelfareList, BaseViewHo
         } else {
             color = Color.parseColor("#" + item.getColour());
         }
-        rivBackground.setBackgroundColor(color);
+        rivBackground.setCardBackgroundColor(color);
+
         helper.getView(R.id.clFLRootLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
