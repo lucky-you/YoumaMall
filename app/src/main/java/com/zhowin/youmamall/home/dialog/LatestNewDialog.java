@@ -1,7 +1,9 @@
 package com.zhowin.youmamall.home.dialog;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +18,9 @@ import com.zhowin.youmamall.home.model.LatestNewInfo;
  * desc ： 最新动态的Dialog
  */
 public class LatestNewDialog extends BaseDialogView {
+
+    private TextView tvContent;
+
     public LatestNewDialog(@NonNull Context context) {
         super(context);
     }
@@ -28,17 +33,18 @@ public class LatestNewDialog extends BaseDialogView {
     @Override
     public void initView() {
 
-
+        tvContent = get(R.id.tvContent);
         get(R.id.tvDetermine).setOnClickListener(this::onViewClick);
 
     }
 
     public void setLatestNewData(LatestNewInfo latestNewData) {
         if (latestNewData != null) {
+
             SpanUtils.with(get(R.id.tvContent))
                     .appendLine(latestNewData.getTitle()).setBold()
                     .appendLine()
-                    .appendLine(latestNewData.getContent())
+                    .appendLine(Html.fromHtml(latestNewData.getContent()))
                     .appendLine()
                     .create();
         }

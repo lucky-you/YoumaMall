@@ -19,23 +19,26 @@ public class UserInfo {
      * nickname : 周小川
      * mobile : 13677197786
      * avatar : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517862
-     * money : 1146.97
-     * wechat_qrcode : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517764
-     * token : ae84ae07-2259-40c0-be62-e7a79eae4ce5
+     * money : 1413.11
+     * wechat_qrcode : https://png.lxxxin.com/KuKa/2020/12/29/104957/1609210197606
+     * token : 5d746d7f-ee77-4714-8487-18fbf98391ad
      * user_id : 4
-     * createtime : 1608779074
-     * expiretime : 1611371074
-     * expires_in : 2592000
-     * level : 1
+     * createtime : 1610436440
+     * expiretime : 1613028440
+     * expires_in : 1809113
+     * level : 3
      * is_pay_pwd : 1
      * invitation_code : 353534
-     * f_nickname : admin
+     * f_nickname : 158****2331
+     * f_mobile : 15827062331
+     * f_avatar : https://png.lxxxin.com/miYou/2020/12/09/112837/1607484517862
+     * f_wechat_qrcode : https://png.lxxxin.com/1223.jpg
      * withdrawal : 0.00
-     * today_income : 2.00
-     * income : 2.00
-     * last_income_time : 1608775672
-     * pid : 1
-     * level_name : vip会员
+     * today_income : 0.00
+     * income : 805.95
+     * last_income_time : 1611218183
+     * pid : 3
+     * level_name : 市级代理商
      */
 
     private int id;
@@ -53,6 +56,9 @@ public class UserInfo {
     private int is_pay_pwd;
     private String invitation_code;
     private String f_nickname;
+    private String f_mobile;
+    private String f_avatar;
+    private String f_wechat_qrcode;
     private String withdrawal;
     private String today_income;
     private String income;
@@ -104,8 +110,6 @@ public class UserInfo {
     public static String getUserPassword() {
         return (String) SPUtils.get(ConstantValue.PASSWORD, "");
     }
-
-
 
 
     public int getId() {
@@ -226,6 +230,30 @@ public class UserInfo {
 
     public void setF_nickname(String f_nickname) {
         this.f_nickname = f_nickname;
+    }
+
+    public String getF_mobile() {
+        return f_mobile;
+    }
+
+    public void setF_mobile(String f_mobile) {
+        this.f_mobile = f_mobile;
+    }
+
+    public String getF_avatar() {
+        return f_avatar;
+    }
+
+    public void setF_avatar(String f_avatar) {
+        this.f_avatar = f_avatar;
+    }
+
+    public String getF_wechat_qrcode() {
+        return f_wechat_qrcode;
+    }
+
+    public void setF_wechat_qrcode(String f_wechat_qrcode) {
+        this.f_wechat_qrcode = f_wechat_qrcode;
     }
 
     public String getWithdrawal() {

@@ -28,6 +28,7 @@ import com.zhowin.youmamall.mine.activity.DepositActivity;
 import com.zhowin.youmamall.mine.activity.OpenAgentActivity;
 import com.zhowin.youmamall.mine.activity.SetPasswordActivity;
 import com.zhowin.youmamall.mine.adapter.ColumnListAdapter;
+import com.zhowin.youmamall.mine.dialog.MyReferrerDialog;
 import com.zhowin.youmamall.mine.model.ColumnList;
 import com.zhowin.youmamall.http.HttpRequest;
 import com.zhowin.youmamall.mine.activity.ContactServiceActivity;
@@ -43,6 +44,7 @@ import com.zhowin.youmamall.mine.activity.WithdrawActivity;
 import com.zhowin.youmamall.mine.model.DepositMessage;
 import com.zhowin.youmamall.mine.model.GoodInfo;
 import com.zhowin.youmamall.mine.model.MineItemConfig;
+import com.zhowin.youmamall.mine.model.MyReferrerMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     private ColumnListAdapter columnListAdapter;
     private boolean isOpenMerchant;//是否开通店铺
     private int itemType;// 审核状态
+    private MyReferrerMessage myReferrerMessage = new MyReferrerMessage(); //我的推荐人信息
 
     @Override
     public int getLayoutId() {
@@ -67,7 +70,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     @Override
     public void initView() {
-        setOnClick(R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout,
+        setOnClick(R.id.tvTJRText, R.id.tvShopMallAllOrder, R.id.llDFKLayout, R.id.llDFHLayout, R.id.llDSHLayout, R.id.llYWCLayout,
                 R.id.tvReleaseGood, R.id.llSPLBLayout, R.id.llYSSPLayout, R.id.llXSLSLayout, R.id.llZXDPLayout, R.id.tvOpenStore
         );
 
@@ -158,6 +161,13 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                     mBinding.tvLJTXValue.setText(userInfo.getWithdrawal());
                     mBinding.tvJRSYValue.setText(userInfo.getToday_income());
                     mBinding.tvLJSYValue.setText(userInfo.getIncome());
+
+                    //推荐人信息
+                    myReferrerMessage.setF_avatar(userInfo.getF_avatar());
+                    myReferrerMessage.setF_nickname(userInfo.getF_nickname());
+                    myReferrerMessage.setF_mobile(userInfo.getF_mobile());
+                    myReferrerMessage.setF_wechat_qrcode(userInfo.getF_wechat_qrcode());
+
                 }
 
             }
@@ -197,6 +207,9 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tvTJRText: //推荐人
+                showMyReferrerDialog();
+                break;
             case R.id.tvShopMallAllOrder://全部订单
                 MallOrderListActivity.start(mContext, 0);
                 break;
@@ -230,6 +243,17 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                 break;
         }
     }
+
+
+    /**
+     * 推荐人
+     */
+    private void showMyReferrerDialog() {
+        MyReferrerDialog myReferrerDialog = new MyReferrerDialog(mContext);
+        myReferrerDialog.setMyReferrerMessage(myReferrerMessage);
+        myReferrerDialog.show();
+    }
+
 
     private void jumpOpenMerchant(int type) {
         if (isOpenMerchant) {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shape_white_10dp_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="我的推荐人"
+        android:textColor="@color/color_333"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civHead"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_default_hp" />
+
+    <TextView
+        android:id="@+id/tvNickName"
+        style="@style/TextViewStyleOf14Sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="昵称：Hello World"
+        android:textColor="@color/color_666"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tvMobile"
+        style="@style/TextViewStyleOf14Sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="手机：13000000000"
+        android:textColor="@color/color_666"
+        android:textSize="13sp" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/ivWxCodeImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="2dp" />
+
+
+    <View style="@style/DivideLineStyle" />
+
+    <TextView
+        android:id="@+id/tvDetermine"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/determine"
+        android:textColor="@color/color_227BFF"
+        android:textSize="15sp" />
+
+</LinearLayout>
