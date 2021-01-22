@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/27
- * desc ：
+ * desc ：商城右侧的列表
  */
 public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseViewHolder> {
 
@@ -42,6 +42,24 @@ public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseVi
                 .setText(R.id.tvPrice, "¥" + item.getPrice())
                 .setText(R.id.tvCommissionPrice, "佣金" + item.getCommission_money() + "元");
 
+        switch (item.getType()) {
+            case 1: //推荐
+                helper.setText(R.id.tvGoodStatus, "推荐")
+                        .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_50AD65));
+                break;
+            case 2: //热卖
+                helper.setText(R.id.tvGoodStatus, "热卖")
+                        .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_F7AA0A));
+                break;
+            case 3: //停售
+                helper.setText(R.id.tvGoodStatus, "停售")
+                        .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575));
+                break;
+        }
+        if (item.getId() > 0 && item.getSale() == 0) {
+            helper.setText(R.id.tvGoodStatus, "售罄")
+                    .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575));
+        }
         helper.getView(R.id.tvBuy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,5 +82,9 @@ public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseVi
             }
         });
 
+    }
+
+    private int getItemColor(int color) {
+        return mContext.getResources().getColor(color);
     }
 }

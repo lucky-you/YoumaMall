@@ -52,5 +52,17 @@
         app:layout_constraintLeft_toLeftOf="@id/tvUserMobile"
         app:layout_constraintTop_toBottomOf="@id/tvUserMobile" />
 
+    <TextView
+        android:id="@+id/tvLevelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="区域代理商"
+        android:textColor="@color/color_666"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvZXNumber"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

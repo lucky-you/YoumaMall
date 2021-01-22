@@ -40,8 +40,8 @@ public class GlideUtils {
      */
     public static void loadUserPhotoForLogin(Context context, Object photoUrl, ImageView imageView) {
         RequestOptions options = new RequestOptions()
-                .placeholder(R.mipmap.ic_default_hp)
-                .error(R.mipmap.ic_default_hp)
+                .placeholder(R.mipmap.icon_logo)
+                .error(R.mipmap.icon_logo)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(context)
                 .load(photoUrl)

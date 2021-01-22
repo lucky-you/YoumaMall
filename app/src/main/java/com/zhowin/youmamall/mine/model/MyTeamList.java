@@ -10,13 +10,14 @@ public class MyTeamList {
 
     /**
      * user_id : 16
-     * level : 4
+     * level : 2
      * upgrade_str :
-     * avatar : /motorRider/uploads/image/20201225/1630401608892170
+     * avatar : https://png.lxxxin.com/youMa/uploads/image/20210113/1624451610534184
      * mobile : 17386259367
-     * nickname : 猫猫
+     * nickname : 穆斯林
      * jointime : 1608884676
      * volume : 0
+     * level_name : 区域代理商
      */
 
     private int user_id;
@@ -27,6 +28,7 @@ public class MyTeamList {
     private String nickname;
     private int jointime;
     private int volume;
+    private String level_name;
 
     public int getUser_id() {
         return user_id;
@@ -90,5 +92,13 @@ public class MyTeamList {
 
     public void setVolume(int volume) {
         this.volume = volume;
+    }
+
+    public String getLevel_name() {
+        return level_name;
+    }
+
+    public void setLevel_name(String level_name) {
+        this.level_name = level_name;
     }
 }

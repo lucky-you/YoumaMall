@@ -28,6 +28,7 @@ public class MyTeamAdapter extends BaseQuickAdapter<MyTeamList, BaseViewHolder> 
         GlideUtils.loadUserPhotoForLogin(mContext, item.getAvatar(), helper.getView(R.id.civHeadImage));
         helper.setText(R.id.tvUserMobile, PhoneUtils.hitCenterMobilNumber(item.getMobile()))
                 .setText(R.id.tvCreateTime, DateHelpUtils.getStringDate(item.getJointime()))
-                .setText(R.id.tvZXNumber, "直营销售" + item.getVolume() + "张");
+                .setText(R.id.tvZXNumber, "直营销售" + item.getVolume() + "张")
+                .setText(R.id.tvLevelName, item.getLevel_name());
     }
 }
