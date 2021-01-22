@@ -37,11 +37,11 @@ public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseVi
     protected void convert(@NonNull BaseViewHolder helper, MallRightList item) {
 
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivCardImage));
-        helper.setText(R.id.tvNumberOfPayments, item.getSale() + "人付款")
+        helper.setText(R.id.tvNumberOfPayments, item.getPay_num() + "人付款")
                 .setText(R.id.tvCardName, item.getName())
                 .setText(R.id.tvPrice, "¥" + item.getPrice())
                 .setText(R.id.tvCommissionPrice, "佣金" + item.getCommission_money() + "元");
-        if (item.getSale() > 0) {
+        if (0 == item.getUser_id()) {
             switch (item.getType()) {
                 case 1: //推荐
                     helper.setText(R.id.tvGoodStatus, "推荐")
@@ -53,12 +53,32 @@ public class MallRightListAdapter extends BaseQuickAdapter<MallRightList, BaseVi
                     break;
                 case 3: //停售
                     helper.setText(R.id.tvGoodStatus, "停售")
-                            .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575));
+                            .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575))
+                            .setGone(R.id.tvGoodStatus, false);
+
                     break;
             }
-        } else if (item.getId() > 0 && item.getSale() == 0) {
-            helper.setText(R.id.tvGoodStatus, "售罄")
-                    .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575));
+        } else {
+            if (0 == item.getSale()) {
+                helper.setText(R.id.tvGoodStatus, "售罄")
+                        .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575));
+            } else {
+                switch (item.getType()) {
+                    case 1: //推荐
+                        helper.setText(R.id.tvGoodStatus, "推荐")
+                                .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_50AD65));
+                        break;
+                    case 2: //热卖
+                        helper.setText(R.id.tvGoodStatus, "热卖")
+                                .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_F7AA0A));
+                        break;
+                    case 3: //停售
+                        helper.setText(R.id.tvGoodStatus, "停售")
+                                .setBackgroundColor(R.id.tvGoodStatus, getItemColor(R.color.color_757575))
+                                .setGone(R.id.tvGoodStatus, false);
+                        break;
+                }
+            }
         }
         helper.getView(R.id.tvBuy).setOnClickListener(new View.OnClickListener() {
             @Override
