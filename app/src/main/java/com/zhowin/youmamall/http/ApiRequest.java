@@ -384,6 +384,7 @@ public interface ApiRequest {
     /**
      * 获取保证金
      */
+    @FormUrlEncoded
     @POST(HEADER_URL)
     Observable<ApiResponse<DepositMessage>> getDepositMessage(@Header(TOKEN) String token, @Field(PARAM) String param);
 
@@ -572,11 +573,6 @@ public interface ApiRequest {
     @FormUrlEncoded
     @POST(HEADER_URL)
     Observable<ApiResponse<List<HotKeywordList>>> getHotKeywordList(@Header(TOKEN) String token, @Field(PARAM) String param);
-
-
-    /**
-     *
-     */
 
 
 }

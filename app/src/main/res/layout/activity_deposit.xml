@@ -117,7 +117,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
             android:text="保证金不能少于300元，最高2999元\n保证金金额可到店铺管理里随时提取"
             android:textColor="@color/color_999"
             android:textSize="14sp" />
