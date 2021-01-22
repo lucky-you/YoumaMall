@@ -140,7 +140,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         super.onResume();
         getUserInfoMessage();
         getMineItemConfig();
-        isOpenMerchant = SPUtils.getBoolean(ConstantValue.IS_OPEN_MERCHANT);
+        isOpenMerchant = SPUtils.getBoolean(ConstantValue.IS_OPEN_MERCHANT, false);
         mBinding.tvOpenStore.setText(isOpenMerchant ? "发布商品" : "开通店铺");
     }
 

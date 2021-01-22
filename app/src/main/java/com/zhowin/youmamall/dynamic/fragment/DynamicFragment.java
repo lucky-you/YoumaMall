@@ -1,6 +1,5 @@
 package com.zhowin.youmamall.dynamic.fragment;
 
-import android.Manifest;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
@@ -10,7 +9,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.permission.runtime.Permission;
@@ -21,6 +19,7 @@ import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.permission.AndPermissionListener;
 import com.zhowin.base_library.permission.AndPermissionUtils;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
+import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -38,7 +37,7 @@ import java.util.List;
 /**
  * author : zho
  * date  ：2020/11/26
- * desc ：
+ * desc ：动态
  */
 public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayoutBinding> implements OnDynamicItemClickListener {
     private DynamicFragmentAdapter dynamicFragmentAdapter;
@@ -70,7 +69,7 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
         HttpRequest.getDynamicList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<DynamicList>>() {
             @Override
             public void onSuccess(BaseResponse<DynamicList> baseResponse) {
-                if (baseResponse != null) {
+                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -78,12 +77,13 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                     } else {
                         dynamicFragmentAdapter.addData(baseResponse.getData());
                     }
-
                     if (baseResponse.getData().size() < pageNumber) {
                         dynamicFragmentAdapter.loadMoreEnd(true);
                     } else {
                         dynamicFragmentAdapter.loadMoreComplete();
                     }
+                } else {
+                    EmptyViewUtils.bindEmptyView(mContext, dynamicFragmentAdapter);
                 }
             }
 
