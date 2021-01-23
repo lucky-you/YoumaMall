@@ -402,12 +402,14 @@ public class HttpRequest {
         String url = null;
         switch (type) {
             case 1: //商品列表
+            case 3://热销商品
+            case 5: //新品首发
                 url = ApiRequest.MALL_GOOD_LIST_URL;
                 break;
             case 2://VIP商品列表
                 url = ApiRequest.GET_VIP_GOOD_LIST_URL;
                 break;
-            case 3://复购商品列表
+            case 4://复购商品列表
                 url = ApiRequest.REPURCHASE_GOOD_LIST_URL;
                 break;
         }

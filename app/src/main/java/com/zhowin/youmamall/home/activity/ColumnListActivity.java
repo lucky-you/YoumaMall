@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * 分类   /  VIP  商品列表
- * categoryType :  1：商品列表  2：VIP商品列表  3:复购商品列表
+ * categoryType :  1：商品列表  2：福利中心商品列表 3：商品热销列表 4:复购商品列表 5：新品首发
  */
 public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBinding> implements OnGoodCardItemClickListener {
 
@@ -81,20 +81,22 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
         }
         HashMap<String, Object> map = new HashMap<>();
         switch (categoryType) {
-            case 1:
+            case 1:  //商品列表
+            case 2:  //会员VIP商品
+            case 4: // 复购商品
                 map.put("shop_category_id", categoryId);
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
+                break;
+            case 3: //热销榜
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
+                map.put("sort", 2);
+                break;
+            case 5://新品首发
+                map.put("page", currentPage);
+                map.put("size", pageNumber);
                 map.put("sort", 1);
-                map.put("page", currentPage);
-                map.put("size", pageNumber);
-                break;
-            case 2:
-                map.put("shop_category_id", categoryId);
-                map.put("page", currentPage);
-                map.put("size", pageNumber);
-                break;
-            case 3:
-                map.put("page", currentPage);
-                map.put("size", pageNumber);
                 break;
         }
         showLoadDialog();

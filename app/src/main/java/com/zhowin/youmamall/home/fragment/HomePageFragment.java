@@ -210,11 +210,11 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
                 break;
             case R.id.rivImageTwo:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 1, "热销商品", 0, false);
+                    ColumnListActivity.start(mContext, 3, "热销商品", 0, false);
                 break;
             case R.id.rivImageThree:
                 if (!isLogin())
-                    ColumnListActivity.start(mContext, 3, "复购商品", 0, false);
+                    ColumnListActivity.start(mContext, 4, "复购商品", 0, false);
                 break;
         }
     }
@@ -253,10 +253,10 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 //        MainActivity.Instance.showJumpFragment(1);
         switch (position) {
             case 0:
-                ColumnListActivity.start(mContext, 1, "热销商品", 0, false);
+                ColumnListActivity.start(mContext, 3, "热销商品", 0, false);
                 break;
-            case 1:
-                ColumnListActivity.start(mContext, 3, "新品首发", 0, false);
+            case 1: //新品首发
+                ColumnListActivity.start(mContext, 5, "新品首发", 0, false);
                 break;
         }
     }
