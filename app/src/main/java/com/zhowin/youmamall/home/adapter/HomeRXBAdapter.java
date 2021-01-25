@@ -37,7 +37,7 @@ public class HomeRXBAdapter extends BaseQuickAdapter<MallRightList, BaseViewHold
     protected void convert(@NonNull BaseViewHolder helper, MallRightList item) {
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivLeftImage));
         helper.setText(R.id.tvCardName, item.getName())
-                .setText(R.id.tvNumberOfPayments, item.getSale() + "人付款")
+                .setText(R.id.tvNumberOfPayments, item.getPay_num() + "人付款")
                 .setText(R.id.tvCommissionPrice, "佣金" + item.getCommission_money() + "元")
                 .setText(R.id.tvPrice, "¥" + item.getPrice());
 
