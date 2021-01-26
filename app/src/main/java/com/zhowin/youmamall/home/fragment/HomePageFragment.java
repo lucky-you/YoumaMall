@@ -111,7 +111,7 @@ public class HomePageFragment extends BaseBindFragment<IncludeHomePageFragmentBi
 
         Observable<ApiResponse<HomePageData>> homePageData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomePageDataInfo(UserInfo.getUserToken(), paramHomeJson);
         Observable<ApiResponse<HomeDynamicInfo>> homeDynamicData = RetrofitFactory.getInstance().initRetrofit(BuildConfig.API_HOST).create(ApiRequest.class).getHomeDynamicDataInfo(UserInfo.getUserToken(), paramBannerJson);
-        if (homePageLists.isEmpty()) homePageLists.clear();
+        if (!homePageLists.isEmpty()) homePageLists.clear();
         Observable.merge(homePageData, homeDynamicData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
