@@ -41,7 +41,7 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
 
     private ResourcesCategoryAdapter resourcesCategoryAdapter;
     private ResourcesListAdapter resourcesListAdapter;
-    private int categoryId=0;
+    private int categoryId = 0;
 
     @Override
     public int getLayoutId() {
@@ -143,7 +143,7 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
         HttpRequest.getResourcesList(this, categoryId, currentPage, pageNumber, new HttpCallBack<BaseResponse<ResourcesList>>() {
             @Override
             public void onSuccess(BaseResponse<ResourcesList> baseResponse) {
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -156,7 +156,8 @@ public class HomeTaskFragment extends BaseBindFragment<IncludeHomeTaskFragmentBi
                     } else {
                         resourcesListAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (resourcesListAdapter.getData() == null || resourcesListAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, resourcesListAdapter);
                 }
             }

@@ -72,7 +72,7 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
         HttpRequest.getCircleList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<CircleList>>() {
             @Override
             public void onSuccess(BaseResponse<CircleList> baseResponse) {
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
                         circleFragmentAdapter.setNewData(baseResponse.getData());
@@ -85,7 +85,8 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
                         circleFragmentAdapter.loadMoreComplete();
                     }
                     currentPage++;
-                } else {
+                }
+                if (circleFragmentAdapter.getData() == null || circleFragmentAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, circleFragmentAdapter);
                 }
             }

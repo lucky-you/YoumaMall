@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.BaseResponse;
 import com.zhowin.base_library.pictureSelect.PictureSelectorUtils;
+import com.zhowin.base_library.utils.EmptyViewUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.youmamall.R;
 import com.zhowin.youmamall.base.BaseBindFragment;
@@ -68,6 +69,9 @@ public class HomeCircleFragment extends BaseBindFragment<IncludeHomeCircleFragme
                     } else {
                         circleFragmentAdapter.loadMoreComplete();
                     }
+                }
+                if (circleFragmentAdapter.getData() == null || circleFragmentAdapter.getData().isEmpty()) {
+                    EmptyViewUtils.bindEmptyView(mContext, circleFragmentAdapter);
                 }
             }
 

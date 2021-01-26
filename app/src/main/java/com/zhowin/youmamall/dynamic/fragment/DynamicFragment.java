@@ -69,7 +69,7 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
         HttpRequest.getDynamicList(this, currentPage, pageNumber, new HttpCallBack<BaseResponse<DynamicList>>() {
             @Override
             public void onSuccess(BaseResponse<DynamicList> baseResponse) {
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -82,7 +82,8 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                     } else {
                         dynamicFragmentAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (dynamicFragmentAdapter.getData() == null || dynamicFragmentAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, dynamicFragmentAdapter);
                 }
             }

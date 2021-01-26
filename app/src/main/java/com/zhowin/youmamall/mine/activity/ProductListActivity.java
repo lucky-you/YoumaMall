@@ -219,7 +219,8 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         } else {
                             salesTurnoverAdapter.loadMoreComplete();
                         }
-                    } else {
+                    }
+                    if (salesTurnoverAdapter.getData() == null || salesTurnoverAdapter.getData().isEmpty()) {
                         EmptyViewUtils.bindEmptyView(mContext, salesTurnoverAdapter);
                     }
                 }

@@ -162,7 +162,7 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 dismissLoadDialog();
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -175,7 +175,8 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
                     } else {
                         homeXPSFAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (homeXPSFAdapter.getData() == null || homeXPSFAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, homeXPSFAdapter);
                 }
             }
@@ -196,6 +197,6 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId,false);
+        ProductDetailsActivity.start(mContext, itemId, false);
     }
 }

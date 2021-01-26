@@ -104,7 +104,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 dismissLoadDialog();
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -117,7 +117,8 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
                     } else {
                         homeXPSFAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (homeXPSFAdapter.getData() == null || homeXPSFAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, homeXPSFAdapter);
                 }
             }

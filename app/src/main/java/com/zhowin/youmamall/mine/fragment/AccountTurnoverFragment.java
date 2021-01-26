@@ -91,7 +91,8 @@ public class AccountTurnoverFragment extends BaseBindFragment<IncludeCouponListF
                         } else {
                             accountTurnoverAdapter.loadMoreComplete();
                         }
-                    } else {
+                    }
+                    if (accountTurnoverAdapter.getData() == null || accountTurnoverAdapter.getData().isEmpty()) {
                         EmptyViewUtils.bindEmptyView(mContext, accountTurnoverAdapter);
                     }
                 }

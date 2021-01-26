@@ -99,7 +99,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
         HttpRequest.getMallRightList(this, 1, map, new HttpCallBack<BaseResponse<MallRightList>>() {
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
                         mallRightListAdapter.setNewData(baseResponse.getData());
@@ -112,7 +112,8 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
                         mallRightListAdapter.loadMoreComplete();
                     }
                     currentPage++;
-                } else {
+                }
+                if (mallRightListAdapter.getData() == null || mallRightListAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, mallRightListAdapter);
                 }
             }

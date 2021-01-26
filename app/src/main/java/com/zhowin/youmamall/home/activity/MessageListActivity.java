@@ -70,7 +70,7 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
             @Override
             public void onSuccess(BaseResponse<MessageList> baseResponse) {
                 dismissLoadDialog();
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -83,7 +83,8 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
                     } else {
                         messageListAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (messageListAdapter.getData() == null || messageListAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, messageListAdapter);
                 }
             }

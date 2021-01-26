@@ -1,6 +1,7 @@
 package com.zhowin.youmamall.mine.adapter;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -40,9 +41,11 @@ public class ShareMaterialAdapter extends BaseQuickAdapter<ShareMaterialList, Ba
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ShareMaterialList item) {
 //        Log.e("xy", "imageUrl:" + item.getImage() + "--shareUrl:" + shareUrl);
-        Bitmap qrBitmap = QRCodeUtils.createQRCode(shareUrl);
-        ImageView ivQrImage = helper.getView(R.id.ivQrImage);
         GlideUtils.loadObjectImage(mContext, item.getImage(), helper.getView(R.id.ivTopQrCode));
-        ivQrImage.setImageBitmap(qrBitmap);
+        ImageView ivQrImage = helper.getView(R.id.ivQrImage);
+        if (!TextUtils.isEmpty(shareUrl)){
+            Bitmap qrBitmap = QRCodeUtils.createQRCode(shareUrl);
+            ivQrImage.setImageBitmap(qrBitmap);
+        }
     }
 }

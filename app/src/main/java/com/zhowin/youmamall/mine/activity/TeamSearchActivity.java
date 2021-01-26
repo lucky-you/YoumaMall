@@ -60,7 +60,6 @@ public class TeamSearchActivity extends BaseBindActivity<ActivityTeamSearchBindi
             @Override
             public void onSuccess(MyTeamInfo baseResponse) {
                 dismissLoadDialog();
-
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
@@ -74,7 +73,8 @@ public class TeamSearchActivity extends BaseBindActivity<ActivityTeamSearchBindi
                     } else {
                         myTeamAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (myTeamAdapter.getData() == null || myTeamAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, myTeamAdapter);
                 }
             }

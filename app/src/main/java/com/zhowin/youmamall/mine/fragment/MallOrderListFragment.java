@@ -89,7 +89,8 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
                         mallOrderListAdapter.loadMoreComplete();
                     }
                     currentPage++;
-                } else {
+                }
+                if (mallOrderListAdapter.getData() == null || mallOrderListAdapter.getData().isEmpty()) {
                     EmptyViewUtils.bindEmptyView(mContext, mallOrderListAdapter);
                 }
             }

@@ -67,7 +67,7 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
                 mBinding.mvZXNumber.setText(String.valueOf(baseResponse.getDirectly_size()));
                 mBinding.mvTDNumber.setVisibility(baseResponse.getDirectly_size() > 0 ? View.VISIBLE : View.GONE);
                 mBinding.mvTDNumber.setText(String.valueOf(baseResponse.getTeam_size()));
-                if (baseResponse != null && !baseResponse.getData().isEmpty()) {
+                if (baseResponse != null) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
@@ -80,7 +80,8 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
                     } else {
                         myTeamAdapter.loadMoreComplete();
                     }
-                } else {
+                }
+                if (myTeamAdapter.getData() == null || myTeamAdapter.getData().isEmpty()) {
                     View emptyView = View.inflate(mContext, R.layout.include_empty_view_layout, null);
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(500));
                     emptyView.setLayoutParams(layoutParams);
