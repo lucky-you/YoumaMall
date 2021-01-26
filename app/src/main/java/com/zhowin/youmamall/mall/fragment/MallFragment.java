@@ -100,19 +100,18 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
             @Override
             public void onSuccess(BaseResponse<MallRightList> baseResponse) {
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
-                    currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
                         mallRightListAdapter.setNewData(baseResponse.getData());
                     } else {
                         mallRightListAdapter.addData(baseResponse.getData());
                     }
-
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         mallRightListAdapter.loadMoreEnd(true);
                     } else {
                         mallRightListAdapter.loadMoreComplete();
                     }
+                    currentPage++;
                 } else {
                     EmptyViewUtils.bindEmptyView(mContext, mallRightListAdapter);
                 }
@@ -165,6 +164,6 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
 
     @Override
     public void onClickRootLayout(int itemId) {
-        ProductDetailsActivity.start(mContext, itemId,false);
+        ProductDetailsActivity.start(mContext, itemId, false);
     }
 }

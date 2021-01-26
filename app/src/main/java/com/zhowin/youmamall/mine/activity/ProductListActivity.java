@@ -134,7 +134,7 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         } else {
                             productListAdapter.addData(baseResponse.getData());
                         }
-                        if (baseResponse.getData().size() < pageNumber) {
+                        if (baseResponse.getData().size() <= pageNumber) {
                             productListAdapter.loadMoreEnd(true);
                         } else {
                             productListAdapter.loadMoreComplete();
@@ -174,7 +174,7 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         } else {
                             goodSoldListAdapter.addData(baseResponse.getData());
                         }
-                        if (baseResponse.getData().size() < pageNumber) {
+                        if (baseResponse.getData().size() <= pageNumber) {
                             goodSoldListAdapter.loadMoreEnd(true);
                         } else {
                             goodSoldListAdapter.loadMoreComplete();
@@ -214,7 +214,7 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         } else {
                             salesTurnoverAdapter.addData(baseResponse.getData());
                         }
-                        if (baseResponse.getData().size() < pageNumber) {
+                        if (baseResponse.getData().size() <= pageNumber) {
                             salesTurnoverAdapter.loadMoreEnd(true);
                         } else {
                             salesTurnoverAdapter.loadMoreComplete();

@@ -78,7 +78,7 @@ public class MessageListActivity extends BaseBindActivity<ActivityMessageListBin
                     } else {
                         messageListAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         messageListAdapter.loadMoreEnd(true);
                     } else {
                         messageListAdapter.loadMoreComplete();

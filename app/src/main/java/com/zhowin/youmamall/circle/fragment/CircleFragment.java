@@ -73,18 +73,18 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
             @Override
             public void onSuccess(BaseResponse<CircleList> baseResponse) {
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
-                    currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
                         circleFragmentAdapter.setNewData(baseResponse.getData());
                     } else {
                         circleFragmentAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         circleFragmentAdapter.loadMoreEnd(true);
                     } else {
                         circleFragmentAdapter.loadMoreComplete();
                     }
+                    currentPage++;
                 } else {
                     EmptyViewUtils.bindEmptyView(mContext, circleFragmentAdapter);
                 }

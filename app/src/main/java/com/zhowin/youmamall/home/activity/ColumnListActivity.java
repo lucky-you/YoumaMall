@@ -112,7 +112,7 @@ public class ColumnListActivity extends BaseBindActivity<ActivityColumnListBindi
                     } else {
                         homeXPSFAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         homeXPSFAdapter.loadMoreEnd(true);
                     } else {
                         homeXPSFAdapter.loadMoreComplete();

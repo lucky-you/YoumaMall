@@ -86,7 +86,7 @@ public class AccountTurnoverFragment extends BaseBindFragment<IncludeCouponListF
                         } else {
                             accountTurnoverAdapter.addData(baseResponse.getData());
                         }
-                        if (baseResponse.getData().size() < pageNumber) {
+                        if (baseResponse.getData().size() <= pageNumber) {
                             accountTurnoverAdapter.loadMoreEnd(true);
                         } else {
                             accountTurnoverAdapter.loadMoreComplete();

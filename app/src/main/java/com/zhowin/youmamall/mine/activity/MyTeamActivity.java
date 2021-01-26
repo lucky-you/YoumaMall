@@ -73,7 +73,7 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
                     } else {
                         myTeamAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         myTeamAdapter.loadMoreEnd(true);
                     } else {
                         myTeamAdapter.loadMoreComplete();

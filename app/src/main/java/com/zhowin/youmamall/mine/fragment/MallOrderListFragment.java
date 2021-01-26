@@ -77,18 +77,18 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
             @Override
             public void onSuccess(BaseResponse<MallOrderList> baseResponse) {
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
-                    currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
                     if (isRefresh) {
                         mallOrderListAdapter.setNewData(baseResponse.getData());
                     } else {
                         mallOrderListAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() < pageNumber) {
+                    if (baseResponse.getData().size() <= pageNumber) {
                         mallOrderListAdapter.loadMoreEnd(true);
                     } else {
                         mallOrderListAdapter.loadMoreComplete();
                     }
+                    currentPage++;
                 } else {
                     EmptyViewUtils.bindEmptyView(mContext, mallOrderListAdapter);
                 }
@@ -125,7 +125,7 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
 
     @Override
     public void onGoodDetails(int goodId) {
-        ProductDetailsActivity.start(mContext, goodId,false);
+        ProductDetailsActivity.start(mContext, goodId, false);
     }
 
     @Override
