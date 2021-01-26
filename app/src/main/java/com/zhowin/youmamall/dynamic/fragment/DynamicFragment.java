@@ -77,7 +77,7 @@ public class DynamicFragment extends BaseBindFragment<IncludeDynamicFragmentLayo
                     } else {
                         dynamicFragmentAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         dynamicFragmentAdapter.loadMoreEnd(true);
                     } else {
                         dynamicFragmentAdapter.loadMoreComplete();

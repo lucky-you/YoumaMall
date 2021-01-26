@@ -83,7 +83,7 @@ public class MallOrderListFragment extends BaseBindFragment<IncludeMallOrderFrag
                     } else {
                         mallOrderListAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         mallOrderListAdapter.loadMoreEnd(true);
                     } else {
                         mallOrderListAdapter.loadMoreComplete();

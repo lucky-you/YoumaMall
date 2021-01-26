@@ -79,7 +79,7 @@ public class CircleFragment extends BaseBindFragment<IncludeCircleFragmentLayout
                     } else {
                         circleFragmentAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         circleFragmentAdapter.loadMoreEnd(true);
                     } else {
                         circleFragmentAdapter.loadMoreComplete();

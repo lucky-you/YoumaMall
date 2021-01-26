@@ -214,7 +214,7 @@ public class ProductListActivity extends BaseBindActivity<ActivityProductListBin
                         } else {
                             salesTurnoverAdapter.addData(baseResponse.getData());
                         }
-                        if (baseResponse.getData().size() <= pageNumber) {
+                        if (baseResponse.getData().size() < pageNumber) {
                             salesTurnoverAdapter.loadMoreEnd(true);
                         } else {
                             salesTurnoverAdapter.loadMoreComplete();

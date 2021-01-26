@@ -63,7 +63,7 @@ public class HomeCircleFragment extends BaseBindFragment<IncludeHomeCircleFragme
                         circleFragmentAdapter.addData(baseResponse.getData());
                     }
 
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         circleFragmentAdapter.loadMoreEnd(true);
                     } else {
                         circleFragmentAdapter.loadMoreComplete();

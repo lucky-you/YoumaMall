@@ -161,7 +161,8 @@ public class RetrofitFactory {
             RequestBody requestBody = request.body();
             FormBody.Builder newFormBuilder = new FormBody.Builder();
             String url = request.url().toString();
-//            Log.e("xy", "请求url：" + url);
+            String token = request.header("token");
+            Log.e("xy", "请求url：" + url + "\n" + "token:" + token);
             if (requestBody instanceof FormBody) {
                 FormBody formBody = (FormBody) requestBody;
                 for (int i = 0; i < formBody.size(); i++) {
@@ -188,7 +189,6 @@ public class RetrofitFactory {
             return chain.proceed(builder.build());
         }
     }
-
 
 
     /**

@@ -80,10 +80,6 @@ public class HomeFragment extends BaseBindFragment<IncludeHomeFragmentLayoutBind
             setTabSelect(i, false);
         }
         setTabSelect(position, true);
-//        if (0 == position) {
-//            if (!isLogin())
-//                mBinding.noScrollViewPager.setCurrentItem(position);
-//        }
 
     }
 

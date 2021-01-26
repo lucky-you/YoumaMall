@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -12,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhowin.base_library.callback.OnCenterHitMessageListener;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.utils.EmptyViewUtils;
+import com.zhowin.base_library.utils.SizeUtils;
 import com.zhowin.base_library.utils.ToastUtils;
 import com.zhowin.base_library.view.CenterHitMessageDialog;
 import com.zhowin.base_library.widget.DivideLineItemDecoration;
@@ -62,9 +64,9 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
             public void onSuccess(MyTeamInfo baseResponse) {
                 dismissLoadDialog();
                 mBinding.mvZXNumber.setVisibility(baseResponse.getTeam_size() > 0 ? View.VISIBLE : View.GONE);
-                mBinding.mvZXNumber.setText(String.valueOf(baseResponse.getTeam_size()));
+                mBinding.mvZXNumber.setText(String.valueOf(baseResponse.getDirectly_size()));
                 mBinding.mvTDNumber.setVisibility(baseResponse.getDirectly_size() > 0 ? View.VISIBLE : View.GONE);
-                mBinding.mvTDNumber.setText(String.valueOf(baseResponse.getDirectly_size()));
+                mBinding.mvTDNumber.setText(String.valueOf(baseResponse.getTeam_size()));
                 if (baseResponse != null && !baseResponse.getData().isEmpty()) {
                     currentPage++;
                     mBinding.refreshLayout.setRefreshing(false);
@@ -73,13 +75,16 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
                     } else {
                         myTeamAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         myTeamAdapter.loadMoreEnd(true);
                     } else {
                         myTeamAdapter.loadMoreComplete();
                     }
                 } else {
-                    EmptyViewUtils.bindEmptyView(mContext, myTeamAdapter);
+                    View emptyView = View.inflate(mContext, R.layout.include_empty_view_layout, null);
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(500));
+                    emptyView.setLayoutParams(layoutParams);
+                    myTeamAdapter.setEmptyView(emptyView);
                 }
             }
 
@@ -131,7 +136,6 @@ public class MyTeamActivity extends BaseBindActivity<ActivityMyTeamBinding> impl
             }
         }).show();
     }
-
 
 
 }

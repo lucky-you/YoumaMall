@@ -106,7 +106,7 @@ public class MallFragment extends BaseBindFragment<IncludeMallFragmentLayoutBind
                     } else {
                         mallRightListAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         mallRightListAdapter.loadMoreEnd(true);
                     } else {
                         mallRightListAdapter.loadMoreComplete();

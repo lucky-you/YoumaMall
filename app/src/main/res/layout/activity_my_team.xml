@@ -20,14 +20,14 @@
         <com.zhowin.base_library.view.RefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.zhowin.base_library.view.NoNestedScrollview style="@style/RecycleViewStyle">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -35,7 +35,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="76dp">
+                        android:layout_height="76dp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -120,7 +121,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:gravity="center"
-                                    android:text="000"
+                                    android:text="0"
                                     android:textColor="@color/white"
                                     android:textSize="10sp"
                                     app:layout_constraintLeft_toRightOf="@id/ivLeftThreeImage"
@@ -148,7 +149,8 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
-                        style="@style/RecycleViewStyle" />
+                        style="@style/RecycleViewStyle"
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
 

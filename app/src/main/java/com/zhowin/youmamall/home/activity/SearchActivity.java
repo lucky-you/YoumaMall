@@ -170,7 +170,7 @@ public class SearchActivity extends BaseBindActivity<ActivitySearchBinding> impl
                     } else {
                         homeXPSFAdapter.addData(baseResponse.getData());
                     }
-                    if (baseResponse.getData().size() <= pageNumber) {
+                    if (baseResponse.getData().size() < pageNumber) {
                         homeXPSFAdapter.loadMoreEnd(true);
                     } else {
                         homeXPSFAdapter.loadMoreComplete();
