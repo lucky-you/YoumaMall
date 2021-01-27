@@ -65,7 +65,7 @@ public class QinIuUtils {
      * @param qinIuUpLoadListener 上传结果的回调
      */
     public static void qinIuUpLoad(String data, String token, final QinIuUpLoadListener qinIuUpLoadListener) {
-        String qinKey = "KuKa/" + QinIuUtils.getStringDate() + "/" + System.currentTimeMillis();
+        String qinKey = "YouMa/" + QinIuUtils.getStringDate() + "/" + System.currentTimeMillis();
         Configuration config = new Configuration.Builder()
                 .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
                 .putThreshhold(1024 * 1024)   // 启用分片上传阀值。默认512K

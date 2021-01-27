@@ -18,6 +18,7 @@ import com.zhowin.youmamall.base.BaseBindActivity;
 import com.zhowin.youmamall.circle.utils.UserLevelHelper;
 import com.zhowin.youmamall.databinding.ActivityWithdrawBinding;
 import com.zhowin.youmamall.http.HttpRequest;
+import com.zhowin.youmamall.mine.model.AccountMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,17 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
 
     @Override
     public void initData() {
+        AccountMessage accountMessage = AccountMessage.getUserAccountMessage();
+        if (accountMessage != null) {
+            if (!TextUtils.isEmpty(accountMessage.getAccountNumber())) {
+                mBinding.editAccount.setText(accountMessage.getAccountNumber());
+                mBinding.editAccount.setSelection(accountMessage.getAccountNumber().length());
+            }
+            if (!TextUtils.isEmpty(accountMessage.getUserName())) {
+                mBinding.editUserName.setText(accountMessage.getUserName());
+                mBinding.editUserName.setSelection(accountMessage.getUserName().length());
+            }
+        }
         getUserInfoMessage();
     }
 
@@ -114,6 +126,8 @@ public class WithdrawActivity extends BaseBindActivity<ActivityWithdrawBinding> 
             @Override
             public void onSuccess(Object o) {
                 dismissLoadDialog();
+                AccountMessage accountMessage = new AccountMessage(applyAccount, applyUserName);
+                AccountMessage.setUserAccountMessage(accountMessage);
                 ToastUtils.showCustomToast(mContext, "申请成功，请等待审核");
                 ActivityManager.getAppInstance().finishActivity();
             }

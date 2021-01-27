@@ -107,7 +107,6 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
             ToastUtils.showToast("请输入项目标题");
             return;
         }
-
         String circleContent = mBinding.editContent.getText().toString().trim();
         if (TextUtils.isEmpty(circleContent)) {
             ToastUtils.showToast("请输入项目介绍");
@@ -123,6 +122,9 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
         }
     }
 
+    /**
+     * 发布圈子
+     */
     private void releaseCircleData(String title, String content, String images) {
         showLoadDialog();
         HttpRequest.releaseCircleData(this, title, content, images, new HttpCallBack<Object>() {
@@ -137,6 +139,11 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
             public void onFail(int errorCode, String errorMsg) {
                 dismissLoadDialog();
                 ToastUtils.showToast(errorMsg);
+                if (!selectList.isEmpty()) {
+                    selectList.clear();
+                    qinIuImages.clear();
+                }
+                postGridImageAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -185,8 +192,8 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
                     postGridImageAdapter.notifyDataSetChanged();
                     break;
                 case PictureConfig.REQUEST_CAMERA:
-                    ArrayList<LocalMedia> resultdata = (ArrayList<LocalMedia>) PictureSelector.obtainMultipleResult(data);
-                    selectList.addAll(resultdata);
+                    ArrayList<LocalMedia> resultData = (ArrayList<LocalMedia>) PictureSelector.obtainMultipleResult(data);
+                    selectList.addAll(resultData);
                     postGridImageAdapter.setNewDataList(selectList);
                     postGridImageAdapter.notifyDataSetChanged();
                     break;
@@ -216,6 +223,7 @@ public class ReleaseCircleActivity extends BaseBindActivity<ActivityReleaseCircl
 
             @Override
             public void upLoadFail(String errorMessage) {
+                dismissLoadDialog();
                 ToastUtils.showToast("图片上传失败:" + errorMessage);
             }
         });

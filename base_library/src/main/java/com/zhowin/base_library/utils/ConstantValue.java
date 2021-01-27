@@ -23,4 +23,5 @@ public interface ConstantValue {
     String SP_TOKEN = "token";
     String USER_INFO = "userInfo";
     String START_MAIN = "start_main";
+    String ACCOUNT_MESSAGE = "account_message";
 }

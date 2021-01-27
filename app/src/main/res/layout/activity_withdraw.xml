@@ -125,6 +125,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="7.5"
                             android:background="@null"
+                            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnm"
                             android:hint="请输入提现账号"
                             android:textColor="@color/color_333"
                             android:textColorHint="@color/color_999"
