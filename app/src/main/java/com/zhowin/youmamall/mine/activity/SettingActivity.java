@@ -3,6 +3,7 @@ package com.zhowin.youmamall.mine.activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -221,6 +222,10 @@ public class SettingActivity extends BaseBindActivity<ActivitySettingBinding> {
     }
 
     private void qinIuUpLoad(String ImageUrl, boolean isSelectHead) {
+        if (TextUtils.isEmpty(qiNiuYunToken)) {
+            ToastUtils.showToast("获取token失败，请稍后重试");
+            return;
+        }
         QinIuUtils.qinIuUpLoad(ImageUrl, qiNiuYunToken, new QinIuUpLoadListener() {
             @Override
             public void upLoadSuccess(String path) {
