@@ -82,6 +82,8 @@ public class PictureSelectorUtils {
                 .isOpenClickSound(false)// 是否开启点击声音
                 .minimumCompressSize(100)// 小于100kb的图片不压缩
                 .forResult(requestCode);//结果回调onActivityResult code
+
+
     }
 
     public static void selectOneImage(Activity activity, int requestCode, boolean isCamera, boolean isCut) {
