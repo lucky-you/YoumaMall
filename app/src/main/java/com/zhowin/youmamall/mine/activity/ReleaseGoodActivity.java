@@ -174,7 +174,8 @@ public class ReleaseGoodActivity extends BaseBindActivity<ActivityReleaseGoodBin
                     if (!selectList.isEmpty()) {
                         showLoadDialog();
                         for (int i = 0; i < selectList.size(); i++) {
-                            qinIuUpLoad(selectList.get(i).getPath());
+                            String imagePath = PictureSelectorUtils.getPhotoPath(selectList.get(i));
+                            qinIuUpLoad(imagePath);
                         }
                     }
                 }
