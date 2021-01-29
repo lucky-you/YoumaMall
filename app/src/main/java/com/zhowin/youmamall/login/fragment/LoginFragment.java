@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.RegexUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
@@ -81,7 +82,8 @@ public class LoginFragment extends BaseBindFragment<IncludeLoginFragmentLayoutBi
 
     private void loginMobileAndPassword() {
         String mobile = mBinding.editMobile.getText().toString().trim();
-        if (!PhoneUtils.checkPhone(mobile, true)) {
+        if (!RegexUtils.isMobileSimple(mobile)) {
+            ToastUtils.showToast("手机号格式不对");
             return;
         }
         String password = mBinding.editPassword.getText().toString().trim();

@@ -5,6 +5,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.RegexUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
@@ -54,7 +55,8 @@ public class ChangeMobileActivity extends BaseBindActivity<ActivityChangeMobileB
         switch (v.getId()) {
             case R.id.tvGetVerificationCode:
                 String mobile = mBinding.editMobile.getText().toString().trim();
-                if (!PhoneUtils.checkPhone(mobile, true)) {
+                if (!RegexUtils.isMobileSimple(mobile)) {
+                    ToastUtils.showToast("手机号格式不对");
                     return;
                 }
                 getVerificationCode(mobile);
@@ -73,7 +75,8 @@ public class ChangeMobileActivity extends BaseBindActivity<ActivityChangeMobileB
             return;
         }
         String mobile = mBinding.editMobile.getText().toString().trim();
-        if (!PhoneUtils.checkPhone(mobile, true)) {
+        if (!RegexUtils.isMobileSimple(mobile)) {
+            ToastUtils.showToast("手机号格式不对");
             return;
         }
         String captchaCode = mBinding.editVerificationCode.getText().toString().trim();

@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.RegexUtils;
 import com.zhowin.base_library.http.HttpCallBack;
 import com.zhowin.base_library.model.UserInfo;
 import com.zhowin.base_library.utils.ActivityManager;
@@ -75,7 +76,8 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
         switch (v.getId()) {
             case R.id.tvGetVerificationCode:
                 String mobile = mBinding.editMobile.getText().toString().trim();
-                if (!PhoneUtils.checkPhone(mobile, true)) {
+                if (!RegexUtils.isMobileSimple(mobile)) {
+                    ToastUtils.showToast("手机号格式不对");
                     return;
                 }
                 getVerificationCode(mobile);
@@ -91,7 +93,8 @@ public class ForgetPasswordActivity extends BaseBindActivity<ActivityForgetPassw
         String mobile;
         if (1 == classType) {
             mobile = mBinding.editMobile.getText().toString().trim();
-            if (!PhoneUtils.checkPhone(mobile, true)) {
+            if (!RegexUtils.isMobileSimple(mobile)) {
+                ToastUtils.showToast("手机号格式不对");
                 return;
             }
         } else {
