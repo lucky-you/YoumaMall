@@ -60,7 +60,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
     private ColumnListAdapter columnListAdapter;
     private boolean isOpenMerchant;//是否开通店铺
-    private int itemType;// 审核状态
+    private int itemType = 0;
     private MyReferrerMessage myReferrerMessage = new MyReferrerMessage(); //我的推荐人信息
 
     @Override
@@ -84,56 +84,6 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         columnListAdapter.setOnItemClickListener(this::onItemClick);
     }
 
-    private List<ColumnList> getMineItemList() {
-        List<ColumnList> columnList = new ArrayList<>();
-        switch (itemType) {
-            case 1: //全部放开
-                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
-                break;
-            case 2: //放开账号升级
-                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
-                break;
-            case 3://放开佣金提现
-                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
-                break;
-            case 4://隐藏  账号升级 和  佣金提现
-                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
-                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
-                break;
-        }
-        return columnList;
-    }
 
     @Override
     public void onResume() {
@@ -183,15 +133,16 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
         HttpRequest.getMineItemConfig(this, new HttpCallBack<MineItemConfig>() {
             @Override
             public void onSuccess(MineItemConfig mineItemConfig) {
+
                 if (mineItemConfig != null) {
                     if (TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
-                        itemType = 1;
+                        itemType = 1; //全部放开
                     } else if (!TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
-                        itemType = 3;
+                        itemType = 2; // 关闭升级,放开提现
                     } else if (TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && !TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
-                        itemType = 2;
+                        itemType = 3; // 关闭提现，放开升级
                     } else if (!TextUtils.equals("1", mineItemConfig.getOpen_upgrade()) && !TextUtils.equals("1", mineItemConfig.getOpen_withdraw())) {
-                        itemType = 4;
+                        itemType = 4; //全部关闭
                     }
                     columnListAdapter.setNewData(getMineItemList());
                 }
@@ -202,6 +153,57 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
 
             }
         });
+    }
+
+    private List<ColumnList> getMineItemList() {
+        List<ColumnList> columnList = new ArrayList<>();
+        switch (itemType) {
+            case 1: //全部放开
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 2:  // 关闭升级,放开提现
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjtx, "佣金提现"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 3:// 关闭提现，放开升级
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_xyzp, "账号升级"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+            case 4://隐藏  账号升级 和  佣金提现
+                columnList.add(new ColumnList(R.drawable.icon_mine_ktdl, "开通会员"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_ewm, "推广二维码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_wdtd, "我的团队"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhls, "账号流水"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_zhmm, "账号密码"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_yjfk, "意见反馈"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_lxkf, "联系客服"));
+                columnList.add(new ColumnList(R.drawable.icon_mine_tcdl, "退出登录"));
+                break;
+        }
+        return columnList;
     }
 
     @Override
@@ -327,7 +329,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         break;
                 }
                 break;
-            case 2: //放开账号升级
+            case 2:  // 关闭升级,放开提现
                 switch (position) {
                     case 0:
                         OpenAgentActivity.start(mContext, 2);
@@ -358,7 +360,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         break;
                 }
                 break;
-            case 3://放开佣金提现
+            case 3:// 关闭提现，放开升级
                 switch (position) {
                     case 0:
                         OpenAgentActivity.start(mContext, 2);
@@ -389,7 +391,7 @@ public class MineFragment extends BaseBindFragment<IncludeMineFragmentLayoutBind
                         break;
                 }
                 break;
-            case 4://隐藏  账号升级 和  佣金提现
+            case 4://全部关闭  账号升级 和  佣金提现
                 switch (position) {
                     case 0:
                         OpenAgentActivity.start(mContext, 2);
