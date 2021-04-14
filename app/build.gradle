@@ -91,7 +91,6 @@ dependencies {
     implementation project(path: ':base_library')
     implementation 'com.sunfusheng:MarqueeView:1.4.1'
     implementation 'com.google.zxing:core:3.3.3'
-    implementation 'com.blankj:utilcodex:1.30.5'
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
     implementation 'cn.jiguang.sdk:jpush:3.6.0'
     implementation 'cn.jiguang.sdk:jcore:2.3.4'
