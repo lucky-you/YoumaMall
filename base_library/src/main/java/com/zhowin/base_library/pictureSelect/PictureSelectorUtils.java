@@ -3,6 +3,8 @@ package com.zhowin.base_library.pictureSelect;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import androidx.fragment.app.Fragment;
+
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -21,14 +23,17 @@ public class PictureSelectorUtils {
 
 
     /**
-     * 单张预览
+     * 单图预览
+     *
+     * @param activity activity
+     * @param path     图片路径
      */
-    public static void previewImage(Activity context, String path) {
+    public static void previewImage(Activity activity, String path) {
         List<LocalMedia> localMediaList = new ArrayList<>();
         LocalMedia localMedia = new LocalMedia();
         localMedia.setPath(path);
         localMediaList.add(localMedia);
-        PictureSelector.create(context)
+        PictureSelector.create(activity)
                 .themeStyle(R.style.picture_default_style)
                 .imageEngine(GlideEngine.createGlideEngine())
                 .openExternalPreview(0, localMediaList);
@@ -36,6 +41,10 @@ public class PictureSelectorUtils {
 
     /**
      * 多图预览
+     *
+     * @param activity  activity
+     * @param position  position
+     * @param imageList 图片集合
      */
     public static void previewPicture(Activity activity, int position, List<String> imageList) {
         if (imageList == null) return;
@@ -55,38 +64,13 @@ public class PictureSelectorUtils {
 
     }
 
-
     /**
-     * 选择图片--->单选
-     *
      * @param activity    activity
-     * @param requestCode 请求值
+     * @param requestCode 请求码
+     * @param isCamera    是否启用相机
+     * @param isCut       是否裁剪
      */
-    public static void selectImageOfOne(Activity activity, int requestCode, boolean isCamera) {
-        PictureSelector.create(activity)
-                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
-                .maxSelectNum(1)// 最大图片选择数量
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
-                .isPreviewImage(true)// 是否可预览图片
-                .isCamera(isCamera)// 是否显示拍照按钮
-                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                .isEnableCrop(true)// 是否裁剪
-                .isCompress(true)// 是否压缩
-                .synOrAsy(true)//同步true或异步false 压缩 默认同步
-                .withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
-                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
-                .circleDimmedLayer(false)// 是否圆形裁剪
-                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
-                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
-                .isOpenClickSound(false)// 是否开启点击声音
-                .minimumCompressSize(100)// 小于100kb的图片不压缩
-                .forResult(requestCode);//结果回调onActivityResult code
-
-
-    }
-
-    public static void selectOneImage(Activity activity, int requestCode, boolean isCamera, boolean isCut) {
+    public static void selectOneImageOfActivity(Activity activity, int requestCode, boolean isCamera, boolean isCut) {
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
@@ -108,14 +92,15 @@ public class PictureSelectorUtils {
                 .forResult(requestCode);//结果回调onActivityResult code
     }
 
-
     /**
-     * 选择多张图片
+     * 多张图片选择
      *
-     * @param activity  activity
-     * @param maxNumber 选择的最大数量
+     * @param activity   activity
+     * @param maxNumber  最大选择数量
+     * @param isCamera   是否启用相机
+     * @param selectList 已经选择的集合
      */
-    public static void selectImageOfMore(Activity activity, int maxNumber, boolean isCamera, List<LocalMedia> selectList) {
+    public static void selectMoreImageOfActivity(Activity activity, int maxNumber, boolean isCamera, List<LocalMedia> selectList) {
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
@@ -142,12 +127,75 @@ public class PictureSelectorUtils {
 
     /**
      * 使用相机单独拍摄照片
+     *
+     * @param activity    activity
+     * @param requestCode 请求码
      */
-    public static void takingPictures(Activity activity, int requestCode) {
+    public static void takingPicturesOfActivity(Activity activity, int requestCode) {
         PictureSelector.create(activity)
                 .openCamera(PictureMimeType.ofImage())// 单独拍照，也可录像或也可音频 看你传入的类型是图片or视频
                 .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
-                .isEnableCrop(true)// 是否裁剪
+                .isEnableCrop(false)// 是否裁剪
+                .isCompress(true)// 是否压缩
+                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .freeStyleCropEnabled(false)// 裁剪框是否可拖拽
+                .circleDimmedLayer(false)// 是否圆形裁剪
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                .isOpenClickSound(false)// 是否开启点击声音
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(requestCode);//结果回调onActivityResult code
+
+    }
+
+    /**
+     * 单张选择
+     *
+     * @param fragment fragment
+     */
+    public static void selectOneImageOfFragment(Fragment fragment, int requestCode, boolean isCamera, boolean isCut) {
+        PictureSelector.create(fragment)
+                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                .maxSelectNum(1)// 最大图片选择数量
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
+                .isPreviewImage(true)// 是否可预览图片
+                .isCamera(isCamera)// 是否显示拍照按钮
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .isEnableCrop(isCut)// 是否裁剪
+                .isCompress(true)// 是否压缩
+                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
+                .circleDimmedLayer(false)// 是否圆形裁剪
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                .isOpenClickSound(false)// 是否开启点击声音
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(requestCode);//结果回调onActivityResult code
+    }
+
+    /**
+     * 多张图片选择
+     *
+     * @param fragment   fragment
+     * @param maxNumber  最大选择数量
+     * @param isCamera   是否启用相机
+     * @param selectList 已经选择的集合
+     */
+    public static void selectMoreImageOfFragment(Fragment fragment, int maxNumber, boolean isCamera, List<LocalMedia> selectList) {
+        PictureSelector.create(fragment)
+                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                .minSelectNum(1)
+                .selectionData(selectList)
+                .maxSelectNum(maxNumber)// 最大图片选择数量
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
+                .isPreviewImage(true)// 是否可预览图片
+                .isCamera(isCamera)// 是否显示拍照按钮
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .isEnableCrop(false)// 是否裁剪
                 .isCompress(true)// 是否压缩
                 .synOrAsy(true)//同步true或异步false 压缩 默认同步
                 .withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
@@ -157,75 +205,28 @@ public class PictureSelectorUtils {
                 .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
                 .isOpenClickSound(false)// 是否开启点击声音
                 .minimumCompressSize(100)// 小于100kb的图片不压缩
-                .forResult(requestCode);//结果回调onActivityResult code
-
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
 
     /**
-     * 选择图片--->单选
+     * 使用相机单独拍摄照片
      *
-     * @param activity    activity
-     * @param requestCode 请求值
+     * @param fragment    fragment
+     * @param requestCode 请求码
      */
-    public static void selectVideoOfOne(Activity activity, int requestCode) {
-        PictureSelector.create(activity)
-                .openGallery(PictureMimeType.ofVideo())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(1)// 最大图片选择数量
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
-                .imageEngine(GlideEngine.createGlideEngine())
-                .isPreviewImage(true)// 是否可预览图片
-                .isCamera(false)// 是否显示拍照按钮
-                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+    public static void takingPicturesOfFragment(Fragment fragment, int requestCode) {
+        PictureSelector.create(fragment)
+                .openCamera(PictureMimeType.ofImage())// 单独拍照，也可录像或也可音频 看你传入的类型是图片or视频
+                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
                 .isEnableCrop(false)// 是否裁剪
                 .isCompress(true)// 是否压缩
                 .synOrAsy(true)//同步true或异步false 压缩 默认同步
-                .isOpenClickSound(false)// 是否开启点击声音
-                .minimumCompressSize(100)// 小于100kb的图片不压缩
-                .forResult(requestCode);//结果回调onActivityResult code
-
-    }
-
-    /**
-     * 拍照
-     *
-     * @param activity activity
-     */
-    public static void takePhoto(Activity activity, List<LocalMedia> selectList) {
-        PictureSelector.create(activity)
-                .openCamera(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(1)// 最大图片选择数量
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
-                .imageEngine(GlideEngine.createGlideEngine())
-                .isPreviewImage(true)// 是否可预览图片
-                .isCamera(false)// 是否显示拍照按钮
-                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                .isEnableCrop(false)// 是否裁剪
-                .isCompress(true)// 是否压缩
-                .synOrAsy(true)//同步true或异步false 压缩 默认同步
-                .isOpenClickSound(false)// 是否开启点击声音
-                .minimumCompressSize(100)// 小于100kb的图片不压缩
-                .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
-
-    }
-
-    /**
-     * 拍照
-     *
-     * @param activity activity
-     */
-    public static void takePhoto(Activity activity, int requestCode) {
-        PictureSelector.create(activity)
-                .openCamera(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(1)// 最大图片选择数量
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
-                .imageEngine(GlideEngine.createGlideEngine())
-                .isPreviewImage(true)// 是否可预览图片
-                .isCamera(false)// 是否显示拍照按钮
-                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                .isEnableCrop(false)// 是否裁剪
-                .isCompress(true)// 是否压缩
-                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .freeStyleCropEnabled(false)// 裁剪框是否可拖拽
+                .circleDimmedLayer(false)// 是否圆形裁剪
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
                 .isOpenClickSound(false)// 是否开启点击声音
                 .minimumCompressSize(100)// 小于100kb的图片不压缩
                 .forResult(requestCode);//结果回调onActivityResult code
